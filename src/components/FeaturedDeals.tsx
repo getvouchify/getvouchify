@@ -27,7 +27,7 @@ const deals = [
     id: 2,
     image: dealSpa,
     merchant: "Serenity Spa",
-    title: "90-Min Deep Tissue Massage",
+    title: "Self-Care Wednesday: Facials & Massages",
     category: "Beauty & Spa",
     discount: "65% OFF",
     offer: "Up to 65% Off",
