@@ -71,7 +71,7 @@ const deals = [
     title: "Premium Fashion Collection",
     category: "Retail",
     discount: "SALE",
-    offer: "Up to 60% Off Selected Bubu's, only applicable in store!",
+    offer: "Up to 60% off selected bubus — in-store only!",
     soldCount: 745,
   },
 ];
