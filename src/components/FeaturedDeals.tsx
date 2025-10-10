@@ -19,7 +19,7 @@ const deals = [
     merchant: "Lagoon Restaurant",
     title: "2 for 1 Cocktails",
     category: "Food & Drink",
-    discount: "BOGO",
+    discount: "HAPPY HOUR",
     offer: "Only during happy hour 4-7 PM on weekdays",
     soldCount: 847,
   },
