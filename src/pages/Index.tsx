@@ -30,7 +30,7 @@ const Index = () => {
         <FeaturedDeals />
       </section>
       
-      <section className="w-full py-12 px-4">
+      <section className="w-full pt-12 pb-6 px-4">
         <div className="container mx-auto">
           <img 
             src={lagosCityscape} 
@@ -40,7 +40,7 @@ const Index = () => {
         </div>
       </section>
       
-      <section className="bg-background py-16">
+      <section className="bg-background pt-8 pb-16">
         <Categories />
       </section>
 
