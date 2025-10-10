@@ -7,8 +7,9 @@ interface Deal {
   title: string;
   category: string;
   discount: string;
-  originalPrice: number;
-  currentPrice: number;
+  originalPrice?: number;
+  currentPrice?: number;
+  offer?: string;
   soldCount: number;
 }
 
@@ -69,7 +70,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const cartTotal = cart.reduce((sum, item) => sum + item.currentPrice * item.quantity, 0);
+  const cartTotal = cart.reduce((sum, item) => sum + (item.currentPrice || 0) * item.quantity, 0);
 
   return (
     <CartContext.Provider

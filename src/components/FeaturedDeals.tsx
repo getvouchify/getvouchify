@@ -12,67 +12,62 @@ const deals = [
   {
     id: 1,
     image: dealFood,
-    merchant: "The Gourmet Kitchen",
-    title: "3-Course Tasting Menu for Two",
+    merchant: "Lagoon Restaurant",
+    title: "2 for 1 Cocktails",
     category: "Food & Drink",
-    discount: "55% OFF",
-    originalPrice: 48000,
-    currentPrice: 21600,
+    discount: "BOGO",
+    offer: "Buy 1 Get 1 Free",
     soldCount: 847,
   },
   {
     id: 2,
     image: dealSpa,
-    merchant: "Serenity Spa & Wellness",
-    title: "90-Min Deep Tissue Massage",
+    merchant: "Serenity Spa",
+    title: "Relaxing Massage & Facial Package",
     category: "Beauty & Spa",
-    discount: "65% OFF",
-    originalPrice: 72000,
-    currentPrice: 25200,
+    discount: "60% OFF",
+    offer: "Up to 60% Off",
     soldCount: 1203,
   },
   {
     id: 3,
     image: dealFitness,
-    merchant: "FitZone Premium Studio",
-    title: "6-Month All-Access Membership",
+    merchant: "FitZone Premium",
+    title: "6-Month Gym Membership",
     category: "Health & Fitness",
     discount: "70% OFF",
-    originalPrice: 239600,
-    currentPrice: 71600,
+    originalPrice: 240000,
+    currentPrice: 72000,
     soldCount: 562,
   },
   {
     id: 4,
     image: dealFood,
-    merchant: "Bella Italia Ristorante",
-    title: "Authentic Italian Dinner & Wine",
+    merchant: "Bella Cucina",
+    title: "3-Course Italian Dinner",
     category: "Food & Drink",
-    discount: "45% OFF",
-    originalPrice: 34000,
-    currentPrice: 18400,
+    discount: "50% OFF",
+    offer: "Half Price Dining",
     soldCount: 923,
   },
   {
     id: 5,
     image: dealSpa,
     merchant: "Glow Beauty Bar",
-    title: "Deluxe Facial + Manicure Combo",
+    title: "Premium Mani-Pedi",
     category: "Beauty & Spa",
-    discount: "60% OFF",
-    originalPrice: 56000,
-    currentPrice: 22400,
+    discount: "40% OFF",
+    offer: "Save up to 40%",
     soldCount: 1456,
   },
   {
     id: 6,
     image: dealFitness,
     merchant: "Yoga Sanctuary",
-    title: "20 Yoga Classes + Mat",
+    title: "20 Class Pass + Free Mat",
     category: "Health & Fitness",
-    discount: "50% OFF",
-    originalPrice: 96000,
-    currentPrice: 48000,
+    discount: "BONUS",
+    offer: "Free Yoga Mat Included",
     soldCount: 689,
   },
 ];
@@ -192,14 +187,24 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
                   {deal.title}
                 </h3>
 
-                {/* Price */}
-                <div className="flex items-baseline gap-3 mb-3">
-                  <span className="text-3xl font-bold text-primary">
-                    ₦{deal.currentPrice.toLocaleString()}
-                  </span>
-                  <span className="text-lg text-muted-foreground line-through">
-                    ₦{deal.originalPrice.toLocaleString()}
-                  </span>
+                {/* Price or Offer */}
+                <div className="mb-3">
+                  {deal.currentPrice ? (
+                    <div className="flex items-baseline gap-3">
+                      <span className="text-3xl font-bold text-primary">
+                        ₦{deal.currentPrice.toLocaleString()}
+                      </span>
+                      {deal.originalPrice && (
+                        <span className="text-lg text-muted-foreground line-through">
+                          ₦{deal.originalPrice.toLocaleString()}
+                        </span>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="text-xl font-bold text-primary">
+                      {deal.offer}
+                    </div>
+                  )}
                 </div>
 
                 {/* Sold Count */}

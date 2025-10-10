@@ -16,9 +16,9 @@ const Hero = () => {
 
   return (
     <>
-      <section className="min-h-screen relative overflow-hidden bg-white pt-20">
+      <section className="min-h-[70vh] relative overflow-hidden bg-white pt-32">
         <div className="container mx-auto px-4 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-screen py-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[60vh] py-12">
             {/* Left Content */}
             <motion.div 
               className="text-center lg:text-left space-y-8"
