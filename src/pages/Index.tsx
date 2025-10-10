@@ -6,7 +6,6 @@ import MerchantBenefits from "@/components/MerchantBenefits";
 import Categories from "@/components/Categories";
 import FeaturedDeals from "@/components/FeaturedDeals";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
-import ScrollSection from "@/components/ScrollSection";
 
 const Index = () => {
   return (
@@ -15,23 +14,21 @@ const Index = () => {
       <Navigation />
       <Hero />
       
-      <div className="relative">
-        <ScrollSection bgColor="bg-white">
-          <FeaturedDeals />
-        </ScrollSection>
-        
-        <ScrollSection bgColor="bg-background">
-          <Categories />
-        </ScrollSection>
+      <section className="bg-white py-16">
+        <FeaturedDeals />
+      </section>
+      
+      <section className="bg-background py-16">
+        <Categories />
+      </section>
 
-        <ScrollSection bgColor="bg-muted">
-          <HowItWorks />
-        </ScrollSection>
-        
-        <ScrollSection bgColor="bg-white">
-          <MerchantBenefits />
-        </ScrollSection>
-      </div>
+      <section className="bg-muted py-16">
+        <HowItWorks />
+      </section>
+      
+      <section className="bg-white py-16">
+        <MerchantBenefits />
+      </section>
       
       <Footer />
     </div>
