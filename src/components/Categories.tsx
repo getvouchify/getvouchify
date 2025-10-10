@@ -74,33 +74,33 @@ const Categories = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
           {categories.map((category, index) => (
             <div
               key={index}
-              className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover-scale cursor-pointer"
+              className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer"
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
             >
               {/* Image Background */}
-              <div className="relative h-80 overflow-hidden">
+              <div className="relative h-96 overflow-hidden">
                 <img
                   src={category.images[0]}
                   alt={`${category.title} - Main`}
-                  className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${
+                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
                     hoveredIndex === index && category.images.length > 1
-                      ? "opacity-0 scale-110"
-                      : "opacity-100 scale-100"
+                      ? "opacity-0"
+                      : "opacity-100"
                   }`}
                 />
                 {category.images.length > 1 && (
                   <img
                     src={category.images[1]}
                     alt={`${category.title} - Secondary`}
-                    className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
                       hoveredIndex === index
-                        ? "opacity-100 scale-100"
-                        : "opacity-0 scale-110"
+                        ? "opacity-100"
+                        : "opacity-0"
                     }`}
                   />
                 )}
@@ -110,23 +110,24 @@ const Categories = () => {
               </div>
 
               {/* Content Overlay */}
-              <div className="absolute inset-0 p-6 flex flex-col justify-end text-white">
-                <div className="mb-4 flex items-center">
-                  <div className="bg-white/20 backdrop-blur-sm p-3 rounded-full group-hover:bg-primary group-hover:scale-110 transition-all duration-300">
-                    <category.icon className="w-6 h-6" />
+              <div className="absolute inset-0 p-5 flex flex-col justify-end text-white">
+                <div className="mb-3 flex items-center">
+                  <div className="bg-white/20 backdrop-blur-sm p-2.5 rounded-full group-hover:bg-primary transition-all duration-300">
+                    <category.icon className="w-5 h-5" />
                   </div>
                 </div>
                 
-                <h3 className="text-2xl font-bold mb-3 group-hover:translate-x-1 transition-transform">
+                <h3 className="text-xl font-bold mb-2">
                   {category.title}
                 </h3>
                 
-                <p className="text-sm text-white/90 mb-4 leading-relaxed">
+                <p className="text-xs text-white/90 mb-3 leading-relaxed line-clamp-3">
                   {category.description}
                 </p>
 
                 <Button 
                   variant="secondary" 
+                  size="sm"
                   className="w-full bg-white text-foreground hover:bg-white/90 font-semibold shadow-lg"
                 >
                   View Deals

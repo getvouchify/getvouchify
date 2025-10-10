@@ -24,9 +24,7 @@ const Index = () => {
           <HowItWorks />
         </ScrollSection>
         
-        <ScrollSection bgColor="bg-background">
-          <Categories />
-        </ScrollSection>
+        <Categories />
         
         <ScrollSection bgColor="bg-white">
           <MerchantBenefits />
