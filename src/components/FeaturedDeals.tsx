@@ -175,7 +175,7 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
                 />
                 <div className="absolute top-4 right-4">
                   <Badge className="gradient-gold text-accent-foreground font-bold text-lg px-4 py-2 shadow-lg">
-                    Claim Now!
+                    {deal.discount}
                   </Badge>
                 </div>
                 <div className="absolute bottom-4 left-4">
@@ -221,8 +221,7 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
                   onClick={() => addToCart(deal)}
                   className="w-full bg-primary hover:bg-accent hover:text-accent-foreground font-semibold"
                 >
-                  <ShoppingCart className="w-4 h-4 mr-2" />
-                  Add to Cart
+                  Claim Now!
                 </Button>
               </div>
             </div>
