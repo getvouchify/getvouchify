@@ -74,78 +74,63 @@ const Categories = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+        {/* Desktop: 5 columns, Tablet: 3 columns, Mobile: 1 column */}
+        <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-6">
           {categories.map((category, index) => (
             <div
               key={index}
-              className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer"
+              className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer bg-white"
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
             >
-              {/* Image Background */}
-              <div className="relative h-96 overflow-hidden">
+              {/* Image - Fixed height, no scaling */}
+              <div className="relative h-64 overflow-hidden">
                 <img
-                  src={category.images[0]}
-                  alt={`${category.title} - Main`}
-                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
-                    hoveredIndex === index && category.images.length > 1
-                      ? "opacity-0"
-                      : "opacity-100"
-                  }`}
+                  src={hoveredIndex === index && category.images[1] ? category.images[1] : category.images[0]}
+                  alt={category.title}
+                  className="w-full h-full object-cover transition-opacity duration-300"
                 />
-                {category.images.length > 1 && (
-                  <img
-                    src={category.images[1]}
-                    alt={`${category.title} - Secondary`}
-                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
-                      hoveredIndex === index
-                        ? "opacity-100"
-                        : "opacity-0"
-                    }`}
-                  />
-                )}
                 
                 {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
-              </div>
-
-              {/* Content Overlay */}
-              <div className="absolute inset-0 p-5 flex flex-col justify-end text-white">
-                <div className="mb-3 flex items-center">
-                  <div className="bg-white/20 backdrop-blur-sm p-2.5 rounded-full group-hover:bg-primary transition-all duration-300">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                
+                {/* Icon */}
+                <div className="absolute top-4 left-4">
+                  <div className="bg-white/90 backdrop-blur-sm p-2.5 rounded-full group-hover:bg-primary group-hover:text-white transition-all duration-300">
                     <category.icon className="w-5 h-5" />
                   </div>
                 </div>
-                
-                <h3 className="text-xl font-bold mb-2">
+              </div>
+
+              {/* Content */}
+              <div className="absolute inset-x-0 bottom-0 p-4 text-white">
+                <h3 className="text-lg font-bold mb-2">
                   {category.title}
                 </h3>
                 
-                <p className="text-xs text-white/90 mb-3 leading-relaxed line-clamp-3">
+                <p className="text-xs text-white/90 mb-3 line-clamp-2 leading-relaxed">
                   {category.description}
                 </p>
 
                 <Button 
                   variant="secondary" 
                   size="sm"
-                  className="w-full bg-white text-foreground hover:bg-white/90 font-semibold shadow-lg"
+                  className="w-full bg-white text-foreground hover:bg-white/90 font-semibold text-xs"
                 >
                   View Deals
                 </Button>
               </div>
 
-              {/* Image Count Indicator */}
+              {/* Image indicator dots - only if multiple images */}
               {category.images.length > 1 && (
-                <div className="absolute top-4 right-4 flex gap-1.5">
+                <div className="absolute top-4 right-4 flex gap-1">
                   {category.images.map((_, imgIndex) => (
                     <div
                       key={imgIndex}
-                      className={`h-1.5 rounded-full transition-all duration-300 ${
-                        hoveredIndex === index && imgIndex === 1
-                          ? "w-6 bg-white"
-                          : hoveredIndex !== index && imgIndex === 0
-                          ? "w-6 bg-white"
-                          : "w-1.5 bg-white/50"
+                      className={`h-1.5 w-1.5 rounded-full transition-all duration-300 ${
+                        (hoveredIndex === index && imgIndex === 1) || (hoveredIndex !== index && imgIndex === 0)
+                          ? "bg-white w-4"
+                          : "bg-white/50"
                       }`}
                     />
                   ))}
