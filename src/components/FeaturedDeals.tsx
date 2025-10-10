@@ -48,7 +48,7 @@ const deals = [
     id: 4,
     image: dealRetail1,
     merchant: "Afrocentric Boutique",
-    title: "Designer Clothing & Accessories - This Month Only",
+    title: "Designer Clothing & Accessories",
     category: "Retail",
     discount: "50% OFF",
     offer: "25% off accessories today only!",
