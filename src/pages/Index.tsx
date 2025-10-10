@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
 import HowItWorks from "@/components/HowItWorks";
 import MerchantBenefits from "@/components/MerchantBenefits";
+import Categories from "@/components/Categories";
 import ScrollSection from "@/components/ScrollSection";
 
 const Index = () => {
@@ -14,6 +15,10 @@ const Index = () => {
       <div className="relative">
         <ScrollSection bgColor="bg-muted">
           <HowItWorks />
+        </ScrollSection>
+        
+        <ScrollSection bgColor="bg-background">
+          <Categories />
         </ScrollSection>
         
         <ScrollSection bgColor="bg-white">
