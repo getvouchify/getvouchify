@@ -16,12 +16,12 @@ const Hero = () => {
 
   return (
     <>
-      <section className="relative overflow-hidden bg-gradient-hero pt-40 pb-16">
+      <section className="min-h-screen relative overflow-hidden bg-white pt-20">
         <div className="container mx-auto px-4 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-screen py-12">
             {/* Left Content */}
             <motion.div 
-              className="text-center lg:text-left space-y-6"
+              className="text-center lg:text-left space-y-8"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -39,11 +39,11 @@ const Hero = () => {
               </motion.div>
 
               {/* Main Heading */}
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-white">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-primary">
                 Discover Daily Deals You'll Love
               </h1>
 
-              <p className="text-base md:text-lg text-white/90 max-w-xl mx-auto lg:mx-0">
+              <p className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto lg:mx-0">
                 Book and redeem exclusive deals across food, beauty, fitness, and retail. Join the waitlist today!
               </p>
 
@@ -52,7 +52,7 @@ const Hero = () => {
                 <Button
                   onClick={() => openModal("shopper")}
                   size="lg"
-                  className="h-12 px-6 bg-white text-primary font-semibold hover:bg-white/90 flex-1"
+                  className="h-14 px-6 gradient-primary text-white font-semibold text-base hover-lift group flex-1"
                 >
                   <Users className="mr-2 h-5 w-5" />
                   Join as Shopper
@@ -62,21 +62,21 @@ const Hero = () => {
                   onClick={() => openModal("merchant")}
                   size="lg"
                   variant="outline"
-                  className="h-12 px-6 border-2 border-white text-white font-semibold hover:bg-white hover:text-primary transition-all flex-1"
+                  className="h-14 px-6 border-2 border-primary text-primary font-semibold text-base hover:bg-primary hover:text-white transition-all hover-lift flex-1"
                 >
                   <Store className="mr-2 h-5 w-5" />
                   Join as Merchant
                 </Button>
               </div>
 
-              <p className="text-sm text-white/80">
+              <p className="text-sm text-muted-foreground">
                 ✨ Be among the first to access exclusive deals when we launch
               </p>
             </motion.div>
 
             {/* Right Illustration */}
             <motion.div
-              className="relative hidden lg:block"
+              className="relative"
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -84,7 +84,8 @@ const Hero = () => {
               <img 
                 src={illustration} 
                 alt="Vouchify platform showcasing exclusive deals and vouchers for shoppers and merchants" 
-                className="w-full h-auto rounded-2xl"
+                className="w-full h-auto rounded-2xl shadow-elegant"
+                style={{ filter: 'drop-shadow(0 0 30px hsl(274 59% 50% / 0.25))' }}
               />
             </motion.div>
           </div>
