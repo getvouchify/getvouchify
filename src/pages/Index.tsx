@@ -34,7 +34,7 @@ const Index = () => {
         <div className="container mx-auto">
           <img 
             src={lagosCityscape} 
-            alt="Lagos waterfront cityscape with modern buildings" 
+            alt="National Theatre Lagos - iconic architectural landmark" 
             className="w-full h-[400px] object-cover rounded-lg shadow-lg"
           />
         </div>
