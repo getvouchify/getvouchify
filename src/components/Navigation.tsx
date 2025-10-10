@@ -33,7 +33,7 @@ const Navigation = () => {
           <div className="flex items-center justify-between h-16 gap-4">
             {/* Logo */}
             <Link to="/" className="flex items-center flex-shrink-0">
-              <img src={logo} alt="Vouchify Logo" className="h-16 w-auto" />
+              <img src={logo} alt="Vouchify Logo" className="h-24 w-auto" />
             </Link>
 
             {/* Search Bar - Desktop */}
