@@ -77,155 +77,71 @@ const deals = [
   },
 ];
 
-const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
-  const { addToCart } = useCart();
-  const [sortBy, setSortBy] = useState("popular");
-  const [filterCategory, setFilterCategory] = useState("all");
-
-  // Filter deals
-  let filteredDeals = deals.filter((deal) => {
-    const matchesSearch = !searchQuery || 
-      deal.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      deal.merchant.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      deal.category.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    const matchesCategory = filterCategory === "all" || deal.category === filterCategory;
-    
-    return matchesSearch && matchesCategory;
-  });
-
-  // Sort deals
-  filteredDeals = [...filteredDeals].sort((a, b) => {
-    switch (sortBy) {
-      case "price-low":
-        return a.currentPrice - b.currentPrice;
-      case "price-high":
-        return b.currentPrice - a.currentPrice;
-      case "discount":
-        return parseInt(b.discount) - parseInt(a.discount);
-      case "popular":
-      default:
-        return b.soldCount - a.soldCount;
-    }
-  });
-
+const FeaturedDeals = () => {
   return (
-    <section id="featured-deals" className="py-20 bg-white">
+    <section className="py-16 bg-background">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-8">
-          <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
-            {searchQuery ? `Search Results for "${searchQuery}"` : "Today's Featured Deals"}
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            {searchQuery ? `Found ${filteredDeals.length} deals` : "Limited time offers you don't want to miss"}
-          </p>
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
+              Trending in Lagos
+            </h2>
+            <p className="text-muted-foreground">
+              Discover the hottest deals near you
+            </p>
+          </div>
+          <Button variant="outline" className="hidden md:flex">
+            View All Deals
+          </Button>
         </div>
 
-        {/* Filters and Sort */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-between items-center mb-8">
-          <div className="flex gap-2 items-center">
-            <span className="text-sm font-medium text-muted-foreground">Filter:</span>
-            <Select value={filterCategory} onValueChange={setFilterCategory}>
-              <SelectTrigger className="w-[200px]">
-                <SelectValue placeholder="All Categories" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Categories</SelectItem>
-                <SelectItem value="Food & Drink">Food & Drink</SelectItem>
-                <SelectItem value="Beauty & Spa">Beauty & Spa</SelectItem>
-                <SelectItem value="Health & Fitness">Health & Fitness</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="flex gap-2 items-center">
-            <span className="text-sm font-medium text-muted-foreground">Sort by:</span>
-            <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-[200px]">
-                <SelectValue placeholder="Sort by" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="popular">Most Popular</SelectItem>
-                <SelectItem value="discount">Highest Discount</SelectItem>
-                <SelectItem value="price-low">Price: Low to High</SelectItem>
-                <SelectItem value="price-high">Price: High to Low</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredDeals.length === 0 ? (
-            <div className="col-span-full text-center py-12">
-              <p className="text-xl text-muted-foreground">No deals found matching your criteria</p>
-            </div>
-          ) : (
-            filteredDeals.map((deal, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {deals.slice(0, 3).map((deal, index) => (
             <div
               key={deal.id}
-              className="bg-white rounded-xl shadow-card hover-lift overflow-hidden group cursor-pointer animate-fade-in"
-              style={{ animationDelay: `${index * 0.1}s` }}
+              className="bg-card rounded-lg overflow-hidden shadow-card hover:shadow-elegant transition-all duration-300 group cursor-pointer"
             >
-              {/* Image with Discount Badge */}
-              <div className="relative overflow-hidden h-64">
+              <div className="relative h-48 overflow-hidden">
                 <img
                   src={deal.image}
                   alt={deal.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                 />
-                <div className="absolute top-4 right-4">
-                  <Badge className="gradient-gold text-accent-foreground font-bold text-lg px-4 py-2 shadow-lg">
-                    {deal.discount}
-                  </Badge>
-                </div>
-                <div className="absolute bottom-4 left-4">
-                  <Badge variant="secondary" className="bg-white/90 text-foreground">
-                    {deal.category}
-                  </Badge>
-                </div>
+                <Badge className="absolute top-3 right-3 bg-destructive text-destructive-foreground font-bold">
+                  {deal.discount}
+                </Badge>
               </div>
 
-              {/* Content */}
-              <div className="p-6">
-                <p className="text-sm text-muted-foreground mb-2">{deal.merchant}</p>
-                <h3 className="text-xl font-bold text-foreground mb-4 group-hover:text-primary transition-colors">
+              <div className="p-4">
+                <p className="text-xs text-muted-foreground mb-1">{deal.category}</p>
+                <h3 className="font-bold text-lg mb-2 text-foreground group-hover:text-primary transition-colors line-clamp-2">
                   {deal.title}
                 </h3>
-
-                {/* Price */}
-                <div className="flex items-baseline gap-3 mb-3">
-                  <span className="text-3xl font-bold text-primary">
-                    ₦{deal.currentPrice.toLocaleString()}
-                  </span>
-                  <span className="text-lg text-muted-foreground line-through">
-                    ₦{deal.originalPrice.toLocaleString()}
-                  </span>
-                </div>
-
-                {/* Sold Count */}
-                <p className="text-sm text-muted-foreground mb-4">
-                  🔥 {deal.soldCount.toLocaleString()}+ sold
+                
+                <p className="text-sm text-muted-foreground mb-3">
+                  {deal.merchant}
                 </p>
 
-                <Button 
-                  onClick={() => addToCart(deal)}
-                  className="w-full bg-primary hover:bg-accent hover:text-accent-foreground font-semibold"
-                >
-                  <ShoppingCart className="w-4 h-4 mr-2" />
-                  Add to Cart
-                </Button>
+                <div className="flex items-center justify-between pt-3 border-t border-border">
+                  <div>
+                    <p className="text-xs text-muted-foreground line-through">
+                      ₦{deal.originalPrice.toLocaleString()}
+                    </p>
+                    <p className="text-2xl font-bold text-primary">
+                      ₦{deal.currentPrice.toLocaleString()}
+                    </p>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    {deal.soldCount}+ sold
+                  </p>
+                </div>
               </div>
             </div>
-          ))
-          )}
+          ))}
         </div>
 
-        <div className="text-center mt-12">
-          <Button 
-            size="lg" 
-            variant="outline"
-            className="border-2 border-primary text-primary hover:bg-primary hover:text-white font-semibold px-8"
-          >
+        <div className="text-center mt-8">
+          <Button variant="outline" className="w-full md:w-auto">
             View All Deals
           </Button>
         </div>
