@@ -7,6 +7,9 @@ import { useCart } from "@/contexts/CartContext";
 import dealFood from "@/assets/deal-food.jpg";
 import dealSpa from "@/assets/deal-spa.jpg";
 import dealFitness from "@/assets/deal-fitness.jpg";
+import dealThingsToDo from "@/assets/categories/things-to-do.jpg";
+import dealRetail1 from "@/assets/deal-retail-1.webp";
+import dealRetail2 from "@/assets/deal-retail-2.webp";
 
 const deals = [
   {
@@ -23,52 +26,52 @@ const deals = [
     id: 2,
     image: dealSpa,
     merchant: "Serenity Spa",
-    title: "Relaxing Massage & Facial Package",
+    title: "90-Min Deep Tissue Massage",
     category: "Beauty & Spa",
-    discount: "60% OFF",
-    offer: "Up to 60% Off",
+    discount: "65% OFF",
+    offer: "Up to 65% Off",
     soldCount: 1203,
   },
   {
     id: 3,
     image: dealFitness,
-    merchant: "FitZone Premium",
-    title: "6-Month Gym Membership",
+    merchant: "FitZone Premium Studio",
+    title: "6-Month All-Access Membership",
     category: "Health & Fitness",
     discount: "70% OFF",
-    originalPrice: 240000,
-    currentPrice: 72000,
+    originalPrice: 239600,
+    currentPrice: 71600,
     soldCount: 562,
   },
   {
     id: 4,
-    image: dealFood,
-    merchant: "Bella Cucina",
-    title: "3-Course Italian Dinner",
-    category: "Food & Drink",
+    image: dealRetail1,
+    merchant: "Afrocentric Boutique",
+    title: "Designer Clothing & Accessories",
+    category: "Retail",
     discount: "50% OFF",
-    offer: "Half Price Dining",
-    soldCount: 923,
+    offer: "Half Off Everything",
+    soldCount: 634,
   },
   {
     id: 5,
-    image: dealSpa,
-    merchant: "Glow Beauty Bar",
-    title: "Premium Mani-Pedi",
-    category: "Beauty & Spa",
+    image: dealThingsToDo,
+    merchant: "Lagos Adventure Club",
+    title: "Paint & Sip Experience",
+    category: "Things To Do",
     discount: "40% OFF",
-    offer: "Save up to 40%",
-    soldCount: 1456,
+    offer: "Group Discount Available",
+    soldCount: 892,
   },
   {
     id: 6,
-    image: dealFitness,
-    merchant: "Yoga Sanctuary",
-    title: "20 Class Pass + Free Mat",
-    category: "Health & Fitness",
-    discount: "BONUS",
-    offer: "Free Yoga Mat Included",
-    soldCount: 689,
+    image: dealRetail2,
+    merchant: "Urban Fashion House",
+    title: "Premium Fashion Collection",
+    category: "Retail",
+    discount: "SALE",
+    offer: "Up to 60% Off",
+    soldCount: 745,
   },
 ];
 
@@ -129,6 +132,8 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
                 <SelectItem value="Food & Drink">Food & Drink</SelectItem>
                 <SelectItem value="Beauty & Spa">Beauty & Spa</SelectItem>
                 <SelectItem value="Health & Fitness">Health & Fitness</SelectItem>
+                <SelectItem value="Things To Do">Things To Do</SelectItem>
+                <SelectItem value="Retail">Retail</SelectItem>
               </SelectContent>
             </Select>
           </div>
