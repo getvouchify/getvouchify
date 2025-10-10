@@ -175,7 +175,7 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
                 />
                 <div className="absolute top-4 right-4">
                   <Badge className="gradient-gold text-accent-foreground font-bold text-lg px-4 py-2 shadow-lg">
-                    {deal.discount}
+                    Claim Now!
                   </Badge>
                 </div>
                 <div className="absolute bottom-4 left-4">
