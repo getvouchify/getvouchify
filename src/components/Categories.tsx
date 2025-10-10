@@ -1,6 +1,7 @@
 import { Utensils, Sparkles, Dumbbell, Compass, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import WaitlistModal from "@/components/WaitlistModal";
 
 // Import category images
 import restaurant1 from "@/assets/categories/restaurant-1.jpg";
@@ -45,6 +46,8 @@ const categories = [{
 }];
 const Categories = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
+  
   return <section id="categories" className="py-20 bg-background">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-12">
@@ -88,7 +91,12 @@ const Categories = () => {
                   {category.description}
                 </p>
 
-                <Button variant="secondary" size="sm" className="w-full bg-white text-foreground hover:bg-white/90 font-semibold text-xs">
+                <Button 
+                  variant="secondary" 
+                  size="sm" 
+                  className="w-full bg-white text-foreground hover:bg-white/90 font-semibold text-xs"
+                  onClick={() => setIsWaitlistOpen(true)}
+                >
                   View Deals
                 </Button>
               </div>
@@ -100,6 +108,12 @@ const Categories = () => {
             </div>)}
         </div>
       </div>
+      
+      <WaitlistModal 
+        open={isWaitlistOpen} 
+        onOpenChange={setIsWaitlistOpen}
+        type="shopper"
+      />
     </section>;
 };
 export default Categories;
