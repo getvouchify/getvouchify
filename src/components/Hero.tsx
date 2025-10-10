@@ -4,6 +4,7 @@ import illustration from "@/assets/vouchify-illustration.png";
 import { motion } from "framer-motion";
 import { Users, Store } from "lucide-react";
 import WaitlistModal from "@/components/WaitlistModal";
+import CountdownTimer from "@/components/CountdownTimer";
 const Hero = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState<"shopper" | "merchant">("shopper");
@@ -37,6 +38,20 @@ const Hero = () => {
                 <span className="gradient-gold px-4 py-2 rounded-full text-sm font-semibold shadow-elegant">
                   🚀 Coming Soon
                 </span>
+              </motion.div>
+
+              {/* Countdown Timer */}
+              <motion.div initial={{
+              opacity: 0,
+              y: 20
+            }} animate={{
+              opacity: 1,
+              y: 0
+            }} transition={{
+              delay: 0.5,
+              duration: 0.6
+            }}>
+                <CountdownTimer />
               </motion.div>
 
               {/* Main Heading */}
