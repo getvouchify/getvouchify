@@ -51,7 +51,7 @@ const deals = [
     title: "Designer Clothing & Accessories",
     category: "Retail",
     discount: "50% OFF",
-    offer: "Half Off Everything",
+    offer: "25% off accessories today only!",
     soldCount: 634,
   },
   {
