@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Menu, X, Search, Heart, ShoppingCart, Bell, User, Utensils, Sparkles, Dumbbell, Compass, ShoppingBag } from "lucide-react";
 import { Link } from "react-router-dom";
-import logo from "@/assets/vouchify-logo.png";
+import logo from "@/assets/vouchify-logo-new.png";
 import WaitlistModal from "./WaitlistModal";
 import CartSidebar from "./CartSidebar";
 import { useCart } from "@/contexts/CartContext";
@@ -33,7 +33,7 @@ const Navigation = () => {
           <div className="flex items-center justify-between h-16 gap-4">
             {/* Logo */}
             <Link to="/" className="flex items-center flex-shrink-0">
-              <img src={logo} alt="Vouchify Logo" className="h-12 w-auto" />
+              <img src={logo} alt="Vouchify Logo" className="h-16 w-auto" />
             </Link>
 
             {/* Search Bar - Desktop */}
