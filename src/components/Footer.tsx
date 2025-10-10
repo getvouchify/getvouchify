@@ -1,5 +1,5 @@
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone } from "lucide-react";
-import logo from "@/assets/vouchify-logo.png";
+import logo from "@/assets/vouchify-logo-new.png";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Brand Column */}
           <div className="space-y-4">
-            <img src={logo} alt="Vouchify - Daily Deals Platform" className="h-10 w-auto" />
+            <img src={logo} alt="Vouchify - Daily Deals Platform" className="h-16 w-auto" />
             <p className="text-sm text-muted-foreground max-w-xs">
               Discover and redeem amazing deals across food, beauty, fitness, and more. Join the waitlist today!
             </p>

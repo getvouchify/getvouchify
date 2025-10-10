@@ -4,23 +4,23 @@ import { motion } from "framer-motion";
 const steps = [
   {
     icon: Upload,
-    title: "Merchant Uploads Deal",
-    description: "Merchants list exclusive deals with details and booking slots",
+    title: "Business Uploads a Deal",
+    description: "List exclusive offers with time slots and availability — we help you get discovered.",
   },
   {
     icon: Search,
-    title: "Shoppers Browse & Book",
-    description: "500,000+ shoppers discover and book amazing offers",
+    title: "Shoppers Discover & Book Deals",
+    description: "500,000+ shoppers browse the app to find exclusive offers and book instantly — all from their phone.",
   },
   {
     icon: Ticket,
     title: "Voucher Generation",
-    description: "Unique voucher codes generated for easy redemption",
+    description: "Each booking comes with a unique voucher code for smooth and secure redemption.",
   },
   {
     icon: CheckCircle,
-    title: "Redemption & Payment",
-    description: "Secure payment after confirmation and voucher verification",
+    title: "Fast, Verified Payouts",
+    description: "Once the voucher is used and verified, payment is securely processed — no delays, no stress.",
   },
 ];
 

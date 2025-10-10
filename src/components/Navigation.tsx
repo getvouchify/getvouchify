@@ -1,4 +1,4 @@
-import logo from "@/assets/vouchify-logo.png";
+import logo from "@/assets/vouchify-logo-new.png";
 import { Link } from "react-router-dom";
 
 const Navigation = () => {
@@ -7,7 +7,7 @@ const Navigation = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-center h-20">
           <Link to="/" className="transition-opacity hover:opacity-80">
-            <img src={logo} alt="Vouchify" className="h-12 w-auto" />
+            <img src={logo} alt="Vouchify" className="h-20 w-auto" />
           </Link>
         </div>
       </div>
