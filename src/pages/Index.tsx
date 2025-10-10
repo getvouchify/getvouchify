@@ -7,6 +7,7 @@ import Categories from "@/components/Categories";
 import FeaturedDeals from "@/components/FeaturedDeals";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
 import lagosImage from "@/assets/lagos-bridge.jpg";
+import lagosCityscape from "@/assets/lagos-cityscape.jpg";
 
 const Index = () => {
   return (
@@ -27,6 +28,16 @@ const Index = () => {
       
       <section className="bg-white py-16">
         <FeaturedDeals />
+      </section>
+      
+      <section className="w-full py-12 px-4">
+        <div className="container mx-auto">
+          <img 
+            src={lagosCityscape} 
+            alt="Lagos waterfront cityscape with modern buildings" 
+            className="w-full h-[400px] object-cover rounded-lg shadow-lg"
+          />
+        </div>
       </section>
       
       <section className="bg-background py-16">
