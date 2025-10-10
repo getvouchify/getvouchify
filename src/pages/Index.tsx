@@ -19,12 +19,14 @@ const Index = () => {
         <ScrollSection bgColor="bg-white">
           <FeaturedDeals />
         </ScrollSection>
+        
+        <ScrollSection bgColor="bg-background">
+          <Categories />
+        </ScrollSection>
 
         <ScrollSection bgColor="bg-muted">
           <HowItWorks />
         </ScrollSection>
-        
-        <Categories />
         
         <ScrollSection bgColor="bg-white">
           <MerchantBenefits />

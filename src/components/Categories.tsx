@@ -56,7 +56,7 @@ const Categories = () => {
 
   return (
     <section id="categories" className="py-20 bg-background">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-12">
           <div className="inline-block mb-4">
             <span className="text-sm font-semibold text-primary bg-primary/10 px-4 py-2 rounded-full">
