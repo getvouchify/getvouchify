@@ -8,6 +8,7 @@ import dealFood from "@/assets/deal-food.jpg";
 import dealSpa from "@/assets/deal-spa.jpg";
 import dealFitness from "@/assets/deal-fitness.jpg";
 import dealThingsToDo from "@/assets/categories/things-to-do.jpg";
+import paintSip from "@/assets/paint-sip.jpg";
 import dealRetail1 from "@/assets/deal-retail-1.webp";
 import dealRetail2 from "@/assets/deal-retail-2.webp";
 
@@ -55,7 +56,7 @@ const deals = [
   },
   {
     id: 5,
-    image: dealThingsToDo,
+    image: paintSip,
     merchant: "Lagos Adventure Club",
     title: "Paint & Sip Experience",
     category: "Things To Do",
