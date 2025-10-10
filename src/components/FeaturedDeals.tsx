@@ -20,7 +20,7 @@ const deals = [
     title: "2 for 1 Cocktails",
     category: "Food & Drink",
     discount: "BOGO",
-    offer: "Buy 1 Get 1 Free",
+    offer: "Only during happy hour 4-7 PM on weekdays",
     soldCount: 847,
   },
   {
