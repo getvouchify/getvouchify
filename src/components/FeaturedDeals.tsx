@@ -37,7 +37,7 @@ const deals = [
     id: 3,
     image: dealFitness,
     merchant: "FitZone Premium Studio",
-    title: "6-Month All-Access Membership",
+    title: "6-Month All-Access Membership - Only This Month!",
     category: "Health & Fitness",
     discount: "70% OFF",
     originalPrice: 239600,
