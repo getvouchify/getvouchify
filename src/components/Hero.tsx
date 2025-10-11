@@ -55,9 +55,13 @@ const Hero = () => {
               </motion.div>
 
               {/* Main Heading */}
-              
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-primary">
+                Discover Daily Deals You'll Love
+              </h1>
 
-              <p className="text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 md:text-5xl">Unlock exclusive deals in food, beauty, fitness, retail and more — join the waitlist today!</p>
+              <p className="text-xl md:text-2xl font-semibold text-primary/80 italic">More Than Just A Daily Deal</p>
+
+              <p className="text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 md:text-2xl">Unlock exclusive deals in food, beauty, fitness, retail and more — join the waitlist today!</p>
 
               {/* Dual Waitlist Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto lg:mx-0">
