@@ -56,7 +56,7 @@ const Hero = () => {
 
               {/* Main Heading */}
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-primary">
-                Discover Daily Deals You'll Love
+                Your City, Your Deals. Curated Just for You.
               </h1>
 
               <p className="text-xl md:text-2xl font-semibold text-primary/80 italic">More Than Just A Daily Deal</p>
