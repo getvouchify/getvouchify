@@ -9,13 +9,11 @@ import WaitlistModal from "./WaitlistModal";
 import CartSidebar from "./CartSidebar";
 import { useCart } from "@/contexts/CartContext";
 import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 const categories = [
@@ -188,35 +186,28 @@ const Navigation = () => {
         {/* Category Navigation Bar */}
         <div className="hidden md:block border-t border-border">
           <div className="container mx-auto px-4">
-            <div className="flex items-center justify-center py-3">
-              <NavigationMenu>
-                <NavigationMenuList className="flex gap-4">
-                  {categories.map((category) => (
-                    <NavigationMenuItem key={category.label}>
-                      <NavigationMenuTrigger className="flex items-center gap-2 text-sm bg-transparent hover:bg-transparent data-[state=open]:bg-transparent">
-                        <category.icon className="w-4 h-4" />
-                        {category.label}
-                      </NavigationMenuTrigger>
-                      <NavigationMenuContent>
-                        <ul className="grid w-[300px] gap-1 p-4 bg-background">
-                          {category.subcategories.map((subcategory) => (
-                            <li key={subcategory}>
-                              <NavigationMenuLink asChild>
-                                <a
-                                  href={category.href}
-                                  className="block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-sm"
-                                >
-                                  {subcategory}
-                                </a>
-                              </NavigationMenuLink>
-                            </li>
-                          ))}
-                        </ul>
-                      </NavigationMenuContent>
-                    </NavigationMenuItem>
-                  ))}
-                </NavigationMenuList>
-              </NavigationMenu>
+            <div className="flex items-center justify-center gap-6 py-3">
+              {categories.map((category) => (
+                <DropdownMenu key={category.label}>
+                  <DropdownMenuTrigger className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors outline-none">
+                    <category.icon className="w-4 h-4" />
+                    {category.label}
+                    <ChevronDown className="w-3 h-3" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-[280px] bg-background border shadow-lg z-50">
+                    {category.subcategories.map((subcategory) => (
+                      <DropdownMenuItem key={subcategory} asChild>
+                        <a
+                          href={category.href}
+                          className="cursor-pointer"
+                        >
+                          {subcategory}
+                        </a>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ))}
             </div>
           </div>
         </div>
