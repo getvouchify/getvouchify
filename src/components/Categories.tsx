@@ -22,7 +22,7 @@ const categories = [{
 }, {
   icon: Sparkles,
   title: "Beauty & Spa",
-  description: "Salons, nail techs, skincare clinics. High demand for self-care services.",
+  description: "Indulge in discounted facials, massages, mani-pedis, and more. Self-care just got a whole lot more affordable.",
   color: "text-primary",
   images: [beautySpa1, beautySpa2]
 }, {
