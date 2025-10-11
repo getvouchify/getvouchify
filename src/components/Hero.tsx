@@ -74,7 +74,7 @@ const Hero = () => {
                 </Button>
               </div>
 
-              <p className="text-sm text-muted-foreground">Unlock exclusive deals before anyone else — join our launch list!</p>
+              <p className="text-sm text-muted-foreground">Join 1,000+ early members securing exclusive access!</p>
             </motion.div>
 
             {/* Right Illustration */}
