@@ -13,11 +13,11 @@ const Hero = () => {
     setModalOpen(true);
   };
   return <>
-      <section className="min-h-[70vh] relative overflow-hidden bg-white pt-32">
+      <section className="min-h-[70vh] relative overflow-hidden bg-white pt-20 md:pt-32">
         <div className="container mx-auto px-4 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[60vh] py-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[60vh] py-8 md:py-12">
             {/* Left Content */}
-            <motion.div className="text-center lg:text-left space-y-8" initial={{
+            <motion.div className="text-center lg:text-left space-y-6 md:space-y-8" initial={{
             opacity: 0,
             y: 30
           }} animate={{
@@ -63,12 +63,12 @@ const Hero = () => {
 
               {/* Dual Waitlist Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto lg:mx-0">
-                <Button onClick={() => openModal("shopper")} size="lg" className="h-14 px-6 gradient-primary text-white font-semibold text-base hover-lift group flex-1">
+                <Button onClick={() => openModal("shopper")} size="lg" className="h-16 sm:h-14 px-8 gradient-primary text-white font-semibold text-base hover-lift group flex-1">
                   <Users className="mr-2 h-5 w-5" />
                   Join as Shopper
                 </Button>
                 
-                <Button onClick={() => openModal("merchant")} size="lg" variant="outline" className="h-14 px-6 border-2 border-primary text-primary font-semibold text-base hover:bg-primary hover:text-white transition-all hover-lift flex-1">
+                <Button onClick={() => openModal("merchant")} size="lg" variant="outline" className="h-16 sm:h-14 px-8 border-2 border-primary text-primary font-semibold text-base hover:bg-primary hover:text-white transition-all hover-lift flex-1">
                   <Store className="mr-2 h-5 w-5" />
                   Join as Merchant
                 </Button>
