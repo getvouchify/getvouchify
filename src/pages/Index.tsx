@@ -18,6 +18,11 @@ const Index = () => {
       
       <section className="w-full py-12 px-4">
         <div className="container mx-auto">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary">
+              Explore Lagos, One Deal at a Time
+            </h2>
+          </div>
           <img 
             src={lagosImage} 
             alt="Lagos cityscape featuring the iconic bridge" 
