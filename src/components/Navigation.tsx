@@ -2,19 +2,101 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Menu, X, Search, Heart, ShoppingCart, Bell, User, Utensils, Sparkles, Dumbbell, Compass, ShoppingBag } from "lucide-react";
+import { Menu, X, Search, Heart, ShoppingCart, Bell, User, Utensils, Sparkles, Dumbbell, Compass, ShoppingBag, Home, Smartphone, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import logo from "@/assets/vouchify-logo-new.png";
 import WaitlistModal from "./WaitlistModal";
 import CartSidebar from "./CartSidebar";
 import { useCart } from "@/contexts/CartContext";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 const categories = [
-  { icon: Sparkles, label: "Beauty & Spas", href: "#categories" },
-  { icon: Compass, label: "Things To Do", href: "#categories" },
-  { icon: Utensils, label: "Food & Drink", href: "#categories" },
-  { icon: Dumbbell, label: "Health & Fitness", href: "#categories" },
-  { icon: ShoppingBag, label: "Retail", href: "#categories" },
+  {
+    icon: Utensils,
+    label: "Food & Drink",
+    href: "#categories",
+    subcategories: [
+      "Restaurants & Fine Dining",
+      "Fast Food & Quick Bites",
+      "Cafés & Brunch Spots",
+      "Bars & Happy Hour"
+    ]
+  },
+  {
+    icon: Sparkles,
+    label: "Beauty & Spa",
+    href: "#categories",
+    subcategories: [
+      "Hair, Nails & Grooming",
+      "Spas & Massage Therapy",
+      "Skincare Clinics & Facials",
+      "Lash, Brow & Waxing Services"
+    ]
+  },
+  {
+    icon: Dumbbell,
+    label: "Health & Fitness",
+    href: "#categories",
+    subcategories: [
+      "Gyms & Studios",
+      "Yoga, Pilates & Dance",
+      "Personal Trainers",
+      "Wellness & Nutrition"
+    ]
+  },
+  {
+    icon: Compass,
+    label: "Things To Do",
+    href: "#categories",
+    subcategories: [
+      "Paint & Sip / Escape Rooms",
+      "Boat Cruises / Tours",
+      "Events & Pop-ups",
+      "Games & Group Activities"
+    ]
+  },
+  {
+    icon: ShoppingBag,
+    label: "Retail",
+    href: "#categories",
+    subcategories: [
+      "Fashion & Thrift",
+      "Accessories & Footwear",
+      "Local Brands & Pop-ups",
+      "Books, Gifts & Lifestyle"
+    ]
+  },
+  {
+    icon: Smartphone,
+    label: "Electronics & Gadgets",
+    href: "#categories",
+    subcategories: [
+      "Phones & Accessories",
+      "TVs, ACs & Smart Devices",
+      "Power Banks & Gadgets",
+      "Repairs & Installations"
+    ]
+  },
+  {
+    icon: Home,
+    label: "Home & Lifestyle",
+    href: "#categories",
+    subcategories: [
+      "Home Services (laundry, cleaning, fumigation)",
+      "Furniture & Décor",
+      "Kitchenware & Storage",
+      "Candles, Bedding, Home Fragrances",
+      "Green Energy & Installations (e.g. solar)"
+    ]
+  }
 ];
 
 const Navigation = () => {
@@ -106,17 +188,35 @@ const Navigation = () => {
         {/* Category Navigation Bar */}
         <div className="hidden md:block border-t border-border">
           <div className="container mx-auto px-4">
-            <div className="flex items-center justify-center gap-8 py-3">
-              {categories.map((category) => (
-                <a
-                  key={category.label}
-                  href={category.href}
-                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  <category.icon className="w-4 h-4" />
-                  {category.label}
-                </a>
-              ))}
+            <div className="flex items-center justify-center py-3">
+              <NavigationMenu>
+                <NavigationMenuList className="flex gap-4">
+                  {categories.map((category) => (
+                    <NavigationMenuItem key={category.label}>
+                      <NavigationMenuTrigger className="flex items-center gap-2 text-sm bg-transparent hover:bg-transparent data-[state=open]:bg-transparent">
+                        <category.icon className="w-4 h-4" />
+                        {category.label}
+                      </NavigationMenuTrigger>
+                      <NavigationMenuContent>
+                        <ul className="grid w-[300px] gap-1 p-4 bg-background">
+                          {category.subcategories.map((subcategory) => (
+                            <li key={subcategory}>
+                              <NavigationMenuLink asChild>
+                                <a
+                                  href={category.href}
+                                  className="block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-sm"
+                                >
+                                  {subcategory}
+                                </a>
+                              </NavigationMenuLink>
+                            </li>
+                          ))}
+                        </ul>
+                      </NavigationMenuContent>
+                    </NavigationMenuItem>
+                  ))}
+                </NavigationMenuList>
+              </NavigationMenu>
             </div>
           </div>
         </div>
@@ -136,15 +236,27 @@ const Navigation = () => {
                 />
               </div>
               {categories.map((category) => (
-                <a
-                  key={category.label}
-                  href={category.href}
-                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors py-2"
-                  onClick={() => setIsOpen(false)}
-                >
-                  <category.icon className="w-4 h-4" />
-                  {category.label}
-                </a>
+                <Collapsible key={category.label}>
+                  <CollapsibleTrigger className="flex items-center justify-between w-full gap-2 text-sm text-muted-foreground hover:text-primary transition-colors py-2">
+                    <div className="flex items-center gap-2">
+                      <category.icon className="w-4 h-4" />
+                      {category.label}
+                    </div>
+                    <ChevronDown className="w-4 h-4" />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="pl-6 space-y-2">
+                    {category.subcategories.map((subcategory) => (
+                      <a
+                        key={subcategory}
+                        href={category.href}
+                        className="block text-sm text-muted-foreground hover:text-primary transition-colors py-1"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        {subcategory}
+                      </a>
+                    ))}
+                  </CollapsibleContent>
+                </Collapsible>
               ))}
               <Button 
                 className="w-full"
