@@ -40,7 +40,7 @@ const categories = [{
 }, {
   icon: ShoppingBag,
   title: "Retail",
-  description: "Fashion boutiques, thrift stores, accessories, home decor. Targets impulse buyers with deal urgency.",
+  description: "Shop exclusive discounts on fashion, accessories, thrift finds, and more. Stylish steals you won't find anywhere else.",
   color: "text-primary",
   images: [retail1, retail2]
 }];
