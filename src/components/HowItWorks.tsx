@@ -1,5 +1,8 @@
 import { Upload, Search, Ticket, CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import WaitlistModal from "./WaitlistModal";
 
 const steps = [
   {
@@ -25,6 +28,8 @@ const steps = [
 ];
 
 const HowItWorks = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+  
   const gradients = [
     "from-primary/5 via-white to-accent/5",
     "from-accent/5 via-white to-primary/5",
@@ -40,7 +45,7 @@ const HowItWorks = () => {
   ];
 
   return (
-    <section className="py-20 relative overflow-hidden">
+    <section className="py-16 md:py-24 relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-30 pointer-events-none">
         <div className="absolute top-10 left-10 w-32 h-32 bg-primary/10 rounded-full blur-3xl animate-pulse" />
@@ -48,7 +53,7 @@ const HowItWorks = () => {
         <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-primary/5 rounded-full blur-2xl" />
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -56,15 +61,15 @@ const HowItWorks = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
             How It Works ✨
           </h2>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             Simple, secure, and seamless deal discovery and redemption
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 md:gap-10">
           {steps.map((step, index) => (
             <motion.div
               key={index}
@@ -84,13 +89,13 @@ const HowItWorks = () => {
               <motion.div 
                 whileHover={{ rotate: 12, scale: 1.1 }}
                 transition={{ type: "spring", stiffness: 400 }}
-                className={`absolute -top-5 -right-3 bg-gradient-to-br from-primary to-accent text-white w-16 h-16 rounded-2xl flex items-center justify-center font-bold text-2xl shadow-glow z-20 rotate-6 group-hover:rotate-0 transition-transform duration-300`}
+                className={`absolute -top-5 -right-3 bg-gradient-to-br from-primary to-accent text-white w-14 h-14 md:w-16 md:h-16 rounded-2xl flex items-center justify-center font-bold text-xl md:text-2xl shadow-glow z-20 rotate-6 group-hover:rotate-0 transition-transform duration-300`}
               >
                 {index + 1}
               </motion.div>
 
               {/* Card with gradient background */}
-              <div className={`bg-gradient-to-br ${gradients[index]} rounded-2xl p-6 md:p-8 shadow-lg group-hover:shadow-2xl border border-primary/10 group-hover:border-primary/30 transition-all duration-300 h-full`}>
+              <div className={`bg-gradient-to-br ${gradients[index]} rounded-2xl p-6 md:p-8 shadow-lg group-hover:shadow-2xl border-2 border-primary/10 group-hover:border-primary/30 transition-all duration-300 h-full`}>
                 
                 {/* Enhanced Icon */}
                 <motion.div 
@@ -98,15 +103,15 @@ const HowItWorks = () => {
                   transition={{ duration: 0.6, type: "spring" }}
                   className="mb-6 flex justify-center"
                 >
-                  <div className={`bg-gradient-to-br ${iconGradients[index]} p-8 rounded-full shadow-md group-hover:shadow-glow transition-shadow duration-300`}>
-                    <step.icon className="w-12 h-12 text-primary" />
+                  <div className={`bg-gradient-to-br ${iconGradients[index]} p-6 md:p-8 rounded-full shadow-md group-hover:shadow-glow transition-shadow duration-300`}>
+                    <step.icon className="w-10 h-10 md:w-12 md:h-12 text-primary" />
                   </div>
                 </motion.div>
                 
-                <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors duration-300">
+                <h3 className="text-lg md:text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors duration-300">
                   {step.title}
                 </h3>
-                <p className="text-muted-foreground leading-relaxed">
+                <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
                   {step.description}
                 </p>
               </div>
@@ -117,7 +122,7 @@ const HowItWorks = () => {
                   initial={{ opacity: 0, x: -10 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.15 + 0.3, duration: 0.5 }}
-                  className="hidden lg:block absolute top-1/2 -right-6 transform -translate-y-1/2 z-10"
+                  className="hidden xl:block absolute top-1/2 -right-6 transform -translate-y-1/2 z-10"
                 >
                   <svg width="32" height="32" viewBox="0 0 32 32" fill="none" className="text-primary/40 group-hover:text-primary transition-colors duration-300">
                     <defs>
@@ -143,7 +148,26 @@ const HowItWorks = () => {
             </motion.div>
           ))}
         </div>
+
+        {/* CTA */}
+        <motion.div 
+          className="text-center mt-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.6 }}
+        >
+          <Button 
+            onClick={() => setModalOpen(true)}
+            size="lg"
+            className="h-14 px-10 text-lg font-bold gradient-primary text-white hover-lift min-h-[44px]"
+          >
+            Get Started Now
+          </Button>
+        </motion.div>
       </div>
+
+      <WaitlistModal open={modalOpen} onOpenChange={setModalOpen} type="shopper" />
     </section>
   );
 };

@@ -114,112 +114,113 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
   });
 
   return (
-    <section id="featured-deals" className="py-20 bg-white">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-8">
-          <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
+    <section id="featured-deals" className="py-16 md:py-24">
+      <div className="container mx-auto px-6">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4">
             {searchQuery ? `Search Results for "${searchQuery}"` : "Today's Featured Deals"}
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             {searchQuery ? `Found ${filteredDeals.length} deals` : "Limited time offers you don't want to miss"}
           </p>
         </div>
 
         {/* Filters and Sort */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-between items-center mb-8">
-          <div className="flex gap-2 items-center">
-            <span className="text-sm font-medium text-muted-foreground">Filter:</span>
+        <div className="flex flex-col sm:flex-row gap-4 justify-between items-center mb-10">
+          <div className="flex gap-3 items-center">
+            <span className="text-base font-semibold text-foreground">Filter:</span>
             <Select value={filterCategory} onValueChange={setFilterCategory}>
-              <SelectTrigger className="w-[200px]">
+              <SelectTrigger className="w-[200px] min-h-[44px] border-2">
                 <SelectValue placeholder="All Categories" />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Categories</SelectItem>
-                <SelectItem value="Food & Drink">Food & Drink</SelectItem>
-                <SelectItem value="Beauty & Spa">Beauty & Spa</SelectItem>
-                <SelectItem value="Health & Fitness">Health & Fitness</SelectItem>
-                <SelectItem value="Things To Do">Things To Do</SelectItem>
-                <SelectItem value="Retail">Retail</SelectItem>
+              <SelectContent className="bg-white border-2">
+                <SelectItem value="all" className="min-h-[44px]">All Categories</SelectItem>
+                <SelectItem value="Food & Drink" className="min-h-[44px]">Food & Drink</SelectItem>
+                <SelectItem value="Beauty & Spa" className="min-h-[44px]">Beauty & Spa</SelectItem>
+                <SelectItem value="Health & Fitness" className="min-h-[44px]">Health & Fitness</SelectItem>
+                <SelectItem value="Things To Do" className="min-h-[44px]">Things To Do</SelectItem>
+                <SelectItem value="Retail" className="min-h-[44px]">Retail</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
-          <div className="flex gap-2 items-center">
-            <span className="text-sm font-medium text-muted-foreground">Sort by:</span>
+          <div className="flex gap-3 items-center">
+            <span className="text-base font-semibold text-foreground">Sort by:</span>
             <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-[200px]">
+              <SelectTrigger className="w-[200px] min-h-[44px] border-2">
                 <SelectValue placeholder="Sort by" />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="popular">Most Popular</SelectItem>
-                <SelectItem value="discount">Highest Discount</SelectItem>
-                <SelectItem value="price-low">Price: Low to High</SelectItem>
-                <SelectItem value="price-high">Price: High to Low</SelectItem>
+              <SelectContent className="bg-white border-2">
+                <SelectItem value="popular" className="min-h-[44px]">Most Popular</SelectItem>
+                <SelectItem value="discount" className="min-h-[44px]">Highest Discount</SelectItem>
+                <SelectItem value="price-low" className="min-h-[44px]">Price: Low to High</SelectItem>
+                <SelectItem value="price-high" className="min-h-[44px]">Price: High to Low</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 md:gap-10">
           {filteredDeals.length === 0 ? (
-            <div className="col-span-full text-center py-12">
+            <div className="col-span-full text-center py-16">
               <p className="text-xl text-muted-foreground">No deals found matching your criteria</p>
             </div>
           ) : (
             filteredDeals.map((deal, index) => (
             <div
               key={deal.id}
-              className="bg-white rounded-xl shadow-card hover-lift overflow-hidden group cursor-pointer animate-fade-in"
+              className="bg-white rounded-xl shadow-card hover-lift overflow-hidden group cursor-pointer animate-fade-in border border-border"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               {/* Image with Discount Badge */}
-              <div className="relative overflow-hidden h-64">
+              <div className="relative overflow-hidden h-56 md:h-64">
                 <img
                   src={deal.image}
                   alt={deal.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  loading="lazy"
                 />
                 <div className="absolute top-4 right-4">
-                  <Badge className="gradient-gold text-accent-foreground font-bold text-lg px-4 py-2 shadow-lg">
+                  <Badge className="gradient-gold text-accent-foreground font-bold text-base md:text-lg px-4 py-2 shadow-lg">
                     {deal.discount}
                   </Badge>
                 </div>
                 <div className="absolute bottom-4 left-4">
-                  <Badge variant="secondary" className="bg-white/90 text-foreground">
+                  <Badge variant="secondary" className="bg-white/95 text-foreground font-semibold">
                     {deal.category}
                   </Badge>
                 </div>
               </div>
 
               {/* Content */}
-              <div className="p-6">
-                <p className="text-sm text-muted-foreground mb-2">{deal.merchant}</p>
-                <h3 className="text-xl font-bold text-foreground mb-4 group-hover:text-primary transition-colors">
+              <div className="p-6 md:p-8">
+                <p className="text-sm md:text-base text-muted-foreground mb-2 font-medium">{deal.merchant}</p>
+                <h3 className="text-xl md:text-2xl font-bold text-foreground mb-4 group-hover:text-primary transition-colors leading-tight">
                   {deal.title}
                 </h3>
 
                 {/* Price or Offer */}
-                <div className="mb-3">
+                <div className="mb-4">
                   {deal.currentPrice ? (
                     <div className="flex items-baseline gap-3">
-                      <span className="text-3xl font-bold text-primary">
+                      <span className="text-2xl md:text-3xl font-bold text-primary">
                         ₦{deal.currentPrice.toLocaleString()}
                       </span>
                       {deal.originalPrice && (
-                        <span className="text-lg text-muted-foreground line-through">
+                        <span className="text-base md:text-lg text-muted-foreground line-through">
                           ₦{deal.originalPrice.toLocaleString()}
                         </span>
                       )}
                     </div>
                   ) : (
-                    <div className="text-xl font-bold text-primary">
+                    <div className="text-lg md:text-xl font-bold text-primary">
                       {deal.offer}
                     </div>
                   )}
                 </div>
 
                 {/* Sold Count */}
-                <p className="text-sm text-muted-foreground mb-4">
+                <p className="text-sm md:text-base text-muted-foreground mb-6">
                   🔥 {deal.soldCount.toLocaleString()}+ sold
                 </p>
 
@@ -232,7 +233,7 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
                       duration: 3000,
                     });
                   }}
-                  className="w-full bg-primary hover:bg-accent hover:text-accent-foreground font-semibold"
+                  className="w-full bg-primary hover:bg-primary/90 text-white font-bold text-base h-12 min-h-[44px]"
                 >
                   Claim Now!
                 </Button>
@@ -242,13 +243,13 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
           )}
         </div>
 
-        <div className="text-center mt-12">
+        <div className="text-center mt-16">
           <Button 
             size="lg" 
             variant="outline"
-            className="border-2 border-primary text-primary hover:bg-primary hover:text-white font-semibold px-8"
+            className="border-2 border-primary text-primary bg-white hover:bg-primary hover:text-white font-bold px-10 h-14 text-lg min-h-[44px]"
           >
-            View All Deals
+            See All Deals
           </Button>
         </div>
       </div>

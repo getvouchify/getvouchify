@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
-const categories = [
+const topCategories = [
   {
     icon: Utensils,
     label: "Food & Drink",
@@ -34,9 +34,9 @@ const categories = [
     href: "#categories",
     subcategories: [
       "Hair, Nails & Grooming",
-      "Spas & Massage Therapy",
-      "Skincare Clinics & Facials",
-      "Lash, Brow & Waxing Services"
+      "Spas & Massage",
+      "Skincare & Facials",
+      "Lash & Brow Services"
     ]
   },
   {
@@ -45,7 +45,7 @@ const categories = [
     href: "#categories",
     subcategories: [
       "Gyms & Studios",
-      "Yoga, Pilates & Dance",
+      "Yoga & Pilates",
       "Personal Trainers",
       "Wellness & Nutrition"
     ]
@@ -55,10 +55,10 @@ const categories = [
     label: "Things To Do",
     href: "#categories",
     subcategories: [
-      "Paint & Sip / Escape Rooms",
-      "Boat Cruises / Tours",
+      "Paint & Sip",
+      "Boat Cruises",
       "Events & Pop-ups",
-      "Games & Group Activities"
+      "Group Activities"
     ]
   },
   {
@@ -67,33 +67,23 @@ const categories = [
     href: "#categories",
     subcategories: [
       "Fashion & Thrift",
-      "Accessories & Footwear",
-      "Local Brands & Pop-ups",
-      "Books, Gifts & Lifestyle"
+      "Accessories",
+      "Local Brands",
+      "Books & Gifts"
     ]
-  },
+  }
+];
+
+const moreCategories = [
   {
     icon: Smartphone,
     label: "Electronics & Gadgets",
-    href: "#categories",
-    subcategories: [
-      "Phones & Accessories",
-      "TVs, ACs & Smart Devices",
-      "Power Banks & Gadgets",
-      "Repairs & Installations"
-    ]
+    href: "#categories"
   },
   {
     icon: Home,
     label: "Home & Lifestyle",
-    href: "#categories",
-    subcategories: [
-      "Home Services (laundry, cleaning, fumigation)",
-      "Furniture & Décor",
-      "Kitchenware & Storage",
-      "Candles, Bedding, Home Fragrances",
-      "Green Energy & Installations (e.g. solar)"
-    ]
+    href: "#categories"
   }
 ];
 
@@ -186,20 +176,20 @@ const Navigation = () => {
         {/* Category Navigation Bar */}
         <div className="hidden md:block border-t border-border">
           <div className="container mx-auto px-4">
-            <div className="flex items-center justify-center gap-6 py-3">
-              {categories.map((category) => (
+            <div className="flex items-center justify-center gap-8 py-4">
+              {topCategories.map((category) => (
                 <DropdownMenu key={category.label}>
-                  <DropdownMenuTrigger className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors outline-none">
+                  <DropdownMenuTrigger className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors outline-none focus:text-primary min-h-[44px]">
                     <category.icon className="w-4 h-4" />
                     {category.label}
                     <ChevronDown className="w-3 h-3" />
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-[280px] bg-background border shadow-lg z-50">
+                  <DropdownMenuContent className="w-[280px] bg-white border-2 shadow-lg z-50">
                     {category.subcategories.map((subcategory) => (
                       <DropdownMenuItem key={subcategory} asChild>
                         <a
                           href={category.href}
-                          className="cursor-pointer"
+                          className="cursor-pointer min-h-[44px] flex items-center"
                         >
                           {subcategory}
                         </a>
@@ -208,6 +198,27 @@ const Navigation = () => {
                   </DropdownMenuContent>
                 </DropdownMenu>
               ))}
+              
+              {/* More Categories Dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors outline-none focus:text-primary min-h-[44px]">
+                  More
+                  <ChevronDown className="w-3 h-3" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-[240px] bg-white border-2 shadow-lg z-50">
+                  {moreCategories.map((category) => (
+                    <DropdownMenuItem key={category.label} asChild>
+                      <a
+                        href={category.href}
+                        className="cursor-pointer flex items-center gap-2 min-h-[44px]"
+                      >
+                        <category.icon className="w-4 h-4" />
+                        {category.label}
+                      </a>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </div>
@@ -228,59 +239,52 @@ const Navigation = () => {
               </div>
               
               {/* Mobile Cart & Actions */}
-              <div className="flex items-center gap-2 justify-between">
+              <div className="flex items-center gap-3">
                 <Button 
                   variant="outline" 
-                  className="flex-1"
+                  className="flex-1 min-h-[48px] font-semibold"
                   onClick={() => {
                     setShowCart(true);
                     setIsOpen(false);
                   }}
                 >
-                  <ShoppingCart className="w-4 h-4 mr-2" />
+                  <ShoppingCart className="w-5 h-5 mr-2" />
                   Cart {cartCount > 0 && `(${cartCount})`}
                 </Button>
-                <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
-                  <Heart className="w-5 h-5" />
-                </Button>
-                <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
-                  <Bell className="w-5 h-5" />
+                <Button 
+                  className="flex-1 min-h-[48px] font-semibold"
+                  onClick={() => {
+                    setWaitlistType("shopper");
+                    setShowWaitlist(true);
+                    setIsOpen(false);
+                  }}
+                >
+                  <User className="w-5 h-5 mr-2" />
+                  Sign In
                 </Button>
               </div>
-              {categories.map((category) => (
-                <Collapsible key={category.label}>
-                  <CollapsibleTrigger className="flex items-center justify-between w-full gap-2 text-sm text-muted-foreground hover:text-primary transition-colors py-2">
-                    <div className="flex items-center gap-2">
-                      <category.icon className="w-4 h-4" />
-                      {category.label}
-                    </div>
-                    <ChevronDown className="w-4 h-4" />
-                  </CollapsibleTrigger>
-                  <CollapsibleContent className="pl-6 space-y-2">
-                    {category.subcategories.map((subcategory) => (
-                      <a
-                        key={subcategory}
-                        href={category.href}
-                        className="block text-sm text-muted-foreground hover:text-primary transition-colors py-1"
-                        onClick={() => setIsOpen(false)}
-                      >
-                        {subcategory}
-                      </a>
-                    ))}
-                  </CollapsibleContent>
-                </Collapsible>
-              ))}
-              <Button 
-                className="w-full"
-                onClick={() => {
-                  setWaitlistType("shopper");
-                  setShowWaitlist(true);
-                  setIsOpen(false);
-                }}
-              >
-                <User className="w-4 h-4 mr-2" />
-                Sign In
-              </Button>
+              
+              {/* Simplified Mobile Categories */}
+              <div className="space-y-2 pt-4 border-t">
+                {topCategories.map((category) => (
+                  <a
+                    key={category.label}
+                    href={category.href}
+                    className="flex items-center gap-3 text-base font-medium text-foreground hover:text-primary transition-colors py-3 min-h-[48px]"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <category.icon className="w-5 h-5" />
+                    {category.label}
+                  </a>
+                ))}
+                <a
+                  href="#categories"
+                  className="flex items-center gap-3 text-base font-semibold text-primary hover:text-primary/80 transition-colors py-3 min-h-[48px]"
+                  onClick={() => setIsOpen(false)}
+                >
+                  View All Categories
+                </a>
+              </div>
             </div>
           </div>
         )}

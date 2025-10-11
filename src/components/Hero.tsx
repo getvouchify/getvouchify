@@ -13,11 +13,11 @@ const Hero = () => {
     setModalOpen(true);
   };
   return <>
-      <section className="min-h-[70vh] relative overflow-hidden bg-white pt-16 md:pt-32">
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[60vh] py-8 md:py-12">
+      <section className="min-h-[70vh] relative overflow-hidden bg-white pt-20 md:pt-32 pb-16 md:pb-24">
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[60vh] py-8 md:py-12">
             {/* Left Content */}
-            <motion.div className="text-center lg:text-left space-y-4 md:space-y-8" initial={{
+            <motion.div className="text-center lg:text-left space-y-6 md:space-y-8" initial={{
             opacity: 0,
             y: 30
           }} animate={{
@@ -26,6 +26,16 @@ const Hero = () => {
           }} transition={{
             duration: 0.8
           }}>
+              {/* Tagline */}
+              <motion.p 
+                className="text-base md:text-lg font-semibold text-primary/70 uppercase tracking-wider"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+              >
+                Lagos' Premier Deal Discovery Platform
+              </motion.p>
+
               {/* Coming Soon Badge */}
               <motion.div className="inline-block" initial={{
               scale: 0
@@ -55,28 +65,34 @@ const Hero = () => {
               </motion.div>
 
               {/* Main Heading */}
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-primary">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight text-primary">
                 Your City, Your Deals. Curated Just for You.
               </h1>
 
-              <p className="text-xl md:text-2xl font-semibold text-primary/80 italic">More Than Just A Daily Deal</p>
+              <p className="text-xl md:text-2xl lg:text-3xl font-bold text-primary/90">
+                More Than Just A Daily Deal
+              </p>
 
-              <p className="text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 md:text-2xl">Unlock exclusive deals in food, beauty, fitness, retail and more — join the waitlist today!</p>
+              <p className="text-lg md:text-xl text-foreground max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                Unlock exclusive deals in food, beauty, fitness, retail and more — join the waitlist today!
+              </p>
 
               {/* Dual Waitlist Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto lg:mx-0">
-                <Button onClick={() => openModal("shopper")} size="lg" className="h-16 sm:h-14 px-8 gradient-primary text-white font-semibold text-lg sm:text-base hover-lift group flex-1">
+              <div className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto lg:mx-0 pt-4">
+                <Button onClick={() => openModal("shopper")} size="lg" className="h-14 md:h-12 px-8 gradient-primary text-white font-bold text-base hover-lift group flex-1 min-h-[44px]">
                   <Users className="mr-2 h-5 w-5" />
                   Join as Shopper
                 </Button>
                 
-                <Button onClick={() => openModal("merchant")} size="lg" variant="outline" className="h-16 sm:h-14 px-8 border-2 border-primary text-primary font-semibold text-lg sm:text-base hover:bg-primary hover:text-white transition-all hover-lift flex-1">
+                <Button onClick={() => openModal("merchant")} size="lg" variant="outline" className="h-14 md:h-12 px-8 border-2 border-primary text-primary bg-white font-bold text-base hover:bg-primary hover:text-white transition-all hover-lift flex-1 min-h-[44px]">
                   <Store className="mr-2 h-5 w-5" />
                   Join as Merchant
                 </Button>
               </div>
 
-              <p className="text-sm text-muted-foreground">Join 1,000+ early members securing exclusive access!</p>
+              <p className="text-base text-muted-foreground pt-2">
+                Join 1,000+ early members securing exclusive access!
+              </p>
             </motion.div>
 
             {/* Right Illustration */}

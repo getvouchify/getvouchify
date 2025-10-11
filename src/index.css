@@ -30,7 +30,7 @@ All colors MUST be HSL.
     --secondary-foreground: 274 59% 39%;
 
     --muted: 240 5% 96%;
-    --muted-foreground: 0 0% 45%;
+    --muted-foreground: 0 0% 35%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
@@ -116,11 +116,11 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground font-lato;
+    @apply bg-background text-foreground font-lato leading-relaxed;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-montserrat;
+    @apply font-montserrat tracking-tight;
   }
 }
 
