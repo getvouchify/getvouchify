@@ -16,7 +16,7 @@ import retail2 from "@/assets/categories/retail-2.webp";
 const categories = [{
   icon: Utensils,
   title: "Food & Drink",
-  description: "Lagos' food scene is booming, but competition is fierce. Stand out with the right deal.",
+  description: "Discover exclusive restaurant deals, happy hour offers, and 2-for-1 dining experiences at Lagos' hottest food spots.",
   color: "text-primary",
   images: [restaurant1, restaurant2]
 }, {
