@@ -88,12 +88,20 @@ const CartSidebar = ({ isOpen, onClose }: CartSidebarProps) => {
                     </div>
                   </div>
                   <div className="mt-3 flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">
-                      ₦{item.currentPrice.toLocaleString()} × {item.quantity}
-                    </span>
-                    <span className="font-bold text-primary">
-                      ₦{(item.currentPrice * item.quantity).toLocaleString()}
-                    </span>
+                    {item.currentPrice ? (
+                      <>
+                        <span className="text-sm text-muted-foreground">
+                          ₦{item.currentPrice.toLocaleString()} × {item.quantity}
+                        </span>
+                        <span className="font-bold text-primary">
+                          ₦{(item.currentPrice * item.quantity).toLocaleString()}
+                        </span>
+                      </>
+                    ) : (
+                      <span className="text-sm font-semibold text-primary">
+                        {item.offer}
+                      </span>
+                    )}
                   </div>
                 </div>
               ))}
