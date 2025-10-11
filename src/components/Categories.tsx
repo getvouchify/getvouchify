@@ -34,7 +34,7 @@ const categories = [{
 }, {
   icon: Compass,
   title: "Things To Do",
-  description: "Paint & sip, escape rooms, boat cruises, comedy shows, tours, game nights.",
+  description: "From paint-and-sip nights to boat cruises, games, events, and more — explore Lagos with unbeatable deals on memorable experiences.",
   color: "text-primary",
   images: [thingsToDo]
 }, {
