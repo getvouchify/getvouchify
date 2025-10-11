@@ -16,7 +16,7 @@ import retail2 from "@/assets/categories/retail-2.webp";
 const categories = [{
   icon: Utensils,
   title: "Food & Drink",
-  description: "Restaurants, bars, cafes. Lagos has a booming food scene, but competition is fierce.",
+  description: "From restaurants to bars and cafés, Lagos is buzzing with food experiences — but standing out is tough. Let your deal do the talking.",
   color: "text-primary",
   images: [restaurant1, restaurant2]
 }, {
