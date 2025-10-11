@@ -45,7 +45,7 @@ const CountdownTimer = () => {
 
 const TimeUnit = ({ value, label }: { value: number; label: string }) => {
   return (
-    <div className="flex flex-col items-center bg-primary/10 rounded-lg px-3 py-2 sm:px-4 sm:py-3 min-w-[65px] sm:min-w-[80px]">
+    <div className="flex flex-col items-center bg-primary/10 rounded-lg px-2 py-1.5 sm:px-4 sm:py-3 min-w-[55px] sm:min-w-[80px]">
       <span className="text-3xl md:text-4xl font-bold text-primary">
         {String(value).padStart(2, "0")}
       </span>
