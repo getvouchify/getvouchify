@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import illustration from "@/assets/hero-woman-vouchify.png";
 import { motion } from "framer-motion";
-import { Users, Store, ShoppingBag, Ticket, Heart, UtensilsCrossed, Wine, QrCode, Dumbbell, Sparkles } from "lucide-react";
+import { Users, Store } from "lucide-react";
 import WaitlistModal from "@/components/WaitlistModal";
 import CountdownTimer from "@/components/CountdownTimer";
 const Hero = () => {
@@ -90,83 +90,10 @@ const Hero = () => {
             duration: 0.8,
             delay: 0.2
           }}>
-              {/* Animated Icons Around Image */}
-              {/* Top Left - Shopping Bag */}
-              <motion.div 
-                className="absolute top-8 left-4 md:top-12 md:left-8 z-10 bg-primary/10 backdrop-blur-sm p-3 rounded-full"
-                animate={{ y: [0, -15, 0], rotate: [0, 5, -5, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <ShoppingBag className="w-6 h-6 md:w-8 md:h-8 text-primary" />
-              </motion.div>
-
-              {/* Top Right - Sparkles */}
-              <motion.div 
-                className="absolute top-4 right-8 md:top-8 md:right-12 z-10 bg-accent/10 backdrop-blur-sm p-3 rounded-full"
-                animate={{ scale: [1, 1.3, 1], rotate: [0, 180, 360] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <Sparkles className="w-5 h-5 md:w-7 md:h-7 text-accent" />
-              </motion.div>
-
-              {/* Middle Left - Heart */}
-              <motion.div 
-                className="absolute top-1/3 -left-2 md:left-2 z-10 bg-red-500/10 backdrop-blur-sm p-3 rounded-full hidden sm:block"
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-              >
-                <Heart className="w-6 h-6 md:w-7 md:h-7 text-red-500 fill-red-500/50" />
-              </motion.div>
-
-              {/* Middle Right - Ticket */}
-              <motion.div 
-                className="absolute top-1/4 -right-2 md:right-4 z-10 bg-primary/10 backdrop-blur-sm p-3 rounded-full"
-                animate={{ y: [0, -12, 0], rotate: [0, -10, 10, 0] }}
-                transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              >
-                <Ticket className="w-5 h-5 md:w-7 md:h-7 text-primary" />
-              </motion.div>
-
-              {/* Bottom Left - Utensils */}
-              <motion.div 
-                className="absolute bottom-32 left-0 md:left-4 z-10 bg-orange-500/10 backdrop-blur-sm p-3 rounded-full hidden md:block"
-                animate={{ rotate: [0, 360] }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              >
-                <UtensilsCrossed className="w-6 h-6 text-orange-500" />
-              </motion.div>
-
-              {/* Bottom Right - Dumbbell */}
-              <motion.div 
-                className="absolute bottom-24 right-4 md:right-8 z-10 bg-primary/10 backdrop-blur-sm p-3 rounded-full"
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
-              >
-                <Dumbbell className="w-5 h-5 md:w-6 md:h-6 text-primary" />
-              </motion.div>
-
-              {/* Bottom Center - Wine */}
-              <motion.div 
-                className="absolute bottom-8 left-1/4 z-10 bg-purple-500/10 backdrop-blur-sm p-2 md:p-3 rounded-full"
-                animate={{ y: [0, -8, 0], scale: [1, 1.1, 1] }}
-                transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-              >
-                <Wine className="w-5 h-5 md:w-6 md:h-6 text-purple-500" />
-              </motion.div>
-
-              {/* QR Code - Bottom Right Corner */}
-              <motion.div 
-                className="absolute bottom-4 right-12 md:right-16 z-10 bg-primary/10 backdrop-blur-sm p-2 rounded-full hidden sm:block"
-                animate={{ rotate: [0, 10, -10, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-              >
-                <QrCode className="w-5 h-5 md:w-6 md:h-6 text-primary" />
-              </motion.div>
-
               <motion.img 
                 src={illustration} 
                 alt="Vouchify platform showcasing exclusive deals and vouchers for shoppers and merchants" 
-                className="w-full h-auto rounded-2xl relative z-0" 
+                className="w-full h-auto rounded-2xl" 
                 style={{
                   filter: 'drop-shadow(0 0 30px hsl(274 59% 50% / 0.25))'
                 }}
