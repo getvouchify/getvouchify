@@ -97,8 +97,12 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
   filteredDeals = [...filteredDeals].sort((a, b) => {
     switch (sortBy) {
       case "price-low":
+        if (!a.currentPrice) return 1;
+        if (!b.currentPrice) return -1;
         return a.currentPrice - b.currentPrice;
       case "price-high":
+        if (!a.currentPrice) return 1;
+        if (!b.currentPrice) return -1;
         return b.currentPrice - a.currentPrice;
       case "discount":
         return parseInt(b.discount) - parseInt(a.discount);
