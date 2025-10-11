@@ -226,6 +226,27 @@ const Navigation = () => {
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
+              
+              {/* Mobile Cart & Actions */}
+              <div className="flex items-center gap-2 justify-between">
+                <Button 
+                  variant="outline" 
+                  className="flex-1"
+                  onClick={() => {
+                    setShowCart(true);
+                    setIsOpen(false);
+                  }}
+                >
+                  <ShoppingCart className="w-4 h-4 mr-2" />
+                  Cart {cartCount > 0 && `(${cartCount})`}
+                </Button>
+                <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
+                  <Heart className="w-5 h-5" />
+                </Button>
+                <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
+                  <Bell className="w-5 h-5" />
+                </Button>
+              </div>
               {categories.map((category) => (
                 <Collapsible key={category.label}>
                   <CollapsibleTrigger className="flex items-center justify-between w-full gap-2 text-sm text-muted-foreground hover:text-primary transition-colors py-2">
