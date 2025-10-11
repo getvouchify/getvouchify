@@ -34,7 +34,7 @@ const categories = [{
 }, {
   icon: Compass,
   title: "Things To Do",
-  description: "From paint-and-sip nights to boat cruises, games, events, and more — explore Lagos with unbeatable deals on memorable experiences.",
+  description: "Paint-and-sip, boat cruises, games, events — explore Lagos with unbeatable deals on experiences.",
   color: "text-primary",
   images: [thingsToDo]
 }, {
