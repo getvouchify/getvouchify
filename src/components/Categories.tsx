@@ -64,7 +64,6 @@ const categories = [{
 const Categories = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
-  
   return <section id="categories" className="py-20 bg-background">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-12">
@@ -72,12 +71,8 @@ const Categories = () => {
             
           </div>
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Categories</h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-6">
-            Tap into Lagos' urban youth, young professionals, and experience-seeking middle-class
-          </p>
-          <p className="text-base text-muted-foreground max-w-2xl mx-auto">
-            Categories that benefit most from off-peak boosts and word-of-mouth exposure
-          </p>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-6">Tap into Lagos’ urban youth, young professionals, and experience-seeking crowd.</p>
+          <p className="text-base text-muted-foreground max-w-2xl mx-auto">Discover the categories where great deals drive traffic, fill slow hours, and spark social buzz.</p>
         </div>
 
         {/* Desktop: 7 columns, Tablet: 3 columns, Mobile: 1 column */}
@@ -108,12 +103,7 @@ const Categories = () => {
                   {category.description}
                 </p>
 
-                <Button 
-                  variant="secondary" 
-                  size="sm" 
-                  className="w-full bg-white text-foreground hover:bg-white/90 font-semibold text-xs"
-                  onClick={() => setIsWaitlistOpen(true)}
-                >
+                <Button variant="secondary" size="sm" className="w-full bg-white text-foreground hover:bg-white/90 font-semibold text-xs" onClick={() => setIsWaitlistOpen(true)}>
                   View Deals
                 </Button>
               </div>
@@ -126,11 +116,7 @@ const Categories = () => {
         </div>
       </div>
       
-      <WaitlistModal 
-        open={isWaitlistOpen} 
-        onOpenChange={setIsWaitlistOpen}
-        type="shopper"
-      />
+      <WaitlistModal open={isWaitlistOpen} onOpenChange={setIsWaitlistOpen} type="shopper" />
     </section>;
 };
 export default Categories;
