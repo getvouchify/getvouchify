@@ -11,6 +11,7 @@ import beautySpa2 from "@/assets/categories/beauty-spa-2.jpg";
 import healthFitness1 from "@/assets/categories/health-fitness-1.webp";
 import healthFitness2 from "@/assets/categories/health-fitness-2.jpg";
 import thingsToDo from "@/assets/categories/things-to-do.jpg";
+import thingsToDo2 from "@/assets/categories/things-to-do-2.png";
 import retail1 from "@/assets/categories/retail-1.webp";
 import retail2 from "@/assets/categories/retail-2.webp";
 import homeLifestyle1 from "@/assets/categories/home-lifestyle-1.jpg";
@@ -40,7 +41,7 @@ const categories = [{
   title: "Things To Do",
   description: "Paint-and-sip, boat cruises, games, events — explore Lagos with unbeatable deals on experiences.",
   color: "text-primary",
-  images: [thingsToDo]
+  images: [thingsToDo, thingsToDo2]
 }, {
   icon: ShoppingBag,
   title: "Retail",
