@@ -13,7 +13,7 @@ import healthFitness2 from "@/assets/categories/health-fitness-2.jpg";
 import thingsToDo from "@/assets/categories/things-to-do.jpg";
 import retail1 from "@/assets/categories/retail-1.webp";
 import retail2 from "@/assets/categories/retail-2.webp";
-import homeLifestyle1 from "@/assets/categories/home-lifestyle-1.jpeg";
+import homeLifestyle1 from "@/assets/categories/home-lifestyle-1.jpg";
 import homeLifestyle2 from "@/assets/categories/home-lifestyle-2.jpg";
 import electronics1 from "@/assets/categories/electronics-1.jpg";
 import electronics2 from "@/assets/categories/electronics-2.webp";
