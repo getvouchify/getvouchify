@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import illustration from "@/assets/vouchify-illustration.png";
+import illustration from "@/assets/vouchify-hero.png";
 import { motion } from "framer-motion";
 import { Users, Store } from "lucide-react";
 import WaitlistModal from "@/components/WaitlistModal";

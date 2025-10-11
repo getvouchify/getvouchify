@@ -34,7 +34,7 @@ const CountdownTimer = () => {
   }, [launchDate]);
 
   return (
-    <div className="flex gap-4 justify-center lg:justify-start flex-wrap">
+    <div className="flex gap-2 sm:gap-4 justify-center lg:justify-start">
       <TimeUnit value={timeLeft.days} label="Days" />
       <TimeUnit value={timeLeft.hours} label="Hours" />
       <TimeUnit value={timeLeft.minutes} label="Minutes" />
@@ -45,7 +45,7 @@ const CountdownTimer = () => {
 
 const TimeUnit = ({ value, label }: { value: number; label: string }) => {
   return (
-    <div className="flex flex-col items-center bg-primary/10 rounded-lg px-4 py-3 min-w-[80px]">
+    <div className="flex flex-col items-center bg-primary/10 rounded-lg px-3 py-2 sm:px-4 sm:py-3 min-w-[65px] sm:min-w-[80px]">
       <span className="text-3xl md:text-4xl font-bold text-primary">
         {String(value).padStart(2, "0")}
       </span>
