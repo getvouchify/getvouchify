@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
+import { toast } from "@/components/ui/use-toast";
 import dealFood from "@/assets/deal-food.jpg";
 import dealSpa from "@/assets/deal-spa.jpg";
 import dealFitness from "@/assets/deal-fitness.jpg";
@@ -223,7 +224,14 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
                 </p>
 
                 <Button 
-                  onClick={() => addToCart(deal)}
+                  onClick={() => {
+                    addToCart(deal);
+                    toast({
+                      title: "Added to cart! 🎉",
+                      description: `${deal.title} has been added to your cart.`,
+                      duration: 3000,
+                    });
+                  }}
                   className="w-full bg-primary hover:bg-accent hover:text-accent-foreground font-semibold"
                 >
                   Claim Now!
