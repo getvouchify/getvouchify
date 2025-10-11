@@ -28,7 +28,7 @@ const categories = [{
 }, {
   icon: Dumbbell,
   title: "Health & Fitness",
-  description: "Gyms, yoga classes, dance studios, wellness coaches. Rising interest in fitness culture.",
+  description: "From fitness classes to yoga sessions and gym passes — find deals that help you move, sweat, and feel your best.",
   color: "text-primary",
   images: [healthFitness1, healthFitness2]
 }, {
