@@ -59,9 +59,7 @@ const Hero = () => {
                 Discover Daily Deals You'll Love
               </h1>
 
-              <p className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto lg:mx-0">
-                Book and redeem exclusive deals across food, beauty, fitness, and retail. Join the waitlist today!
-              </p>
+              <p className="text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 md:text-2xl">Unlock exclusive deals in food, beauty, fitness & retail — join the waitlist today!</p>
 
               {/* Dual Waitlist Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto lg:mx-0">
