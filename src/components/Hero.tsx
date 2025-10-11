@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import illustration from "@/assets/vouchify-hero.png";
+import illustration from "@/assets/hero-woman-vouchify.png";
 import { motion } from "framer-motion";
 import { Users, Store } from "lucide-react";
 import WaitlistModal from "@/components/WaitlistModal";
@@ -90,9 +90,22 @@ const Hero = () => {
             duration: 0.8,
             delay: 0.2
           }}>
-              <img src={illustration} alt="Vouchify platform showcasing exclusive deals and vouchers for shoppers and merchants" className="w-full h-auto rounded-2xl" style={{
-              filter: 'drop-shadow(0 0 30px hsl(274 59% 50% / 0.25))'
-            }} />
+              <motion.img 
+                src={illustration} 
+                alt="Vouchify platform showcasing exclusive deals and vouchers for shoppers and merchants" 
+                className="w-full h-auto rounded-2xl" 
+                style={{
+                  filter: 'drop-shadow(0 0 30px hsl(274 59% 50% / 0.25))'
+                }}
+                animate={{
+                  y: [0, -10, 0],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
             </motion.div>
           </div>
         </div>
