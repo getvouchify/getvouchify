@@ -69,7 +69,7 @@ const Hero = () => {
                 Your City, Your Deals. Curated Just for You.
               </h1>
 
-              <p className="text-xl md:text-2xl lg:text-3xl font-bold text-primary/90">
+              <p className="text-xl md:text-2xl lg:text-3xl font-bold text-primary/90 italic">
                 More Than Just A Daily Deal
               </p>
 
