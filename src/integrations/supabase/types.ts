@@ -14,16 +14,206 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      deals: {
+        Row: {
+          category: string
+          created_at: string | null
+          current_price: number | null
+          discount: string
+          id: string
+          image_url: string
+          is_active: boolean | null
+          merchant: string
+          offer: string | null
+          original_price: number | null
+          sold_count: number | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          category: string
+          created_at?: string | null
+          current_price?: number | null
+          discount: string
+          id?: string
+          image_url: string
+          is_active?: boolean | null
+          merchant: string
+          offer?: string | null
+          original_price?: number | null
+          sold_count?: number | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          category?: string
+          created_at?: string | null
+          current_price?: number | null
+          discount?: string
+          id?: string
+          image_url?: string
+          is_active?: boolean | null
+          merchant?: string
+          offer?: string | null
+          original_price?: number | null
+          sold_count?: number | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      merchants: {
+        Row: {
+          address: string | null
+          category: string
+          created_at: string | null
+          email: string
+          id: string
+          name: string
+          phone: string | null
+        }
+        Insert: {
+          address?: string | null
+          category: string
+          created_at?: string | null
+          email: string
+          id?: string
+          name: string
+          phone?: string | null
+        }
+        Update: {
+          address?: string | null
+          category?: string
+          created_at?: string | null
+          email?: string
+          id?: string
+          name?: string
+          phone?: string | null
+        }
+        Relationships: []
+      }
+      orders: {
+        Row: {
+          created_at: string | null
+          customer_email: string
+          customer_name: string
+          customer_phone: string | null
+          deal_id: string | null
+          id: string
+          order_status: string
+          payment_status: string
+          quantity: number
+          total_amount: number
+          user_id: string | null
+          voucher_code: string
+        }
+        Insert: {
+          created_at?: string | null
+          customer_email: string
+          customer_name: string
+          customer_phone?: string | null
+          deal_id?: string | null
+          id?: string
+          order_status?: string
+          payment_status?: string
+          quantity?: number
+          total_amount: number
+          user_id?: string | null
+          voucher_code: string
+        }
+        Update: {
+          created_at?: string | null
+          customer_email?: string
+          customer_name?: string
+          customer_phone?: string | null
+          deal_id?: string | null
+          id?: string
+          order_status?: string
+          payment_status?: string
+          quantity?: number
+          total_amount?: number
+          user_id?: string | null
+          voucher_code?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      waitlist: {
+        Row: {
+          business_name: string | null
+          created_at: string | null
+          email: string
+          id: string
+          interests: string[] | null
+          name: string | null
+          phone: string | null
+          type: string
+        }
+        Insert: {
+          business_name?: string | null
+          created_at?: string | null
+          email: string
+          id?: string
+          interests?: string[] | null
+          name?: string | null
+          phone?: string | null
+          type: string
+        }
+        Update: {
+          business_name?: string | null
+          created_at?: string | null
+          email?: string
+          id?: string
+          interests?: string[] | null
+          name?: string | null
+          phone?: string | null
+          type?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +340,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+    },
   },
 } as const
