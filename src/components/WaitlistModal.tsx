@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Checkbox } from "@/components/ui/checkbox";
+import { supabase } from "@/integrations/supabase/client";
+import { Loader2 } from "lucide-react";
 
 interface WaitlistModalProps {
   open: boolean;
@@ -14,6 +16,7 @@ interface WaitlistModalProps {
 
 const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
   const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     name: "",
@@ -24,7 +27,7 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
     interests: [] as string[],
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.email) {
@@ -36,21 +39,46 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
       return;
     }
 
-    toast({
-      title: "Success! 🎉",
-      description: `You've been added to the ${type} waitlist. We'll be in touch soon!`,
-    });
-    
-    onOpenChange(false);
-    setFormData({
-      email: "",
-      name: "",
-      businessName: "",
-      phone: "",
-      category: "",
-      location: "",
-      interests: [],
-    });
+    setIsSubmitting(true);
+
+    try {
+      const { error } = await supabase
+        .from("waitlist")
+        .insert({
+          email: formData.email,
+          name: formData.name || null,
+          phone: formData.phone || null,
+          business_name: formData.businessName || null,
+          interests: formData.interests.length > 0 ? formData.interests : null,
+          type: type,
+        });
+
+      if (error) throw error;
+
+      toast({
+        title: "Success! 🎉",
+        description: `You've been added to the ${type} waitlist. We'll be in touch soon!`,
+      });
+      
+      onOpenChange(false);
+      setFormData({
+        email: "",
+        name: "",
+        businessName: "",
+        phone: "",
+        category: "",
+        location: "",
+        interests: [],
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to join waitlist. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const categories = ["Food & Dining", "Beauty & Spa", "Fitness & Wellness", "Entertainment", "Retail & Shopping"];
@@ -178,8 +206,15 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
             </div>
           )}
 
-          <Button type="submit" className="w-full gradient-primary text-white font-semibold">
-            Join the Waitlist
+          <Button type="submit" className="w-full gradient-primary text-white font-semibold" disabled={isSubmitting}>
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Joining...
+              </>
+            ) : (
+              "Join the Waitlist"
+            )}
           </Button>
         </form>
       </DialogContent>

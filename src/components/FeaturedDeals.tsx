@@ -1,86 +1,44 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "@/components/ui/use-toast";
-import dealFood from "@/assets/deal-food.jpg";
-import dealSpa from "@/assets/deal-spa.jpg";
-import dealFitness from "@/assets/deal-fitness.jpg";
-import dealThingsToDo from "@/assets/categories/things-to-do.jpg";
-import paintSip from "@/assets/paint-sip.jpg";
-import dealRetail1 from "@/assets/deal-retail-1.webp";
-import dealRetail2 from "@/assets/deal-retail-2.webp";
-
-const deals = [
-  {
-    id: 1,
-    image: dealFood,
-    merchant: "Lagoon Restaurant",
-    title: "2 for 1 Cocktails",
-    category: "Food & Drink",
-    discount: "HAPPY HOUR",
-    offer: "Only during happy hour 4-7 PM on weekdays",
-    soldCount: 847,
-  },
-  {
-    id: 2,
-    image: dealSpa,
-    merchant: "Serenity Spa",
-    title: "Self-Care Wednesday: Facials & Massages",
-    category: "Beauty & Spa",
-    discount: "65% OFF",
-    offer: "Up to 65% Off",
-    soldCount: 1203,
-  },
-  {
-    id: 3,
-    image: dealFitness,
-    merchant: "FitZone Premium Studio",
-    title: "6-Month All-Access Membership - Only This Month!",
-    category: "Health & Fitness",
-    discount: "70% OFF",
-    originalPrice: 239600,
-    currentPrice: 71600,
-    soldCount: 562,
-  },
-  {
-    id: 4,
-    image: dealRetail1,
-    merchant: "Afrocentric Boutique",
-    title: "Designer Clothing & Accessories",
-    category: "Retail",
-    discount: "50% OFF",
-    offer: "25% off accessories today only!",
-    soldCount: 634,
-  },
-  {
-    id: 5,
-    image: paintSip,
-    merchant: "Lagos Adventure Club",
-    title: "Paint & Sip Experience",
-    category: "Things To Do",
-    discount: "40% OFF",
-    offer: "Group Discount Available",
-    soldCount: 892,
-  },
-  {
-    id: 6,
-    image: dealRetail2,
-    merchant: "Urban Fashion House",
-    title: "Premium Fashion Collection",
-    category: "Retail",
-    discount: "SALE",
-    offer: "Up to 60% off selected bubus — in-store only!",
-    soldCount: 745,
-  },
-];
+import { supabase } from "@/integrations/supabase/client";
 
 const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
   const { addToCart } = useCart();
   const [sortBy, setSortBy] = useState("popular");
   const [filterCategory, setFilterCategory] = useState("all");
+  const [deals, setDeals] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    loadDeals();
+  }, []);
+
+  const loadDeals = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("deals")
+        .select("*")
+        .eq("is_active", true)
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+      setDeals(data || []);
+    } catch (error) {
+      console.error("Error loading deals:", error);
+      toast({
+        title: "Error",
+        description: "Failed to load deals",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Filter deals
   let filteredDeals = deals.filter((deal) => {
@@ -98,18 +56,18 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
   filteredDeals = [...filteredDeals].sort((a, b) => {
     switch (sortBy) {
       case "price-low":
-        if (!a.currentPrice) return 1;
-        if (!b.currentPrice) return -1;
-        return a.currentPrice - b.currentPrice;
+        if (!a.current_price) return 1;
+        if (!b.current_price) return -1;
+        return a.current_price - b.current_price;
       case "price-high":
-        if (!a.currentPrice) return 1;
-        if (!b.currentPrice) return -1;
-        return b.currentPrice - a.currentPrice;
+        if (!a.current_price) return 1;
+        if (!b.current_price) return -1;
+        return b.current_price - a.current_price;
       case "discount":
         return parseInt(b.discount) - parseInt(a.discount);
       case "popular":
       default:
-        return b.soldCount - a.soldCount;
+        return b.sold_count - a.sold_count;
     }
   });
 
@@ -161,7 +119,11 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 md:gap-10">
-          {filteredDeals.length === 0 ? (
+          {isLoading ? (
+            <div className="col-span-full text-center py-16">
+              <p className="text-xl text-muted-foreground">Loading deals...</p>
+            </div>
+          ) : filteredDeals.length === 0 ? (
             <div className="col-span-full text-center py-16">
               <p className="text-xl text-muted-foreground">No deals found matching your criteria</p>
             </div>
@@ -175,7 +137,7 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
               {/* Image with Discount Badge */}
               <div className="relative overflow-hidden h-56 md:h-64">
                 <img
-                  src={deal.image}
+                  src={deal.image_url}
                   alt={deal.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   loading="lazy"
@@ -201,14 +163,14 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
 
                 {/* Price or Offer */}
                 <div className="mb-4">
-                  {deal.currentPrice ? (
+                  {deal.current_price ? (
                     <div className="flex items-baseline gap-3">
                       <span className="text-2xl md:text-3xl font-bold text-primary">
-                        ₦{deal.currentPrice.toLocaleString()}
+                        ₦{Number(deal.current_price).toLocaleString()}
                       </span>
-                      {deal.originalPrice && (
+                      {deal.original_price && (
                         <span className="text-base md:text-lg text-muted-foreground line-through">
-                          ₦{deal.originalPrice.toLocaleString()}
+                          ₦{Number(deal.original_price).toLocaleString()}
                         </span>
                       )}
                     </div>
@@ -221,7 +183,7 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
 
                 {/* Sold Count */}
                 <p className="text-sm md:text-base text-muted-foreground mb-6">
-                  🔥 {deal.soldCount.toLocaleString()}+ sold
+                  🔥 {deal.sold_count.toLocaleString()}+ sold
                 </p>
 
                 <Button 
