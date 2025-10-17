@@ -42,7 +42,7 @@ const Chatbot = () => {
       {/* Chat Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 bg-primary text-white rounded-full p-4 shadow-lg hover:bg-accent hover:scale-110 transition-all duration-300"
+        className="fixed bottom-6 right-6 z-50 bg-primary text-white rounded-full p-4 shadow-lg hover:bg-primary/90 hover:scale-110 transition-all duration-300"
         aria-label="Open chat"
       >
         {isOpen ? <X size={24} /> : <MessageCircle size={24} />}
@@ -90,7 +90,7 @@ const Chatbot = () => {
             />
             <Button
               onClick={handleSendMessage}
-              className="bg-primary hover:bg-accent"
+              className="bg-primary hover:bg-primary/90"
             >
               <Send size={18} />
             </Button>

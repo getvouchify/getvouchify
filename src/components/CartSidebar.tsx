@@ -119,7 +119,7 @@ const CartSidebar = ({ isOpen, onClose }: CartSidebarProps) => {
               </span>
             </div>
             <Button
-              className="w-full bg-primary hover:bg-accent hover:text-accent-foreground font-semibold py-6 text-lg"
+              className="w-full bg-primary hover:bg-primary/90 font-semibold py-6 text-lg"
               size="lg"
             >
               Proceed to Checkout

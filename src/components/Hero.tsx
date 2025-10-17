@@ -13,9 +13,9 @@ const Hero = () => {
     setModalOpen(true);
   };
   return <>
-      <section className="min-h-[70vh] relative overflow-hidden bg-white pt-24 md:pt-32 pb-16 md:pb-24">
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[60vh] py-8 md:py-12">
+      <section className="min-h-[70vh] relative overflow-hidden bg-white pt-28 md:pt-36 lg:pt-40 pb-12 md:pb-16 lg:pb-24">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[60vh]">
             {/* Left Content */}
             <motion.div className="text-center lg:text-left space-y-6 md:space-y-8" initial={{
             opacity: 0,
@@ -105,9 +105,7 @@ const Hero = () => {
             duration: 0.8,
             delay: 0.2
           }}>
-              <motion.img src={illustration} alt="Vouchify platform showcasing exclusive deals and vouchers for shoppers and merchants" className="w-full h-auto rounded-2xl" style={{
-              filter: 'drop-shadow(0 0 30px hsl(274 59% 50% / 0.25))'
-            }} animate={{
+              <motion.img src={illustration} alt="Vouchify platform showcasing exclusive deals and vouchers for shoppers and merchants" className="w-full h-auto rounded-2xl" animate={{
               y: [0, -10, 0]
             }} transition={{
               duration: 3,
