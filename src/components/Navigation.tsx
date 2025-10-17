@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Menu, X, Search, Heart, ShoppingCart, Bell, User, Utensils, Sparkles, Dumbbell, Compass, ShoppingBag, ChevronDown } from "lucide-react";
+import { Menu, X, Search, Heart, ShoppingCart, Bell, User, Utensils, Sparkles, Dumbbell, Compass, ShoppingBag, ChevronDown, Home, Info, Mail, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import logo from "@/assets/vouchify-logo-no-background.png";
 import WaitlistModal from "./WaitlistModal";
@@ -199,7 +199,7 @@ const Navigation = () => {
                   className="flex items-center gap-3 text-base font-semibold text-foreground hover:text-primary hover:bg-primary/5 transition-all py-4 px-4 rounded-lg min-h-[56px]"
                   onClick={() => setIsOpen(false)}
                 >
-                  <Compass className="w-5 h-5" />
+                  <Home className="w-5 h-5" />
                   HOME
                 </Link>
                 <button
@@ -210,7 +210,7 @@ const Navigation = () => {
                     setIsOpen(false);
                   }}
                 >
-                  <User className="w-5 h-5" />
+                  <Users className="w-5 h-5" />
                   JOIN WAITLIST
                 </button>
                 <a
@@ -218,7 +218,7 @@ const Navigation = () => {
                   className="flex items-center gap-3 text-base font-semibold text-foreground hover:text-primary hover:bg-primary/5 transition-all py-4 px-4 rounded-lg min-h-[56px]"
                   onClick={() => setIsOpen(false)}
                 >
-                  <Bell className="w-5 h-5" />
+                  <Info className="w-5 h-5" />
                   ABOUT
                 </a>
                 <Link
@@ -226,7 +226,7 @@ const Navigation = () => {
                   className="flex items-center gap-3 text-base font-semibold text-foreground hover:text-primary hover:bg-primary/5 transition-all py-4 px-4 rounded-lg min-h-[56px]"
                   onClick={() => setIsOpen(false)}
                 >
-                  <Heart className="w-5 h-5" />
+                  <Mail className="w-5 h-5" />
                   CONTACT
                 </Link>
               </nav>

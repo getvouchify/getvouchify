@@ -21,8 +21,8 @@ const Index = () => {
         <QuickValueProp />
       </div>
       
-      <section className="w-full py-8 md:py-16 lg:py-24 px-4 md:px-6 bg-white">
-        <div className="container mx-auto">
+      <section className="w-full py-12 md:py-16 lg:py-24 bg-white">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8">
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-xl md:text-3xl lg:text-5xl text-primary font-bold mb-2 md:mb-4">
               Explore Lagos, One Deal at a Time!
@@ -40,8 +40,8 @@ const Index = () => {
         </div>
       </section>
       
-      <section className="bg-white py-16 md:py-24">
-        <div className="container mx-auto px-6">
+      <section className="bg-white py-12 md:py-16 lg:py-24">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8">
           <div className="flex justify-center items-center">
             <img 
               src={phoneMockup} 
@@ -53,15 +53,15 @@ const Index = () => {
         </div>
       </section>
       
-      <section id="categories" className="bg-white py-8 md:py-16 lg:py-24">
+      <section id="categories" className="bg-white py-12 md:py-16 lg:py-24">
         <Categories />
       </section>
 
-      <section id="how-it-works" className="bg-gray-50 py-8 md:py-16 lg:py-24">
+      <section id="how-it-works" className="bg-gray-50 py-12 md:py-16 lg:py-24">
         <HowItWorks />
       </section>
       
-      <section className="hidden md:block bg-white py-16 lg:py-24">
+      <section className="hidden md:block bg-white py-12 md:py-16 lg:py-24">
         <MerchantBenefits />
       </section>
       
