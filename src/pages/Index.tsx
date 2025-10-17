@@ -9,7 +9,7 @@ import AnnouncementBanner from "@/components/AnnouncementBanner";
 import QuickValueProp from "@/components/QuickValueProp";
 import StickyCTA from "@/components/StickyCTA";
 import lagosImage from "@/assets/lagos-bridge.jpg";
-import phoneMockup from "@/assets/vouchify-phone-mockup.png";
+import phoneMockup2 from "@/assets/vouchify-phone-mockup-2.png";
 const Index = () => {
   return <div className="min-h-screen scroll-smooth">
       <AnnouncementBanner />
@@ -31,7 +31,7 @@ const Index = () => {
               Discover the best of Lagos with exclusive offers from top venues
             </p>
           </div>
-          <img src={lagosImage} alt="Lagos cityscape featuring the iconic bridge" className="w-full h-[250px] md:h-[400px] object-cover rounded-xl shadow-elegant" loading="lazy" />
+          <img src={phoneMockup2} alt="Vouchify mobile app showcasing deals in Lagos" className="w-full h-auto object-contain" loading="lazy" />
         </div>
       </section>
       
