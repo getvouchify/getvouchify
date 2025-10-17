@@ -105,9 +105,7 @@ const Hero = () => {
             duration: 0.8,
             delay: 0.2
           }}>
-              <motion.img src={illustration} alt="Vouchify platform showcasing exclusive deals and vouchers for shoppers and merchants" className="w-full h-auto rounded-2xl" style={{
-              filter: 'drop-shadow(0 0 30px hsl(274 59% 50% / 0.25))'
-            }} animate={{
+              <motion.img src={illustration} alt="Vouchify platform showcasing exclusive deals and vouchers for shoppers and merchants" className="w-full h-auto rounded-2xl" animate={{
               y: [0, -10, 0]
             }} transition={{
               duration: 3,
