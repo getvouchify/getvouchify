@@ -8,82 +8,44 @@ import logo from "@/assets/vouchify-logo-no-background.png";
 import WaitlistModal from "./WaitlistModal";
 import CartSidebar from "./CartSidebar";
 import { useCart } from "@/contexts/CartContext";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-
-const topCategories = [
-  {
-    icon: Utensils,
-    label: "Food & Drinks",
-    href: "#categories",
-    subcategories: [
-      "Restaurants & Fine Dining",
-      "Fast Food & Quick Bites",
-      "Cafés & Brunch Spots",
-      "Bars & Happy Hour"
-    ]
-  },
-  {
-    icon: Sparkles,
-    label: "Beauty & Spa",
-    href: "#categories",
-    subcategories: [
-      "Hair, Nails & Grooming",
-      "Spas & Massage",
-      "Skincare & Facials",
-      "Lash & Brow Services"
-    ]
-  },
-  {
-    icon: Dumbbell,
-    label: "Health & Fitness",
-    href: "#categories",
-    subcategories: [
-      "Gyms & Studios",
-      "Yoga & Pilates",
-      "Personal Trainers",
-      "Wellness & Nutrition"
-    ]
-  },
-  {
-    icon: Compass,
-    label: "Things To Do",
-    href: "#categories",
-    subcategories: [
-      "Paint & Sip",
-      "Boat Cruises",
-      "Events & Pop-ups",
-      "Group Activities"
-    ]
-  },
-  {
-    icon: ShoppingBag,
-    label: "Retail",
-    href: "#categories",
-    subcategories: [
-      "Fashion & Thrift",
-      "Accessories",
-      "Local Brands",
-      "Books & Gifts"
-    ]
-  }
-];
-
+const topCategories = [{
+  icon: Utensils,
+  label: "Food & Drinks",
+  href: "#categories",
+  subcategories: ["Restaurants & Fine Dining", "Fast Food & Quick Bites", "Cafés & Brunch Spots", "Bars & Happy Hour"]
+}, {
+  icon: Sparkles,
+  label: "Beauty & Spa",
+  href: "#categories",
+  subcategories: ["Hair, Nails & Grooming", "Spas & Massage", "Skincare & Facials", "Lash & Brow Services"]
+}, {
+  icon: Dumbbell,
+  label: "Health & Fitness",
+  href: "#categories",
+  subcategories: ["Gyms & Studios", "Yoga & Pilates", "Personal Trainers", "Wellness & Nutrition"]
+}, {
+  icon: Compass,
+  label: "Things To Do",
+  href: "#categories",
+  subcategories: ["Paint & Sip", "Boat Cruises", "Events & Pop-ups", "Group Activities"]
+}, {
+  icon: ShoppingBag,
+  label: "Retail",
+  href: "#categories",
+  subcategories: ["Fashion & Thrift", "Accessories", "Local Brands", "Books & Gifts"]
+}];
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showWaitlist, setShowWaitlist] = useState(false);
   const [waitlistType, setWaitlistType] = useState<"shopper" | "merchant">("shopper");
   const [showCart, setShowCart] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const { cartCount } = useCart();
-
-  return (
-    <>
+  const {
+    cartCount
+  } = useCart();
+  return <>
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-sm">
         {/* Main Navigation Bar */}
         <div className="container mx-auto px-4">
@@ -106,13 +68,7 @@ const Navigation = () => {
               </Select>
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
-                <Input
-                  type="text"
-                  placeholder="Search for deals, restaurants, spas..."
-                  className="pl-10 pr-4"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
+                <Input type="text" placeholder="Search for deals, restaurants, spas..." className="pl-10 pr-4" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
               </div>
             </div>
 
@@ -121,30 +77,19 @@ const Navigation = () => {
               <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
                 <Heart className="w-5 h-5" />
               </Button>
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="text-muted-foreground hover:text-primary relative"
-                onClick={() => setShowCart(true)}
-              >
+              <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary relative" onClick={() => setShowCart(true)}>
                 <ShoppingCart className="w-5 h-5" />
-                {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {cartCount > 0 && <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
                     {cartCount}
-                  </span>
-                )}
+                  </span>}
               </Button>
               <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
                 <Bell className="w-5 h-5" />
               </Button>
-              <Button 
-                variant="outline" 
-                size="sm"
-                onClick={() => {
-                  setWaitlistType("shopper");
-                  setShowWaitlist(true);
-                }}
-              >
+              <Button variant="outline" size="sm" onClick={() => {
+              setWaitlistType("shopper");
+              setShowWaitlist(true);
+            }}>
                 <User className="w-4 h-4 mr-2" />
                 Sign In
               </Button>
@@ -152,19 +97,7 @@ const Navigation = () => {
 
             {/* Mobile - Only Menu Button */}
             <div className="md:hidden flex items-center gap-2">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="text-muted-foreground hover:text-primary relative"
-                onClick={() => setShowCart(true)}
-              >
-                <ShoppingCart className="w-5 h-5" />
-                {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                    {cartCount}
-                  </span>
-                )}
-              </Button>
+              
             </div>
 
           </div>
@@ -174,27 +107,20 @@ const Navigation = () => {
         <div className="hidden md:block border-t border-border">
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-center gap-8 py-4">
-              {topCategories.map((category) => (
-                <DropdownMenu key={category.label}>
+              {topCategories.map(category => <DropdownMenu key={category.label}>
                   <DropdownMenuTrigger className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors outline-none focus:text-primary min-h-[44px]">
                     <category.icon className="w-4 h-4" />
                     {category.label}
                     <ChevronDown className="w-3 h-3" />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-[280px] bg-white border-2 shadow-lg z-50">
-                    {category.subcategories.map((subcategory) => (
-                      <DropdownMenuItem key={subcategory} asChild>
-                        <a
-                          href={category.href}
-                          className="cursor-pointer min-h-[44px] flex items-center"
-                        >
+                    {category.subcategories.map(subcategory => <DropdownMenuItem key={subcategory} asChild>
+                        <a href={category.href} className="cursor-pointer min-h-[44px] flex items-center">
                           {subcategory}
                         </a>
-                      </DropdownMenuItem>
-                    ))}
+                      </DropdownMenuItem>)}
                   </DropdownMenuContent>
-                </DropdownMenu>
-              ))}
+                </DropdownMenu>)}
             </div>
           </div>
         </div>
@@ -203,65 +129,11 @@ const Navigation = () => {
 
       {/* Mobile Bottom Navigation Bar */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-border shadow-lg pb-safe">
-        <div className="grid grid-cols-5 gap-1 px-2 py-2">
-          {/* Home */}
-          <Link
-            to="/"
-            className="flex flex-col items-center justify-center py-2 px-1 text-muted-foreground hover:text-primary transition-colors min-h-[60px] gap-1"
-          >
-            <Home className="w-5 h-5" />
-            <span className="text-[10px] font-medium">Home</span>
-          </Link>
-
-          {/* Categories */}
-          <a
-            href="#categories"
-            className="flex flex-col items-center justify-center py-2 px-1 text-muted-foreground hover:text-primary transition-colors min-h-[60px] gap-1"
-          >
-            <Grid3x3 className="w-5 h-5" />
-            <span className="text-[10px] font-medium">Categories</span>
-          </a>
-
-          {/* Favorites */}
-          <button
-            className="flex flex-col items-center justify-center py-2 px-1 text-muted-foreground hover:text-primary transition-colors min-h-[60px] gap-1"
-          >
-            <Heart className="w-5 h-5" />
-            <span className="text-[10px] font-medium">Saved</span>
-          </button>
-
-          {/* Cart */}
-          <button
-            onClick={() => setShowCart(true)}
-            className="flex flex-col items-center justify-center py-2 px-1 text-muted-foreground hover:text-primary transition-colors min-h-[60px] gap-1 relative"
-          >
-            <ShoppingCart className="w-5 h-5" />
-            {cartCount > 0 && (
-              <span className="absolute top-1 right-1/4 bg-primary text-primary-foreground text-[10px] rounded-full w-4 h-4 flex items-center justify-center font-bold">
-                {cartCount}
-              </span>
-            )}
-            <span className="text-[10px] font-medium">Cart</span>
-          </button>
-
-          {/* Profile/Waitlist */}
-          <button
-            onClick={() => {
-              setWaitlistType("shopper");
-              setShowWaitlist(true);
-            }}
-            className="flex flex-col items-center justify-center py-2 px-1 text-muted-foreground hover:text-primary transition-colors min-h-[60px] gap-1"
-          >
-            <User className="w-5 h-5" />
-            <span className="text-[10px] font-medium">Account</span>
-          </button>
-        </div>
+        
       </nav>
 
       <WaitlistModal open={showWaitlist} onOpenChange={setShowWaitlist} type={waitlistType} />
       <CartSidebar isOpen={showCart} onClose={() => setShowCart(false)} />
-    </>
-  );
+    </>;
 };
-
 export default Navigation;
