@@ -4,11 +4,11 @@ import Footer from "@/components/Footer";
 import HowItWorks from "@/components/HowItWorks";
 import MerchantBenefits from "@/components/MerchantBenefits";
 import Categories from "@/components/Categories";
-import FeaturedDeals from "@/components/FeaturedDeals";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
 import QuickValueProp from "@/components/QuickValueProp";
 import StickyCTA from "@/components/StickyCTA";
 import lagosImage from "@/assets/lagos-bridge.jpg";
+import phoneMockup from "@/assets/vouchify-phone-mockup.png";
 const Index = () => {
   return <div className="min-h-screen scroll-smooth">
       <AnnouncementBanner />
@@ -36,8 +36,17 @@ const Index = () => {
         </div>
       </section>
       
-      <section className="bg-gray-50 py-16 md:py-24">
-        <FeaturedDeals />
+      <section className="bg-gradient-to-b from-primary to-primary/90 py-16 md:py-24">
+        <div className="container mx-auto px-6">
+          <div className="flex justify-center items-center">
+            <img 
+              src={phoneMockup} 
+              alt="Vouchify mobile app interface showcasing deals in Lagos" 
+              className="max-w-full h-auto max-h-[800px] object-contain" 
+              loading="lazy"
+            />
+          </div>
+        </div>
       </section>
       
       <section className="bg-white py-16 md:py-24">
