@@ -73,7 +73,7 @@ const Hero = () => {
               <p className="text-xl md:text-2xl lg:text-3xl font-bold text-primary/90 italic">More Than A Daily Deal</p>
 
               <p className="text-lg md:text-xl text-foreground max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                Unlock exclusive deals in food & drinks, beauty, fitness, things to do, retail and more — join the waitlist today!
+                Discover limited-time perks near you — join the waitlist today!
               </p>
 
               {/* Dual Waitlist Buttons */}
