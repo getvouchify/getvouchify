@@ -74,7 +74,7 @@ const Hero = () => {
                   size="lg"
                   className="h-12 sm:h-14 px-5 sm:px-8 text-sm sm:text-lg font-bold gradient-primary text-white hover-lift shadow-glow transition-all duration-300"
                 >
-                  Join as Customer
+                  Join as a Customer
                 </Button>
                 <Button 
                   onClick={() => openModal("business")}
@@ -82,7 +82,7 @@ const Hero = () => {
                   variant="outline"
                   className="h-12 sm:h-14 px-5 sm:px-8 text-sm sm:text-lg font-bold border-2 border-primary hover:bg-primary hover:text-white transition-all duration-300"
                 >
-                  Join as Business
+                  Join as a Business
                 </Button>
               </div>
 
