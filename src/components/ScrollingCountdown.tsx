@@ -34,38 +34,20 @@ const ScrollingCountdown = () => {
   }, [launchDate]);
 
   return (
-    <div className="fixed top-16 left-0 right-0 z-40 bg-primary text-white py-2 shadow-md overflow-hidden">
-      <div className="relative flex">
-        <div className="flex items-center gap-6 px-4 animate-marquee whitespace-nowrap">
-          <div className="flex items-center gap-2 text-xs md:text-sm font-medium">
-            <span>🚀</span>
-            <span className="font-semibold">Launching December 10, 2025</span>
-            <span>|</span>
-            <div className="flex items-center gap-1.5 md:gap-2">
-              <span className="font-bold">{String(timeLeft.days).padStart(2, "0")}d</span>
-              <span>:</span>
-              <span className="font-bold">{String(timeLeft.hours).padStart(2, "0")}h</span>
-              <span>:</span>
-              <span className="font-bold">{String(timeLeft.minutes).padStart(2, "0")}m</span>
-              <span>:</span>
-              <span className="font-bold">{String(timeLeft.seconds).padStart(2, "0")}s</span>
-            </div>
-          </div>
-        </div>
-        <div className="flex items-center gap-6 px-4 animate-marquee whitespace-nowrap" aria-hidden="true">
-          <div className="flex items-center gap-2 text-xs md:text-sm font-medium">
-            <span>🚀</span>
-            <span className="font-semibold">Launching December 10, 2025</span>
-            <span>|</span>
-            <div className="flex items-center gap-1.5 md:gap-2">
-              <span className="font-bold">{String(timeLeft.days).padStart(2, "0")}d</span>
-              <span>:</span>
-              <span className="font-bold">{String(timeLeft.hours).padStart(2, "0")}h</span>
-              <span>:</span>
-              <span className="font-bold">{String(timeLeft.minutes).padStart(2, "0")}m</span>
-              <span>:</span>
-              <span className="font-bold">{String(timeLeft.seconds).padStart(2, "0")}s</span>
-            </div>
+    <div className="fixed top-16 left-0 right-0 z-40 bg-gradient-to-r from-primary via-accent to-primary text-white py-2 shadow-md">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-center gap-2 text-xs md:text-sm font-medium">
+          <span className="hidden sm:inline">🚀</span>
+          <span className="font-semibold">Launching December 10, 2025</span>
+          <span className="hidden sm:inline">|</span>
+          <div className="flex items-center gap-1.5 md:gap-2">
+            <span className="font-bold">{String(timeLeft.days).padStart(2, "0")}d</span>
+            <span>:</span>
+            <span className="font-bold">{String(timeLeft.hours).padStart(2, "0")}h</span>
+            <span>:</span>
+            <span className="font-bold">{String(timeLeft.minutes).padStart(2, "0")}m</span>
+            <span className="hidden sm:inline">:</span>
+            <span className="hidden sm:inline font-bold">{String(timeLeft.seconds).padStart(2, "0")}s</span>
           </div>
         </div>
       </div>

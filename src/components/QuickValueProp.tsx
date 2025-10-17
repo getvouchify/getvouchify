@@ -9,8 +9,8 @@ const QuickValueProp = () => {
   ];
 
   return (
-    <section className="bg-gradient-to-br from-primary/5 to-primary/10 py-12 md:py-16 lg:py-24">
-      <div className="container mx-auto px-4 md:px-6 lg:px-8">
+    <section className="bg-gradient-to-br from-primary/5 to-accent/5 py-16 md:py-20">
+      <div className="container mx-auto px-6">
         <motion.div 
           className="max-w-4xl mx-auto text-center space-y-8"
           initial={{ opacity: 0, y: 20 }}

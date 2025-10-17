@@ -9,7 +9,7 @@ import AnnouncementBanner from "@/components/AnnouncementBanner";
 import QuickValueProp from "@/components/QuickValueProp";
 import StickyCTA from "@/components/StickyCTA";
 import lagosImage from "@/assets/lagos-bridge.jpg";
-import phoneMockup2 from "@/assets/vouchify-phone-mockup-2.png";
+import phoneMockup from "@/assets/vouchify-phone-mockup.png";
 const Index = () => {
   return <div className="min-h-screen scroll-smooth">
       <AnnouncementBanner />
@@ -21,8 +21,8 @@ const Index = () => {
         <QuickValueProp />
       </div>
       
-      <section className="w-full py-12 md:py-16 lg:py-24 bg-white">
-        <div className="container mx-auto px-4 md:px-6 lg:px-8">
+      <section className="w-full py-8 md:py-16 lg:py-24 px-4 md:px-6 bg-white">
+        <div className="container mx-auto">
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-xl md:text-3xl lg:text-5xl text-primary font-bold mb-2 md:mb-4">
               Explore Lagos, One Deal at a Time!
@@ -31,23 +31,37 @@ const Index = () => {
               Discover the best of Lagos with exclusive offers from top venues
             </p>
           </div>
-          <img src={phoneMockup2} alt="Vouchify mobile app showcasing deals in Lagos" className="w-full h-auto object-contain" loading="lazy" />
+          <img 
+            src={lagosImage} 
+            alt="Lagos cityscape featuring the iconic bridge" 
+            className="w-full h-[250px] md:h-[400px] object-cover rounded-xl shadow-elegant" 
+            loading="lazy"
+          />
         </div>
       </section>
       
-      <section className="bg-white py-12 md:py-16 lg:py-24">
-        
+      <section className="bg-gradient-to-b from-primary to-primary/90 py-16 md:py-24">
+        <div className="container mx-auto px-6">
+          <div className="flex justify-center items-center">
+            <img 
+              src={phoneMockup} 
+              alt="Vouchify mobile app interface showcasing deals in Lagos" 
+              className="max-w-full h-auto max-h-[800px] object-contain" 
+              loading="lazy"
+            />
+          </div>
+        </div>
       </section>
       
-      <section id="categories" className="bg-white py-12 md:py-16 lg:py-24">
+      <section id="categories" className="bg-white py-8 md:py-16 lg:py-24">
         <Categories />
       </section>
 
-      <section id="how-it-works" className="bg-gray-50 py-12 md:py-16 lg:py-24">
+      <section id="how-it-works" className="bg-gray-50 py-8 md:py-16 lg:py-24">
         <HowItWorks />
       </section>
       
-      <section className="hidden md:block bg-white py-12 md:py-16 lg:py-24">
+      <section className="hidden md:block bg-white py-16 lg:py-24">
         <MerchantBenefits />
       </section>
       

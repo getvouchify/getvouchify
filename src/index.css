@@ -182,19 +182,6 @@ All colors MUST be HSL.
   .animate-marquee {
     animation: marquee 30s linear infinite;
   }
-
-  /* Consistent Spacing System */
-  .section-spacing {
-    @apply py-12 md:py-16 lg:py-24;
-  }
-
-  .section-container {
-    @apply container mx-auto px-4 md:px-6 lg:px-8;
-  }
-
-  .content-spacing {
-    @apply space-y-8 md:space-y-12 lg:space-y-16;
-  }
 }
 
 /* Smooth Scroll Behavior */
@@ -209,16 +196,4 @@ html {
 
 section {
   scroll-snap-align: start;
-}
-
-/* Mobile bottom navigation safe area */
-.pb-safe {
-  padding-bottom: env(safe-area-inset-bottom);
-}
-
-/* Add bottom padding to body on mobile to prevent content from being hidden behind bottom nav */
-@media (max-width: 768px) {
-  body {
-    padding-bottom: 76px;
-  }
 }
