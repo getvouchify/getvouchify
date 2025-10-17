@@ -14,13 +14,12 @@ const Index = () => {
   return <div className="min-h-screen scroll-smooth">
       <AnnouncementBanner />
       <Navigation />
+      <ScrollingCountdown />
       <Hero />
       
       <div className="hidden md:block">
         <QuickValueProp />
       </div>
-      
-      <ScrollingCountdown />
       
       <section className="w-full py-12 md:py-16 lg:py-24 bg-white">
         <div className="container mx-auto px-4 md:px-6 lg:px-8">
