@@ -210,3 +210,15 @@ html {
 section {
   scroll-snap-align: start;
 }
+
+/* Mobile bottom navigation safe area */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Add bottom padding to body on mobile to prevent content from being hidden behind bottom nav */
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 76px;
+  }
+}
