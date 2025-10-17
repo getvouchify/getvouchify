@@ -34,8 +34,8 @@ const TrustBadges = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="flex items-start gap-4 p-4 rounded-lg hover:bg-muted/50 transition-colors">
-              <div className="flex-shrink-0 w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center">
-                <Shield className="w-6 h-6 text-accent" />
+              <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                <Shield className="w-6 h-6 text-primary" />
               </div>
               <div>
                 <h4 className="font-semibold text-primary mb-1">Secure Payment</h4>
@@ -46,8 +46,8 @@ const TrustBadges = () => {
             </div>
 
             <div className="flex items-start gap-4 p-4 rounded-lg hover:bg-muted/50 transition-colors">
-              <div className="flex-shrink-0 w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center">
-                <Lock className="w-6 h-6 text-accent" />
+              <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                <Lock className="w-6 h-6 text-primary" />
               </div>
               <div>
                 <h4 className="font-semibold text-primary mb-1">Escrow Protection</h4>
@@ -58,8 +58,8 @@ const TrustBadges = () => {
             </div>
 
             <div className="flex items-start gap-4 p-4 rounded-lg hover:bg-muted/50 transition-colors">
-              <div className="flex-shrink-0 w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center">
-                <CheckCircle className="w-6 h-6 text-accent" />
+              <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                <CheckCircle className="w-6 h-6 text-primary" />
               </div>
               <div>
                 <h4 className="font-semibold text-primary mb-1">Verified Merchants</h4>

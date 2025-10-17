@@ -31,17 +31,17 @@ const HowItWorks = () => {
   const [modalOpen, setModalOpen] = useState(false);
   
   const gradients = [
-    "from-primary/5 via-white to-accent/5",
-    "from-accent/5 via-white to-primary/5",
-    "from-primary/10 via-accent/5 to-white",
-    "from-accent/10 via-primary/5 to-white",
+    "from-primary/5 via-white to-primary/10",
+    "from-primary/10 via-white to-primary/5",
+    "from-primary/5 to-white",
+    "from-primary/10 to-white",
   ];
 
   const iconGradients = [
-    "from-primary/20 to-accent/30",
-    "from-accent/20 to-primary/30",
-    "from-primary/25 to-accent/25",
-    "from-accent/25 to-primary/25",
+    "from-primary/20 to-primary/30",
+    "from-primary/25 to-primary/35",
+    "from-primary/30 to-primary/20",
+    "from-primary/35 to-primary/25",
   ];
 
   return (
@@ -49,7 +49,7 @@ const HowItWorks = () => {
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-30 pointer-events-none">
         <div className="absolute top-10 left-10 w-32 h-32 bg-primary/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 right-20 w-40 h-40 bg-accent/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute bottom-20 right-20 w-40 h-40 bg-primary/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
         <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-primary/5 rounded-full blur-2xl" />
       </div>
 
@@ -61,7 +61,7 @@ const HowItWorks = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 text-primary">
             How It Works ✨
           </h2>
           <p className="text-sm md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
@@ -89,7 +89,7 @@ const HowItWorks = () => {
               <motion.div 
                 whileHover={{ rotate: 12, scale: 1.1 }}
                 transition={{ type: "spring", stiffness: 400 }}
-                className={`absolute -top-5 -right-3 bg-gradient-to-br from-primary to-accent text-white w-14 h-14 md:w-16 md:h-16 rounded-2xl flex items-center justify-center font-bold text-xl md:text-2xl shadow-glow z-20 rotate-6 group-hover:rotate-0 transition-transform duration-300`}
+                className={`absolute -top-5 -right-3 bg-primary text-white w-14 h-14 md:w-16 md:h-16 rounded-2xl flex items-center justify-center font-bold text-xl md:text-2xl shadow-glow z-20 rotate-6 group-hover:rotate-0 transition-transform duration-300`}
               >
                 {index + 1}
               </motion.div>
@@ -125,15 +125,10 @@ const HowItWorks = () => {
                   className="hidden xl:block absolute top-1/2 -right-6 transform -translate-y-1/2 z-10"
                 >
                   <svg width="32" height="32" viewBox="0 0 32 32" fill="none" className="text-primary/40 group-hover:text-primary transition-colors duration-300">
-                    <defs>
-                      <linearGradient id={`arrow-gradient-${index}`} x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.5" />
-                        <stop offset="100%" stopColor="hsl(var(--accent))" stopOpacity="0.8" />
-                      </linearGradient>
-                    </defs>
                     <motion.path 
                       d="M6 16h20M20 10l6 6-6 6" 
-                      stroke={`url(#arrow-gradient-${index})`}
+                      stroke="hsl(var(--primary))"
+                      strokeOpacity="0.5"
                       strokeWidth="2.5" 
                       strokeLinecap="round" 
                       strokeLinejoin="round"
