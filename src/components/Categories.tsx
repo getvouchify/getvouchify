@@ -78,16 +78,16 @@ const Categories = () => {
               </div>
 
               {/* Content */}
-              <div className="absolute inset-x-0 bottom-0 p-4 text-white">
-                <h3 className="text-lg font-bold mb-2">
+              <div className="absolute inset-x-0 bottom-0 p-3 md:p-4 text-white">
+                <h3 className="text-base md:text-lg font-bold mb-1.5 md:mb-2">
                   {category.title}
                 </h3>
                 
-                <p className="text-xs text-white/90 mb-3 line-clamp-2 leading-relaxed">
+                <p className="text-[10px] md:text-xs text-white/90 mb-2 md:mb-3 line-clamp-2 leading-relaxed">
                   {category.description}
                 </p>
 
-                <Button variant="secondary" size="sm" className="w-full bg-white text-foreground hover:bg-white/90 font-semibold text-xs" onClick={() => setIsWaitlistOpen(true)}>
+                <Button variant="secondary" size="sm" className="w-full bg-white text-foreground hover:bg-white/90 font-semibold text-[10px] md:text-xs h-8 md:h-9" onClick={() => setIsWaitlistOpen(true)}>
                   View Deals
                 </Button>
               </div>

@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Menu, X, Search, Heart, ShoppingCart, Bell, User, Utensils, Sparkles, Dumbbell, Compass, ShoppingBag, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
-import logo from "@/assets/vouchify-logo-updated.jpeg";
+import logo from "@/assets/vouchify-logo-no-background.png";
 import WaitlistModal from "./WaitlistModal";
 import CartSidebar from "./CartSidebar";
 import { useCart } from "@/contexts/CartContext";
@@ -90,7 +90,7 @@ const Navigation = () => {
           <div className="flex items-center justify-between h-16 gap-4">
             {/* Logo */}
             <Link to="/" className="flex items-center flex-shrink-0">
-              <img src={logo} alt="Vouchify Logo" className="h-14 w-auto" />
+              <img src={logo} alt="Vouchify Logo" className="h-10 md:h-14 w-auto" />
             </Link>
 
             {/* Search Bar - Desktop */}
@@ -189,68 +189,47 @@ const Navigation = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Minimalist Mobile Menu */}
         {isOpen && (
-          <div className="md:hidden bg-white border-t border-border">
-            <div className="container mx-auto px-4 py-4 space-y-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
-                <Input
-                  type="text"
-                  placeholder="Search deals..."
-                  className="pl-10 pr-4"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-              
-              {/* Mobile Cart & Actions */}
-              <div className="flex items-center gap-3">
-                <Button 
-                  variant="outline" 
-                  className="flex-1 min-h-[48px] font-semibold"
-                  onClick={() => {
-                    setShowCart(true);
-                    setIsOpen(false);
-                  }}
+          <div className="md:hidden bg-white border-t border-border shadow-lg">
+            <div className="container mx-auto px-4 py-6">
+              <nav className="space-y-2">
+                <Link
+                  to="/"
+                  className="flex items-center gap-3 text-base font-semibold text-foreground hover:text-primary hover:bg-primary/5 transition-all py-4 px-4 rounded-lg min-h-[56px]"
+                  onClick={() => setIsOpen(false)}
                 >
-                  <ShoppingCart className="w-5 h-5 mr-2" />
-                  Cart {cartCount > 0 && `(${cartCount})`}
-                </Button>
-                <Button 
-                  className="flex-1 min-h-[48px] font-semibold"
+                  <Compass className="w-5 h-5" />
+                  HOME
+                </Link>
+                <button
+                  className="w-full flex items-center gap-3 text-base font-semibold text-foreground hover:text-primary hover:bg-primary/5 transition-all py-4 px-4 rounded-lg min-h-[56px] text-left"
                   onClick={() => {
                     setWaitlistType("shopper");
                     setShowWaitlist(true);
                     setIsOpen(false);
                   }}
                 >
-                  <User className="w-5 h-5 mr-2" />
-                  Sign In
-                </Button>
-              </div>
-              
-              {/* Simplified Mobile Categories */}
-              <div className="space-y-2 pt-4 border-t">
-                {topCategories.map((category) => (
-                  <a
-                    key={category.label}
-                    href={category.href}
-                    className="flex items-center gap-3 text-base font-medium text-foreground hover:text-primary transition-colors py-3 min-h-[48px]"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <category.icon className="w-5 h-5" />
-                    {category.label}
-                  </a>
-                ))}
+                  <User className="w-5 h-5" />
+                  JOIN WAITLIST
+                </button>
                 <a
-                  href="#categories"
-                  className="flex items-center gap-3 text-base font-semibold text-primary hover:text-primary/80 transition-colors py-3 min-h-[48px]"
+                  href="#how-it-works"
+                  className="flex items-center gap-3 text-base font-semibold text-foreground hover:text-primary hover:bg-primary/5 transition-all py-4 px-4 rounded-lg min-h-[56px]"
                   onClick={() => setIsOpen(false)}
                 >
-                  View All Categories
+                  <Bell className="w-5 h-5" />
+                  ABOUT
                 </a>
-              </div>
+                <Link
+                  to="/contact"
+                  className="flex items-center gap-3 text-base font-semibold text-foreground hover:text-primary hover:bg-primary/5 transition-all py-4 px-4 rounded-lg min-h-[56px]"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <Heart className="w-5 h-5" />
+                  CONTACT
+                </Link>
+              </nav>
             </div>
           </div>
         )}

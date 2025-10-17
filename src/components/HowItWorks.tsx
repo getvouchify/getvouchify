@@ -61,10 +61,10 @@ const HowItWorks = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
             How It Works ✨
           </h2>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          <p className="text-sm md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             Simple, secure, and seamless deal discovery and redemption
           </p>
         </motion.div>
@@ -108,10 +108,10 @@ const HowItWorks = () => {
                   </div>
                 </motion.div>
                 
-                <h3 className="text-lg md:text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors duration-300">
+                <h3 className="text-base md:text-lg lg:text-xl font-bold text-foreground mb-2 md:mb-3 group-hover:text-primary transition-colors duration-300">
                   {step.title}
                 </h3>
-                <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
+                <p className="text-sm md:text-base lg:text-lg text-muted-foreground leading-relaxed">
                   {step.description}
                 </p>
               </div>
@@ -160,7 +160,7 @@ const HowItWorks = () => {
           <Button 
             onClick={() => setModalOpen(true)}
             size="lg"
-            className="h-14 px-10 text-lg font-bold gradient-primary text-white hover-lift min-h-[44px]"
+            className="h-12 md:h-14 px-6 md:px-10 text-sm md:text-lg font-bold gradient-primary text-white hover-lift min-h-[44px]"
           >
             Get Started Now
           </Button>

@@ -1,6 +1,7 @@
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
+import ScrollingCountdown from "@/components/ScrollingCountdown";
 import HowItWorks from "@/components/HowItWorks";
 import MerchantBenefits from "@/components/MerchantBenefits";
 import Categories from "@/components/Categories";
@@ -13,17 +14,20 @@ const Index = () => {
   return <div className="min-h-screen scroll-smooth">
       <AnnouncementBanner />
       <Navigation />
+      <ScrollingCountdown />
       <Hero />
       
-      <QuickValueProp />
+      <div className="hidden md:block">
+        <QuickValueProp />
+      </div>
       
-      <section className="w-full py-16 md:py-24 px-6 bg-white">
+      <section className="w-full py-8 md:py-16 lg:py-24 px-4 md:px-6 bg-white">
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl text-primary font-bold mb-4">
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-xl md:text-3xl lg:text-5xl text-primary font-bold mb-2 md:mb-4">
               Explore Lagos, One Deal at a Time!
             </h2>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-sm md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto">
               Discover the best of Lagos with exclusive offers from top venues
             </p>
           </div>
@@ -49,15 +53,15 @@ const Index = () => {
         </div>
       </section>
       
-      <section className="bg-white py-16 md:py-24">
+      <section id="categories" className="bg-white py-8 md:py-16 lg:py-24">
         <Categories />
       </section>
 
-      <section className="bg-gray-50 py-16 md:py-24">
+      <section id="how-it-works" className="bg-gray-50 py-8 md:py-16 lg:py-24">
         <HowItWorks />
       </section>
       
-      <section className="bg-white py-16 md:py-24">
+      <section className="hidden md:block bg-white py-16 lg:py-24">
         <MerchantBenefits />
       </section>
       

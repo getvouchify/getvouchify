@@ -43,10 +43,10 @@ const MerchantBenefits = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary mb-4 md:mb-6">
                 Grow Your Business with Vouchify
               </h2>
-              <p className="text-lg md:text-xl text-muted-foreground mb-8">
+              <p className="text-base md:text-lg lg:text-xl text-muted-foreground mb-6 md:mb-8">
                 Reach 500,000+ shoppers instantly. Secure payments. Simple dashboard.
               </p>
 
@@ -64,10 +64,10 @@ const MerchantBenefits = () => {
                       <benefit.icon className="w-6 h-6 text-primary group-hover:text-white transition-colors" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-foreground mb-1">
+                      <h3 className="text-base md:text-lg font-bold text-foreground mb-1">
                         {benefit.title}
                       </h3>
-                      <p className="text-muted-foreground">
+                      <p className="text-sm md:text-base text-muted-foreground">
                         {benefit.description}
                       </p>
                     </div>
@@ -78,7 +78,7 @@ const MerchantBenefits = () => {
               <Button 
                 onClick={() => setModalOpen(true)}
                 size="lg"
-                className="gradient-primary text-white font-semibold text-lg px-8 py-6 shadow-elegant hover-lift"
+                className="gradient-primary text-white font-semibold text-base md:text-lg px-6 md:px-8 py-5 md:py-6 shadow-elegant hover-lift"
               >
                 Sign Up as Merchant
               </Button>

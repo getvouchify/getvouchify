@@ -1,0 +1,58 @@
+import { useState, useEffect } from "react";
+
+const ScrollingCountdown = () => {
+  const launchDate = new Date("2025-12-10T00:00:00").getTime();
+  
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  });
+
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const now = new Date().getTime();
+      const difference = launchDate - now;
+
+      if (difference > 0) {
+        setTimeLeft({
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((difference % (1000 * 60)) / 1000)
+        });
+      } else {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+      }
+    };
+
+    calculateTimeLeft();
+    const timer = setInterval(calculateTimeLeft, 1000);
+
+    return () => clearInterval(timer);
+  }, [launchDate]);
+
+  return (
+    <div className="fixed top-16 left-0 right-0 z-40 bg-gradient-to-r from-primary via-accent to-primary text-white py-2 shadow-md">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-center gap-2 text-xs md:text-sm font-medium">
+          <span className="hidden sm:inline">🚀</span>
+          <span className="font-semibold">Launching December 10, 2025</span>
+          <span className="hidden sm:inline">|</span>
+          <div className="flex items-center gap-1.5 md:gap-2">
+            <span className="font-bold">{String(timeLeft.days).padStart(2, "0")}d</span>
+            <span>:</span>
+            <span className="font-bold">{String(timeLeft.hours).padStart(2, "0")}h</span>
+            <span>:</span>
+            <span className="font-bold">{String(timeLeft.minutes).padStart(2, "0")}m</span>
+            <span className="hidden sm:inline">:</span>
+            <span className="hidden sm:inline font-bold">{String(timeLeft.seconds).padStart(2, "0")}s</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ScrollingCountdown;
