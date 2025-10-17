@@ -175,12 +175,12 @@ All colors MUST be HSL.
       transform: translateX(0%);
     }
     100% {
-      transform: translateX(-50%);
+      transform: translateX(-100%);
     }
   }
 
   .animate-marquee {
-    animation: marquee 4s linear infinite;
+    animation: marquee 20s linear infinite;
   }
 
   /* Consistent Spacing System */

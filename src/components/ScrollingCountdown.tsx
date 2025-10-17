@@ -33,32 +33,33 @@ const ScrollingCountdown = () => {
     return () => clearInterval(timer);
   }, [launchDate]);
 
+  const countdownContent = (
+    <div className="flex items-center gap-3 text-sm md:text-base font-bold px-8">
+      <span>🚀 LAUNCHING IN:</span>
+      <span>{String(timeLeft.days).padStart(2, "0")}d</span>
+      <span>:</span>
+      <span>{String(timeLeft.hours).padStart(2, "0")}h</span>
+      <span>:</span>
+      <span>{String(timeLeft.minutes).padStart(2, "0")}m</span>
+      <span>:</span>
+      <span>{String(timeLeft.seconds).padStart(2, "0")}s</span>
+    </div>
+  );
+
   return (
     <div className="fixed top-16 md:top-[120px] left-0 right-0 z-50 bg-primary text-white py-3 shadow-md overflow-hidden">
-      <div className="relative flex">
-        <div className="flex items-center gap-6 px-4 animate-marquee whitespace-nowrap">
-          <div className="flex items-center gap-3 text-sm md:text-base font-bold">
-            <span>🚀 LAUNCHING IN:</span>
-            <span>{String(timeLeft.days).padStart(2, "0")}d</span>
-            <span>:</span>
-            <span>{String(timeLeft.hours).padStart(2, "0")}h</span>
-            <span>:</span>
-            <span>{String(timeLeft.minutes).padStart(2, "0")}m</span>
-            <span>:</span>
-            <span>{String(timeLeft.seconds).padStart(2, "0")}s</span>
-          </div>
+      <div className="flex whitespace-nowrap">
+        <div className="flex animate-marquee">
+          {countdownContent}
+          {countdownContent}
+          {countdownContent}
+          {countdownContent}
         </div>
-        <div className="flex items-center gap-6 px-4 animate-marquee whitespace-nowrap" aria-hidden="true">
-          <div className="flex items-center gap-3 text-sm md:text-base font-bold">
-            <span>🚀 LAUNCHING IN:</span>
-            <span>{String(timeLeft.days).padStart(2, "0")}d</span>
-            <span>:</span>
-            <span>{String(timeLeft.hours).padStart(2, "0")}h</span>
-            <span>:</span>
-            <span>{String(timeLeft.minutes).padStart(2, "0")}m</span>
-            <span>:</span>
-            <span>{String(timeLeft.seconds).padStart(2, "0")}s</span>
-          </div>
+        <div className="flex animate-marquee" aria-hidden="true">
+          {countdownContent}
+          {countdownContent}
+          {countdownContent}
+          {countdownContent}
         </div>
       </div>
     </div>
