@@ -27,12 +27,13 @@ const Hero = () => {
             duration: 0.8
           }}>
               {/* Tagline */}
-              <motion.p 
-                className="text-base md:text-lg font-semibold text-primary/70 uppercase tracking-wider"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-              >
+              <motion.p className="text-base md:text-lg font-semibold text-primary/70 uppercase tracking-wider" initial={{
+              opacity: 0
+            }} animate={{
+              opacity: 1
+            }} transition={{
+              delay: 0.2
+            }}>
                 Lagos' Premier Deal Discovery Platform
               </motion.p>
 
@@ -69,9 +70,7 @@ const Hero = () => {
                 Your City, Your Deals. Curated Just for You.
               </h1>
 
-              <p className="text-xl md:text-2xl lg:text-3xl font-bold text-primary/90 italic">
-                More Than Just A Daily Deal
-              </p>
+              <p className="text-xl md:text-2xl lg:text-3xl font-bold text-primary/90 italic">More Than A Daily Deal</p>
 
               <p className="text-lg md:text-xl text-foreground max-w-xl mx-auto lg:mx-0 leading-relaxed">
                 Unlock exclusive deals in food & drinks, beauty, fitness, things to do, retail and more — join the waitlist today!
@@ -106,22 +105,15 @@ const Hero = () => {
             duration: 0.8,
             delay: 0.2
           }}>
-              <motion.img 
-                src={illustration} 
-                alt="Vouchify platform showcasing exclusive deals and vouchers for shoppers and merchants" 
-                className="w-full h-auto rounded-2xl" 
-                style={{
-                  filter: 'drop-shadow(0 0 30px hsl(274 59% 50% / 0.25))'
-                }}
-                animate={{
-                  y: [0, -10, 0],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              />
+              <motion.img src={illustration} alt="Vouchify platform showcasing exclusive deals and vouchers for shoppers and merchants" className="w-full h-auto rounded-2xl" style={{
+              filter: 'drop-shadow(0 0 30px hsl(274 59% 50% / 0.25))'
+            }} animate={{
+              y: [0, -10, 0]
+            }} transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }} />
             </motion.div>
           </div>
         </div>
