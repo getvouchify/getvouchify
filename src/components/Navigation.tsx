@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Menu, X, Search, Heart, ShoppingCart, Bell, User, Utensils, Sparkles, Dumbbell, Compass, ShoppingBag, ChevronDown, Home, Info, Mail, Users } from "lucide-react";
+import { Menu, X, Search, Heart, ShoppingCart, Bell, User, Utensils, Sparkles, Dumbbell, Compass, ShoppingBag, ChevronDown, Home, Info, Mail, Users, Grid3x3 } from "lucide-react";
 import { Link } from "react-router-dom";
 import logo from "@/assets/vouchify-logo-no-background.png";
 import WaitlistModal from "./WaitlistModal";
@@ -116,7 +116,7 @@ const Navigation = () => {
               </div>
             </div>
 
-            {/* Right Side Icons */}
+            {/* Right Side Icons - Desktop Only */}
             <div className="hidden md:flex items-center gap-4">
               <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
                 <Heart className="w-5 h-5" />
@@ -150,13 +150,23 @@ const Navigation = () => {
               </Button>
             </div>
 
-            {/* Mobile Menu Button */}
-            <button
-              className="md:hidden text-primary"
-              onClick={() => setIsOpen(!isOpen)}
-            >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+            {/* Mobile - Only Menu Button */}
+            <div className="md:hidden flex items-center gap-2">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="text-muted-foreground hover:text-primary relative"
+                onClick={() => setShowCart(true)}
+              >
+                <ShoppingCart className="w-5 h-5" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
+              </Button>
+            </div>
+
           </div>
         </div>
 
@@ -189,50 +199,63 @@ const Navigation = () => {
           </div>
         </div>
 
-        {/* Minimalist Mobile Menu */}
-        {isOpen && (
-          <div className="md:hidden bg-white border-t border-border shadow-lg">
-            <div className="container mx-auto px-4 py-6">
-              <nav className="space-y-2">
-                <Link
-                  to="/"
-                  className="flex items-center gap-3 text-base font-semibold text-foreground hover:text-primary hover:bg-primary/5 transition-all py-4 px-4 rounded-lg min-h-[56px]"
-                  onClick={() => setIsOpen(false)}
-                >
-                  <Home className="w-5 h-5" />
-                  HOME
-                </Link>
-                <button
-                  className="w-full flex items-center gap-3 text-base font-semibold text-foreground hover:text-primary hover:bg-primary/5 transition-all py-4 px-4 rounded-lg min-h-[56px] text-left"
-                  onClick={() => {
-                    setWaitlistType("shopper");
-                    setShowWaitlist(true);
-                    setIsOpen(false);
-                  }}
-                >
-                  <Users className="w-5 h-5" />
-                  JOIN WAITLIST
-                </button>
-                <a
-                  href="#how-it-works"
-                  className="flex items-center gap-3 text-base font-semibold text-foreground hover:text-primary hover:bg-primary/5 transition-all py-4 px-4 rounded-lg min-h-[56px]"
-                  onClick={() => setIsOpen(false)}
-                >
-                  <Info className="w-5 h-5" />
-                  ABOUT
-                </a>
-                <Link
-                  to="/contact"
-                  className="flex items-center gap-3 text-base font-semibold text-foreground hover:text-primary hover:bg-primary/5 transition-all py-4 px-4 rounded-lg min-h-[56px]"
-                  onClick={() => setIsOpen(false)}
-                >
-                  <Mail className="w-5 h-5" />
-                  CONTACT
-                </Link>
-              </nav>
-            </div>
-          </div>
-        )}
+      </nav>
+
+      {/* Mobile Bottom Navigation Bar */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-border shadow-lg pb-safe">
+        <div className="grid grid-cols-5 gap-1 px-2 py-2">
+          {/* Home */}
+          <Link
+            to="/"
+            className="flex flex-col items-center justify-center py-2 px-1 text-muted-foreground hover:text-primary transition-colors min-h-[60px] gap-1"
+          >
+            <Home className="w-5 h-5" />
+            <span className="text-[10px] font-medium">Home</span>
+          </Link>
+
+          {/* Categories */}
+          <a
+            href="#categories"
+            className="flex flex-col items-center justify-center py-2 px-1 text-muted-foreground hover:text-primary transition-colors min-h-[60px] gap-1"
+          >
+            <Grid3x3 className="w-5 h-5" />
+            <span className="text-[10px] font-medium">Categories</span>
+          </a>
+
+          {/* Favorites */}
+          <button
+            className="flex flex-col items-center justify-center py-2 px-1 text-muted-foreground hover:text-primary transition-colors min-h-[60px] gap-1"
+          >
+            <Heart className="w-5 h-5" />
+            <span className="text-[10px] font-medium">Saved</span>
+          </button>
+
+          {/* Cart */}
+          <button
+            onClick={() => setShowCart(true)}
+            className="flex flex-col items-center justify-center py-2 px-1 text-muted-foreground hover:text-primary transition-colors min-h-[60px] gap-1 relative"
+          >
+            <ShoppingCart className="w-5 h-5" />
+            {cartCount > 0 && (
+              <span className="absolute top-1 right-1/4 bg-primary text-primary-foreground text-[10px] rounded-full w-4 h-4 flex items-center justify-center font-bold">
+                {cartCount}
+              </span>
+            )}
+            <span className="text-[10px] font-medium">Cart</span>
+          </button>
+
+          {/* Profile/Waitlist */}
+          <button
+            onClick={() => {
+              setWaitlistType("shopper");
+              setShowWaitlist(true);
+            }}
+            className="flex flex-col items-center justify-center py-2 px-1 text-muted-foreground hover:text-primary transition-colors min-h-[60px] gap-1"
+          >
+            <User className="w-5 h-5" />
+            <span className="text-[10px] font-medium">Account</span>
+          </button>
+        </div>
       </nav>
 
       <WaitlistModal open={showWaitlist} onOpenChange={setShowWaitlist} type={waitlistType} />
