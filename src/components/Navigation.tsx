@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Menu, X, Search, Heart, ShoppingCart, Bell, User, Utensils, Sparkles, Dumbbell, Compass, ShoppingBag, ChevronDown, Home, Info, Mail, Users, Grid3x3 } from "lucide-react";
+import { Menu, X, Search, Heart, ShoppingCart, Bell, User, Utensils, Sparkles, Dumbbell, Compass, ShoppingBag, ChevronDown, Home, Info, Mail, Users, Grid3x3, Instagram } from "lucide-react";
 import { Link } from "react-router-dom";
 import logo from "@/assets/vouchify-logo-no-background.png";
 import WaitlistModal from "./WaitlistModal";
@@ -10,6 +11,7 @@ import CartSidebar from "./CartSidebar";
 import { useCart } from "@/contexts/CartContext";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 const topCategories = [{
   icon: Utensils,
   label: "Food & Drinks",
@@ -37,9 +39,9 @@ const topCategories = [{
   subcategories: ["Fashion & Thrift", "Accessories", "Local Brands", "Books & Gifts"]
 }];
 const Navigation = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showWaitlist, setShowWaitlist] = useState(false);
-  const [waitlistType, setWaitlistType] = useState<"shopper" | "merchant">("shopper");
+  const [waitlistType, setWaitlistType] = useState<"customer" | "business">("customer");
   const [showCart, setShowCart] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const {
@@ -87,7 +89,7 @@ const Navigation = () => {
                 <Bell className="w-5 h-5" />
               </Button>
               <Button variant="outline" size="sm" onClick={() => {
-              setWaitlistType("shopper");
+              setWaitlistType("customer");
               setShowWaitlist(true);
             }}>
                 <User className="w-4 h-4 mr-2" />
@@ -95,9 +97,89 @@ const Navigation = () => {
               </Button>
             </div>
 
-            {/* Mobile - Only Menu Button */}
+            {/* Mobile - Hamburger Menu */}
             <div className="md:hidden flex items-center gap-2">
-              
+              <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <Menu className="w-6 h-6" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+                  <SheetHeader>
+                    <SheetTitle>Menu</SheetTitle>
+                  </SheetHeader>
+                  
+                  <div className="mt-6 space-y-6">
+                    {/* Search Bar */}
+                    <div className="space-y-2">
+                      <Label className="text-sm font-medium">Search</Label>
+                      <div className="relative">
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                        <Input 
+                          type="text" 
+                          placeholder="Search deals..." 
+                          className="pl-10" 
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Categories */}
+                    <div className="space-y-2">
+                      <Label className="text-sm font-medium">Categories</Label>
+                      {topCategories.map((category) => (
+                        <Collapsible key={category.label}>
+                          <CollapsibleTrigger className="flex items-center justify-between w-full py-2 text-left hover:bg-accent px-2 rounded-md">
+                            <div className="flex items-center gap-2">
+                              <category.icon className="w-4 h-4" />
+                              <span className="text-sm">{category.label}</span>
+                            </div>
+                            <ChevronDown className="w-4 h-4" />
+                          </CollapsibleTrigger>
+                          <CollapsibleContent className="pl-6 space-y-1 mt-1">
+                            {category.subcategories.map((sub) => (
+                              <a 
+                                key={sub} 
+                                href={category.href}
+                                className="block py-1.5 text-sm text-muted-foreground hover:text-primary"
+                                onClick={() => setMobileMenuOpen(false)}
+                              >
+                                {sub}
+                              </a>
+                            ))}
+                          </CollapsibleContent>
+                        </Collapsible>
+                      ))}
+                    </div>
+
+                    {/* Sign In Button */}
+                    <Button 
+                      className="w-full" 
+                      onClick={() => {
+                        setWaitlistType("customer");
+                        setShowWaitlist(true);
+                        setMobileMenuOpen(false);
+                      }}
+                    >
+                      <User className="w-4 h-4 mr-2" />
+                      Sign In
+                    </Button>
+
+                    {/* Instagram Link */}
+                    <a 
+                      href="https://instagram.com/get.vouchify" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary py-2"
+                    >
+                      <Instagram className="w-5 h-5" />
+                      @get.vouchify
+                    </a>
+                  </div>
+                </SheetContent>
+              </Sheet>
             </div>
 
           </div>

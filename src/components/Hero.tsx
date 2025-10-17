@@ -7,8 +7,8 @@ import WaitlistModal from "@/components/WaitlistModal";
 
 const Hero = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalType, setModalType] = useState<"shopper" | "merchant">("shopper");
-  const openModal = (type: "shopper" | "merchant") => {
+  const [modalType, setModalType] = useState<"customer" | "business">("customer");
+  const openModal = (type: "customer" | "business") => {
     setModalType(type);
     setModalOpen(true);
   };
@@ -70,19 +70,19 @@ const Hero = () => {
               {/* Dual Waitlist Buttons */}
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start animate-fade-in">
                 <Button 
-                  onClick={() => openModal("shopper")}
+                  onClick={() => openModal("customer")}
                   size="lg"
                   className="h-12 sm:h-14 px-5 sm:px-8 text-sm sm:text-lg font-bold gradient-primary text-white hover-lift shadow-glow transition-all duration-300"
                 >
-                  Join as Shopper
+                  Join as Customer
                 </Button>
                 <Button 
-                  onClick={() => openModal("merchant")}
+                  onClick={() => openModal("business")}
                   size="lg"
                   variant="outline"
                   className="h-12 sm:h-14 px-5 sm:px-8 text-sm sm:text-lg font-bold border-2 border-primary hover:bg-primary hover:text-white transition-all duration-300"
                 >
-                  Join as Merchant
+                  Join as Business
                 </Button>
               </div>
 
@@ -105,10 +105,10 @@ const Hero = () => {
             duration: 0.8,
             delay: 0.2
           }}>
-              <motion.img src={illustration} alt="Vouchify platform showcasing exclusive deals and vouchers for shoppers and merchants" className="w-full h-auto rounded-2xl" animate={{
+            <motion.img src={illustration} alt="Vouchify platform showcasing exclusive deals and vouchers for shoppers and merchants" className="w-full h-auto rounded-2xl" animate={{
               y: [0, -10, 0]
             }} transition={{
-              duration: 3,
+              duration: 1.5,
               repeat: Infinity,
               ease: "easeInOut"
             }} />

@@ -238,7 +238,7 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
       <WaitlistModal 
         open={waitlistOpen}
         onOpenChange={setWaitlistOpen}
-        type="shopper"
+        type="customer"
       />
     </section>
   );

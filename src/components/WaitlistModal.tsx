@@ -11,7 +11,7 @@ import { Loader2 } from "lucide-react";
 interface WaitlistModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  type: "shopper" | "merchant";
+  type: "customer" | "business";
 }
 
 const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
@@ -88,17 +88,17 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-primary">
-            Join as a {type === "shopper" ? "Shopper" : "Merchant"}
+            Join as a {type === "customer" ? "Customer" : "Business"}
           </DialogTitle>
           <DialogDescription>
-            {type === "shopper"
+            {type === "customer"
               ? "Be the first to discover exclusive deals in your area"
               : "Reach 500,000+ shoppers and grow your business"}
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4 mt-4">
-          {type === "merchant" && (
+          {type === "business" && (
             <div className="space-y-2">
               <Label htmlFor="businessName">Business Name *</Label>
               <Input
@@ -112,13 +112,13 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
           )}
 
           <div className="space-y-2">
-            <Label htmlFor="name">{type === "shopper" ? "Name" : "Contact Person *"}</Label>
+            <Label htmlFor="name">{type === "customer" ? "Name" : "Contact Person *"}</Label>
             <Input
               id="name"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               placeholder="Your full name"
-              required={type === "merchant"}
+              required={type === "business"}
             />
           </div>
 
@@ -134,7 +134,7 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
             />
           </div>
 
-          {type === "merchant" && (
+          {type === "business" && (
             <>
               <div className="space-y-2">
                 <Label htmlFor="phone">Phone Number *</Label>
@@ -171,7 +171,7 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
             />
           </div>
 
-          {type === "shopper" && (
+          {type === "customer" && (
             <div className="space-y-2">
               <Label>Interests (optional)</Label>
               <div className="grid grid-cols-2 gap-3">

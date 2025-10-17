@@ -19,7 +19,7 @@ const StickyCTA = () => {
         {isVisible}
       </AnimatePresence>
 
-      <WaitlistModal open={modalOpen} onOpenChange={setModalOpen} type="shopper" />
+      <WaitlistModal open={modalOpen} onOpenChange={setModalOpen} type="customer" />
     </>;
 };
 export default StickyCTA;

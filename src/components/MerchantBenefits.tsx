@@ -111,7 +111,7 @@ const MerchantBenefits = () => {
       <WaitlistModal
         open={modalOpen}
         onOpenChange={setModalOpen}
-        type="merchant"
+        type="business"
       />
     </>
   );

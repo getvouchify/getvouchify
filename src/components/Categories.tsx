@@ -100,7 +100,7 @@ const Categories = () => {
         </div>
       </div>
       
-      <WaitlistModal open={isWaitlistOpen} onOpenChange={setIsWaitlistOpen} type="shopper" />
+      <WaitlistModal open={isWaitlistOpen} onOpenChange={setIsWaitlistOpen} type="customer" />
     </section>;
 };
 export default Categories;
