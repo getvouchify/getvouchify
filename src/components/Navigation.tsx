@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Menu, X, Search, Heart, ShoppingCart, Bell, User, Utensils, Sparkles, Dumbbell, Compass, ShoppingBag, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
-import logo from "@/assets/vouchify-logo-new.png";
+import logo from "@/assets/vouchify-logo-updated.jpeg";
 import WaitlistModal from "./WaitlistModal";
 import CartSidebar from "./CartSidebar";
 import { useCart } from "@/contexts/CartContext";
