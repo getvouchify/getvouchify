@@ -4,7 +4,6 @@ import illustration from "@/assets/hero-woman-vouchify.png";
 import { motion } from "framer-motion";
 import { Users, Store } from "lucide-react";
 import WaitlistModal from "@/components/WaitlistModal";
-
 const Hero = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState<"shopper" | "merchant">("shopper");
@@ -17,7 +16,7 @@ const Hero = () => {
         <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[60vh]">
             {/* Left Content */}
-            <motion.div className="text-center lg:text-left space-y-6 md:space-y-8" initial={{
+            <motion.div initial={{
             opacity: 0,
             y: 30
           }} animate={{
@@ -25,31 +24,12 @@ const Hero = () => {
             y: 0
           }} transition={{
             duration: 0.8
-          }}>
+          }} className="text-center lg:text-left space-y- md:space-y-">
               {/* Tagline */}
-              <motion.p className="text-base md:text-lg font-semibold text-primary/70 uppercase tracking-wider" initial={{
-              opacity: 0
-            }} animate={{
-              opacity: 1
-            }} transition={{
-              delay: 0.2
-            }}>
-                Lagos' Premier Deal Discovery Platform
-              </motion.p>
+              
 
               {/* Coming Soon Badge */}
-              <motion.div className="inline-block" initial={{
-              scale: 0
-            }} animate={{
-              scale: 1
-            }} transition={{
-              delay: 0.3,
-              type: "spring"
-            }}>
-                <span className="gradient-gold px-4 py-2 rounded-full text-sm font-semibold shadow-elegant">
-                  🚀 Coming Soon
-                </span>
-              </motion.div>
+              
 
               {/* Main Heading */}
               <h1 className="text-2xl md:text-4xl lg:text-5xl font-extrabold leading-tight lg:leading-[1.1] text-foreground mb-2 animate-fade-in">
@@ -69,19 +49,10 @@ const Hero = () => {
 
               {/* Dual Waitlist Buttons */}
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start animate-fade-in">
-                <Button 
-                  onClick={() => openModal("shopper")}
-                  size="lg"
-                  className="h-12 sm:h-14 px-5 sm:px-8 text-sm sm:text-lg font-bold gradient-primary text-white hover-lift shadow-glow transition-all duration-300"
-                >
+                <Button onClick={() => openModal("shopper")} size="lg" className="h-12 sm:h-14 px-5 sm:px-8 text-sm sm:text-lg font-bold gradient-primary text-white hover-lift shadow-glow transition-all duration-300">
                   Join as Shopper
                 </Button>
-                <Button 
-                  onClick={() => openModal("merchant")}
-                  size="lg"
-                  variant="outline"
-                  className="h-12 sm:h-14 px-5 sm:px-8 text-sm sm:text-lg font-bold border-2 border-primary hover:bg-primary hover:text-white transition-all duration-300"
-                >
+                <Button onClick={() => openModal("merchant")} size="lg" variant="outline" className="h-12 sm:h-14 px-5 sm:px-8 text-sm sm:text-lg font-bold border-2 border-primary hover:bg-primary hover:text-white transition-all duration-300">
                   Join as Merchant
                 </Button>
               </div>
