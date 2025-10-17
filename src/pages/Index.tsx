@@ -10,6 +10,7 @@ import QuickValueProp from "@/components/QuickValueProp";
 import StickyCTA from "@/components/StickyCTA";
 import lagosImage from "@/assets/lagos-bridge.jpg";
 import phoneMockup from "@/assets/vouchify-phone-mockup.png";
+import newPhoneMockup from "@/assets/vouchify-phone-mockup-new.png";
 const Index = () => {
   return <div className="min-h-screen scroll-smooth">
       <AnnouncementBanner />
@@ -32,8 +33,8 @@ const Index = () => {
             </p>
           </div>
           <img 
-            src={lagosImage} 
-            alt="Lagos cityscape featuring the iconic bridge" 
+            src={newPhoneMockup} 
+            alt="Vouchify mobile app showcasing deals and exclusive offers in Lagos" 
             className="w-full h-[250px] md:h-[400px] object-cover rounded-xl shadow-elegant" 
             loading="lazy"
           />
