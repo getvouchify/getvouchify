@@ -40,13 +40,13 @@ const Index = () => {
         </div>
       </section>
       
-      <section className="bg-gradient-to-b from-primary to-primary/90 py-16 md:py-24">
+      <section className="bg-white py-16 md:py-24">
         <div className="container mx-auto px-6">
           <div className="flex justify-center items-center">
             <img 
               src={phoneMockup} 
               alt="Vouchify mobile app interface showcasing deals in Lagos" 
-              className="max-w-full h-auto max-h-[800px] object-contain" 
+              className="max-w-full h-auto max-h-[800px] object-contain rounded-2xl" 
               loading="lazy"
             />
           </div>
