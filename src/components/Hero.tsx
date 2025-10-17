@@ -74,7 +74,7 @@ const Hero = () => {
               </p>
 
               <p className="text-lg md:text-xl text-foreground max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                Unlock exclusive deals in food, beauty, fitness, retail and more — join the waitlist today!
+                Unlock exclusive deals in food & drinks, beauty, fitness, things to do, retail and more — join the waitlist today!
               </p>
 
               {/* Dual Waitlist Buttons */}

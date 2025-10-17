@@ -81,7 +81,7 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
     }
   };
 
-  const categories = ["Food & Dining", "Beauty & Spa", "Fitness & Wellness", "Entertainment", "Retail & Shopping"];
+  const categories = ["Food & Drinks", "Beauty & Spa", "Health & Fitness", "Things To Do", "Retail"];
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

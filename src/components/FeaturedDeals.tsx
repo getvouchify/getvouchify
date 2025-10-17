@@ -93,7 +93,7 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
               </SelectTrigger>
               <SelectContent className="bg-white border-2">
                 <SelectItem value="all" className="min-h-[44px]">All Categories</SelectItem>
-                <SelectItem value="Food & Drink" className="min-h-[44px]">Food & Drink</SelectItem>
+                <SelectItem value="Food & Drinks" className="min-h-[44px]">Food & Drinks 🍴</SelectItem>
                 <SelectItem value="Beauty & Spa" className="min-h-[44px]">Beauty & Spa</SelectItem>
                 <SelectItem value="Health & Fitness" className="min-h-[44px]">Health & Fitness</SelectItem>
                 <SelectItem value="Things To Do" className="min-h-[44px]">Things To Do</SelectItem>

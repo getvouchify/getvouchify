@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Menu, X, Search, Heart, ShoppingCart, Bell, User, Utensils, Sparkles, Dumbbell, Compass, ShoppingBag, Home, Smartphone, ChevronDown } from "lucide-react";
+import { Menu, X, Search, Heart, ShoppingCart, Bell, User, Utensils, Sparkles, Dumbbell, Compass, ShoppingBag, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import logo from "@/assets/vouchify-logo-new.png";
 import WaitlistModal from "./WaitlistModal";
@@ -19,7 +19,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 const topCategories = [
   {
     icon: Utensils,
-    label: "Food & Drink",
+    label: "Food & Drinks",
     href: "#categories",
     subcategories: [
       "Restaurants & Fine Dining",
@@ -71,19 +71,6 @@ const topCategories = [
       "Local Brands",
       "Books & Gifts"
     ]
-  }
-];
-
-const moreCategories = [
-  {
-    icon: Smartphone,
-    label: "Electronics & Gadgets",
-    href: "#categories"
-  },
-  {
-    icon: Home,
-    label: "Home & Lifestyle",
-    href: "#categories"
   }
 ];
 
@@ -198,27 +185,6 @@ const Navigation = () => {
                   </DropdownMenuContent>
                 </DropdownMenu>
               ))}
-              
-              {/* More Categories Dropdown */}
-              <DropdownMenu>
-                <DropdownMenuTrigger className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors outline-none focus:text-primary min-h-[44px]">
-                  More
-                  <ChevronDown className="w-3 h-3" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-[240px] bg-white border-2 shadow-lg z-50">
-                  {moreCategories.map((category) => (
-                    <DropdownMenuItem key={category.label} asChild>
-                      <a
-                        href={category.href}
-                        className="cursor-pointer flex items-center gap-2 min-h-[44px]"
-                      >
-                        <category.icon className="w-4 h-4" />
-                        {category.label}
-                      </a>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
             </div>
           </div>
         </div>

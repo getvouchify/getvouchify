@@ -1,4 +1,4 @@
-import { Utensils, Sparkles, Dumbbell, Compass, ShoppingBag, Home, Smartphone } from "lucide-react";
+import { Utensils, Sparkles, Dumbbell, Compass, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import WaitlistModal from "@/components/WaitlistModal";
@@ -14,13 +14,9 @@ import thingsToDo from "@/assets/categories/things-to-do.jpg";
 import thingsToDo2 from "@/assets/categories/things-to-do-2.png";
 import retail1 from "@/assets/categories/retail-1.webp";
 import retail2 from "@/assets/categories/retail-2.webp";
-import homeLifestyle1 from "@/assets/categories/home-lifestyle-1.jpg";
-import homeLifestyle2 from "@/assets/categories/home-lifestyle-2.jpg";
-import electronics1 from "@/assets/categories/electronics-1.jpg";
-import electronics2 from "@/assets/categories/electronics-2.webp";
 const categories = [{
   icon: Utensils,
-  title: "Food & Drink",
+  title: "Food & Drinks 🍴",
   description: "Discover exclusive restaurant deals, happy hour offers, and 2-for-1 dining experiences at Lagos' hottest food spots.",
   color: "text-primary",
   images: [restaurant1, restaurant2]
@@ -48,18 +44,6 @@ const categories = [{
   description: "Shop exclusive discounts on fashion, accessories, thrift finds, and more. Stylish steals you won't find anywhere else.",
   color: "text-primary",
   images: [retail1, retail2]
-}, {
-  icon: Home,
-  title: "Home & Lifestyle",
-  description: "Transform your space with deals on furniture, decor, and lifestyle essentials. Style your home for less.",
-  color: "text-primary",
-  images: [homeLifestyle1, homeLifestyle2]
-}, {
-  icon: Smartphone,
-  title: "Electronics & Gadgets",
-  description: "Score deals on the latest tech, gadgets, and electronics. Upgrade your devices without breaking the bank.",
-  color: "text-primary",
-  images: [electronics1, electronics2]
 }];
 const Categories = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -75,8 +59,8 @@ const Categories = () => {
           <p className="text-base text-muted-foreground max-w-2xl mx-auto">Discover the categories where great deals drive traffic, fill slow hours, and spark social buzz.</p>
         </div>
 
-        {/* Desktop: 7 columns, Tablet: 3 columns, Mobile: 1 column */}
-        <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-7 gap-6">
+        {/* Desktop: 5 columns, Tablet: 3 columns, Mobile: 1 column */}
+        <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-6">
           {categories.map((category, index) => <div key={index} className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer bg-white" onMouseEnter={() => setHoveredIndex(index)} onMouseLeave={() => setHoveredIndex(null)}>
               {/* Image - Fixed height, no scaling */}
               <div className="relative h-64 overflow-hidden">
