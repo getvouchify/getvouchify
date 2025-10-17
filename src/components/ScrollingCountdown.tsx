@@ -37,7 +37,8 @@ const ScrollingCountdown = () => {
     <div className="fixed top-16 md:top-[120px] left-0 right-0 z-50 bg-primary text-white py-3 shadow-md overflow-hidden">
       <div className="relative flex">
         <div className="flex items-center gap-6 px-4 animate-marquee whitespace-nowrap">
-          <div className="flex items-center gap-1.5 md:gap-2 text-sm md:text-base font-bold">
+          <div className="flex items-center gap-3 text-sm md:text-base font-bold">
+            <span>🚀 LAUNCHING IN:</span>
             <span>{String(timeLeft.days).padStart(2, "0")}d</span>
             <span>:</span>
             <span>{String(timeLeft.hours).padStart(2, "0")}h</span>
@@ -48,7 +49,8 @@ const ScrollingCountdown = () => {
           </div>
         </div>
         <div className="flex items-center gap-6 px-4 animate-marquee whitespace-nowrap" aria-hidden="true">
-          <div className="flex items-center gap-1.5 md:gap-2 text-sm md:text-base font-bold">
+          <div className="flex items-center gap-3 text-sm md:text-base font-bold">
+            <span>🚀 LAUNCHING IN:</span>
             <span>{String(timeLeft.days).padStart(2, "0")}d</span>
             <span>:</span>
             <span>{String(timeLeft.hours).padStart(2, "0")}h</span>

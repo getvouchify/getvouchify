@@ -85,13 +85,6 @@ const Hero = () => {
                   Join as a Business
                 </Button>
               </div>
-
-              {/* Coming Soon Tag */}
-              <div className="mt-4 sm:mt-6 flex justify-center lg:justify-start">
-                <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-primary/10 text-primary text-xs sm:text-sm font-semibold border border-primary/20 shadow-sm animate-pulse">
-                  🚀 Coming Soon
-                </span>
-              </div>
             </motion.div>
 
             {/* Right Illustration */}
