@@ -50,7 +50,7 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
           phone: formData.phone || null,
           business_name: formData.businessName || null,
           interests: formData.interests.length > 0 ? formData.interests : null,
-          type: type,
+          type: type === "customer" ? "shopper" : "merchant",
         });
 
       if (error) throw error;
