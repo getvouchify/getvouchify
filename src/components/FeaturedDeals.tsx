@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Sparkles } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import WaitlistModal from "./WaitlistModal";
 
 const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
   const { addToCart } = useCart();
@@ -13,6 +14,7 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
   const [filterCategory, setFilterCategory] = useState("all");
   const [deals, setDeals] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [waitlistOpen, setWaitlistOpen] = useState(false);
 
   useEffect(() => {
     loadDeals();
@@ -124,8 +126,25 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
               <p className="text-xl text-muted-foreground">Loading deals...</p>
             </div>
           ) : filteredDeals.length === 0 ? (
-            <div className="col-span-full text-center py-16">
-              <p className="text-xl text-muted-foreground">No deals found matching your criteria</p>
+            <div className="col-span-full text-center py-20">
+              <div className="max-w-md mx-auto">
+                <div className="mb-6">
+                  <Sparkles className="w-16 h-16 mx-auto text-primary/60" strokeWidth={1.5} />
+                </div>
+                <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
+                  Amazing Deals Coming Soon! 🎉
+                </h3>
+                <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
+                  We're curating the best deals in Lagos just for you. Be the first to know when we launch exclusive offers!
+                </p>
+                <Button 
+                  onClick={() => setWaitlistOpen(true)}
+                  size="lg"
+                  className="bg-primary hover:bg-primary/90 text-white font-bold px-8 h-14 text-lg min-h-[44px]"
+                >
+                  Join the Waitlist
+                </Button>
+              </div>
             </div>
           ) : (
             filteredDeals.map((deal, index) => (
@@ -215,6 +234,12 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
           </Button>
         </div>
       </div>
+      
+      <WaitlistModal 
+        open={waitlistOpen}
+        onOpenChange={setWaitlistOpen}
+        type="shopper"
+      />
     </section>
   );
 };
