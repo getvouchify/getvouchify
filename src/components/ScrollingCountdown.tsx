@@ -34,7 +34,7 @@ const ScrollingCountdown = () => {
   }, [launchDate]);
 
   return (
-    <div className="fixed top-16 left-0 right-0 z-40 bg-primary text-white py-3 shadow-md overflow-hidden">
+    <div className="fixed top-16 md:top-[120px] left-0 right-0 z-50 bg-primary text-white py-3 shadow-md overflow-hidden">
       <div className="relative flex">
         <div className="flex items-center gap-6 px-4 animate-marquee whitespace-nowrap">
           <div className="flex items-center gap-1.5 md:gap-2 text-sm md:text-base font-bold">
