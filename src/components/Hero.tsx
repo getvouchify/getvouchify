@@ -4,7 +4,6 @@ import illustration from "@/assets/hero-woman-vouchify.png";
 import { motion } from "framer-motion";
 import { Users, Store } from "lucide-react";
 import WaitlistModal from "@/components/WaitlistModal";
-
 const Hero = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState<"customer" | "business">("customer");
@@ -34,8 +33,7 @@ const Hero = () => {
             }} transition={{
               delay: 0.2
             }}>
-                Lagos' Premier Deal Discovery Platform
-              </motion.p>
+            </motion.p>
 
               {/* Coming Soon Badge */}
               <motion.div className="inline-block" initial={{
@@ -69,19 +67,10 @@ const Hero = () => {
 
               {/* Dual Waitlist Buttons */}
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start animate-fade-in">
-                <Button 
-                  onClick={() => openModal("customer")}
-                  size="lg"
-                  className="h-12 sm:h-14 px-5 sm:px-8 text-sm sm:text-lg font-bold gradient-primary text-white hover-lift shadow-glow transition-all duration-300"
-                >
+                <Button onClick={() => openModal("customer")} size="lg" className="h-12 sm:h-14 px-5 sm:px-8 text-sm sm:text-lg font-bold gradient-primary text-white hover-lift shadow-glow transition-all duration-300">
                   Join as a Customer
                 </Button>
-                <Button 
-                  onClick={() => openModal("business")}
-                  size="lg"
-                  variant="outline"
-                  className="h-12 sm:h-14 px-5 sm:px-8 text-sm sm:text-lg font-bold border-2 border-primary hover:bg-primary hover:text-white transition-all duration-300"
-                >
+                <Button onClick={() => openModal("business")} size="lg" variant="outline" className="h-12 sm:h-14 px-5 sm:px-8 text-sm sm:text-lg font-bold border-2 border-primary hover:bg-primary hover:text-white transition-all duration-300">
                   Join as a Business
                 </Button>
               </div>
