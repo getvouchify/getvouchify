@@ -12,7 +12,7 @@ const Hero = () => {
     setModalOpen(true);
   };
   return <>
-      <section className="min-h-[70vh] relative overflow-hidden bg-white pt-28 md:pt-36 lg:pt-40 pb-12 md:pb-16 lg:pb-24">
+      <section className="min-h-[70vh] relative overflow-hidden bg-white pt-20 md:pt-32 lg:pt-36 pb-12 md:pb-16 lg:pb-24">
         <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[60vh]">
             {/* Left Content */}
@@ -45,7 +45,7 @@ const Hero = () => {
               type: "spring"
             }}>
                 <span className="gradient-gold px-4 py-2 rounded-full text-sm font-semibold shadow-elegant">
-                  🚀 Coming Soon
+                  Coming Soon
                 </span>
               </motion.div>
 
