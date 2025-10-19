@@ -13,6 +13,11 @@ interface WaitlistConfirmationRequest {
   name?: string;
   businessName?: string;
   type: 'customer' | 'business';
+  phone?: string;
+  category?: string;
+  state?: string;
+  lga?: string;
+  interests?: string[];
 }
 
 serve(async (req) => {
@@ -22,7 +27,7 @@ serve(async (req) => {
   }
 
   try {
-    const { email, name, businessName, type }: WaitlistConfirmationRequest = await req.json();
+    const { email, name, businessName, type, phone, category, state, lga, interests }: WaitlistConfirmationRequest = await req.json();
 
     console.log(`Sending waitlist confirmation to ${email} (type: ${type})`);
 
@@ -70,7 +75,7 @@ serve(async (req) => {
               
               <p style="margin-top: 30px;">
                 <strong>Stay connected:</strong><br>
-                📱 Instagram: <a href="https://instagram.com/vouchify" style="color: #9b87f5;">@vouchify</a>
+                📱 Instagram: <a href="https://instagram.com/get.vouchify" style="color: #9b87f5;">@get.vouchify</a>
               </p>
               
               <p style="margin-top: 30px;">
@@ -167,6 +172,109 @@ serve(async (req) => {
     }
 
     console.log('Email sent successfully:', data);
+
+    // Send admin notification email
+    const adminHtmlContent = isCustomer ? `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: linear-gradient(135deg, #9b87f5 0%, #7E69AB 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+            .content { background: #ffffff; padding: 30px; border: 1px solid #e0e0e0; }
+            .info-row { padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+            .label { font-weight: bold; color: #666; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>🎉 New Customer Waitlist Signup</h1>
+            </div>
+            <div class="content">
+              <div class="info-row">
+                <span class="label">Name:</span> ${displayName}
+              </div>
+              <div class="info-row">
+                <span class="label">Email:</span> ${email}
+              </div>
+              ${state ? `<div class="info-row"><span class="label">State:</span> ${state}</div>` : ''}
+              ${lga ? `<div class="info-row"><span class="label">LGA:</span> ${lga}</div>` : ''}
+              ${interests && interests.length > 0 ? `<div class="info-row"><span class="label">Interests:</span> ${interests.join(', ')}</div>` : ''}
+              <div class="info-row">
+                <span class="label">Signed up:</span> ${new Date().toLocaleString()}
+              </div>
+            </div>
+          </div>
+        </body>
+      </html>
+    ` : `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: linear-gradient(135deg, #9b87f5 0%, #7E69AB 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+            .content { background: #ffffff; padding: 30px; border: 1px solid #e0e0e0; }
+            .info-row { padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+            .label { font-weight: bold; color: #666; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>🚀 New Business Waitlist Signup</h1>
+            </div>
+            <div class="content">
+              <div class="info-row">
+                <span class="label">Name:</span> ${displayName}
+              </div>
+              <div class="info-row">
+                <span class="label">Email:</span> ${email}
+              </div>
+              ${businessName ? `<div class="info-row"><span class="label">Business Name:</span> ${businessName}</div>` : ''}
+              ${phone ? `<div class="info-row"><span class="label">Phone:</span> ${phone}</div>` : ''}
+              ${category ? `<div class="info-row"><span class="label">Category:</span> ${category}</div>` : ''}
+              ${state ? `<div class="info-row"><span class="label">State:</span> ${state}</div>` : ''}
+              ${lga ? `<div class="info-row"><span class="label">LGA:</span> ${lga}</div>` : ''}
+              <div class="info-row">
+                <span class="label">Signed up:</span> ${new Date().toLocaleString()}
+              </div>
+            </div>
+          </div>
+        </body>
+      </html>
+    `;
+
+    // Send admin notification
+    try {
+      const adminRes = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${RESEND_API_KEY}`,
+        },
+        body: JSON.stringify({
+          from: 'Vouchify <hello@updates.getvouchify.com>',
+          to: ['hello@getvouchify.com'],
+          subject: `New ${isCustomer ? 'Customer' : 'Business'} Waitlist Signup - ${displayName}`,
+          html: adminHtmlContent,
+        }),
+      });
+
+      const adminData = await adminRes.json();
+      
+      if (adminRes.ok) {
+        console.log('Admin notification sent successfully:', adminData);
+      } else {
+        console.error('Failed to send admin notification:', adminData);
+      }
+    } catch (adminError) {
+      console.error('Error sending admin notification:', adminError);
+      // Don't fail the entire request if admin notification fails
+    }
 
     return new Response(JSON.stringify({ success: true, messageId: data.id }), {
       status: 200,
