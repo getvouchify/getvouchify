@@ -1,6 +1,6 @@
 import { CloudUpload, Shield, BarChart3, Megaphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import merchantGraphic from "@/assets/vouchify-phone-mockup-3.png";
+import merchantGraphic from "@/assets/merchant-phone-vouchify.jpg";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import WaitlistModal from "@/components/WaitlistModal";
