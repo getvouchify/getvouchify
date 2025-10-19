@@ -92,7 +92,7 @@ const MerchantBenefits = () => {
               viewport={{ once: true }}
               className="relative"
             >
-              <div className="gradient-primary rounded-2xl p-8 shadow-elegant overflow-hidden">
+              <div className="rounded-2xl overflow-hidden">
                 <img 
                   src={merchantGraphic} 
                   alt="Merchant dashboard analytics with growth charts and mobile app interface" 
