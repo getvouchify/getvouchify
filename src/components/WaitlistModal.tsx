@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2 } from "lucide-react";
 
@@ -169,7 +170,7 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-hidden">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-primary">
             Join as a {type === "customer" ? "Customer" : "Business"}
@@ -181,161 +182,165 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4 mt-4">
-          {type === "business" && (
-            <div className="space-y-2">
-              <Label htmlFor="businessName">Business Name *</Label>
-              <Input
-                id="businessName"
-                value={formData.businessName}
-                onChange={(e) => setFormData({ ...formData, businessName: e.target.value })}
-                placeholder="Your business name"
-                required
-              />
-            </div>
-          )}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <ScrollArea className="max-h-[60vh] pr-4">
+            <div className="space-y-4">
+              {type === "business" && (
+                <div className="space-y-2">
+                  <Label htmlFor="businessName">Business Name *</Label>
+                  <Input
+                    id="businessName"
+                    value={formData.businessName}
+                    onChange={(e) => setFormData({ ...formData, businessName: e.target.value })}
+                    placeholder="Your business name"
+                    required
+                  />
+                </div>
+              )}
 
-          <div className="space-y-2">
-            <Label htmlFor="name">{type === "customer" ? "Name" : "Contact Person *"}</Label>
-            <Input
-              id="name"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              placeholder="Your full name"
-              required={type === "business"}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="email">Email Address *</Label>
-            <Input
-              id="email"
-              type="email"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              placeholder="you@example.com"
-              required
-            />
-          </div>
-
-          {type === "business" && (
-            <>
               <div className="space-y-2">
-                <Label htmlFor="phone">Phone Number *</Label>
+                <Label htmlFor="name">{type === "customer" ? "Name" : "Contact Person *"}</Label>
                 <Input
-                  id="phone"
-                  type="tel"
-                  value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  placeholder="+234 XXX XXX XXXX"
-                  required
+                  id="name"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  placeholder="Your full name"
+                  required={type === "business"}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="category">Business Category *</Label>
+                <Label htmlFor="email">Email Address *</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  placeholder="you@example.com"
+                  required
+                />
+              </div>
+
+              {type === "business" && (
+                <>
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">Phone Number *</Label>
+                    <Input
+                      id="phone"
+                      type="tel"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      placeholder="+234 XXX XXX XXXX"
+                      required
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="category">Business Category *</Label>
+                    <Select
+                      value={formData.category}
+                      onValueChange={(value) => setFormData({ ...formData, category: value })}
+                      required
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select your category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {categories.map((category) => (
+                          <SelectItem key={category} value={category}>
+                            {category}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </>
+              )}
+
+              <div className="space-y-2">
+                <Label htmlFor="state">State *</Label>
                 <Select
-                  value={formData.category}
-                  onValueChange={(value) => setFormData({ ...formData, category: value })}
+                  value={formData.state}
+                  onValueChange={(value) => {
+                    setFormData({ 
+                      ...formData, 
+                      state: value,
+                      localGovernment: ""
+                    });
+                  }}
                   required
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Select your category" />
+                    <SelectValue placeholder="Select your state" />
                   </SelectTrigger>
                   <SelectContent>
-                    {categories.map((category) => (
-                      <SelectItem key={category} value={category}>
-                        {category}
+                    {nigerianStates.map((state) => (
+                      <SelectItem key={state} value={state}>
+                        {state}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
-            </>
-          )}
 
-          <div className="space-y-2">
-            <Label htmlFor="state">State *</Label>
-            <Select
-              value={formData.state}
-              onValueChange={(value) => {
-                setFormData({ 
-                  ...formData, 
-                  state: value,
-                  localGovernment: ""
-                });
-              }}
-              required
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select your state" />
-              </SelectTrigger>
-              <SelectContent>
-                {nigerianStates.map((state) => (
-                  <SelectItem key={state} value={state}>
-                    {state}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+              {formData.state && (
+                <div className="space-y-2">
+                  <Label htmlFor="localGovernment">Local Government Area *</Label>
+                  <Select
+                    value={formData.localGovernment}
+                    onValueChange={(value) => setFormData({ ...formData, localGovernment: value })}
+                    required
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select your LGA" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {localGovernments[formData.state]?.map((lga) => (
+                        <SelectItem key={lga} value={lga}>
+                          {lga}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
 
-          {formData.state && (
-            <div className="space-y-2">
-              <Label htmlFor="localGovernment">Local Government Area *</Label>
-              <Select
-                value={formData.localGovernment}
-                onValueChange={(value) => setFormData({ ...formData, localGovernment: value })}
-                required
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select your LGA" />
-                </SelectTrigger>
-                <SelectContent>
-                  {localGovernments[formData.state]?.map((lga) => (
-                    <SelectItem key={lga} value={lga}>
-                      {lga}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          )}
-
-          {type === "customer" && (
-            <div className="space-y-2">
-              <Label>Interests (optional)</Label>
-              <div className="grid grid-cols-2 gap-3">
-                {categories.map((category) => (
-                  <div key={category} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={category}
-                      checked={formData.interests.includes(category)}
-                      onCheckedChange={(checked) => {
-                        if (checked) {
-                          setFormData({
-                            ...formData,
-                            interests: [...formData.interests, category],
-                          });
-                        } else {
-                          setFormData({
-                            ...formData,
-                            interests: formData.interests.filter((i) => i !== category),
-                          });
-                        }
-                      }}
-                    />
-                    <label
-                      htmlFor={category}
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
-                      {category}
-                    </label>
+              {type === "customer" && (
+                <div className="space-y-2">
+                  <Label>Interests (optional)</Label>
+                  <div className="grid grid-cols-2 gap-3">
+                    {categories.map((category) => (
+                      <div key={category} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={category}
+                          checked={formData.interests.includes(category)}
+                          onCheckedChange={(checked) => {
+                            if (checked) {
+                              setFormData({
+                                ...formData,
+                                interests: [...formData.interests, category],
+                              });
+                            } else {
+                              setFormData({
+                                ...formData,
+                                interests: formData.interests.filter((i) => i !== category),
+                              });
+                            }
+                          }}
+                        />
+                        <label
+                          htmlFor={category}
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                          {category}
+                        </label>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                </div>
+              )}
             </div>
-          )}
+          </ScrollArea>
 
           <Button type="submit" className="w-full gradient-primary text-white font-semibold" disabled={isSubmitting}>
             {isSubmitting ? (
