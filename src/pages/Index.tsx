@@ -29,32 +29,11 @@ const Index = () => {
               Discover the best of Lagos with exclusive offers from top venues
             </p>
           </div>
-          <img 
-            src={lagosImage} 
-            alt="Lagos cityscape featuring the iconic bridge" 
-            className="w-full h-[250px] md:h-[400px] object-cover rounded-xl shadow-elegant" 
-            loading="lazy"
-          />
+          <img src={lagosImage} alt="Lagos cityscape featuring the iconic bridge" className="w-full h-[250px] md:h-[400px] object-cover rounded-xl shadow-elegant" loading="lazy" />
         </div>
       </section>
       
-      <section className="bg-white py-4 md:py-6 lg:py-8">
-        <div className="container mx-auto px-4 md:px-6 lg:px-8">
-          <div className="text-center mb-6 md:mb-8">
-            <h2 className="text-2xl md:text-4xl lg:text-5xl font-extrabold text-primary mb-4">
-              See It. Claim It. Vouchify It.
-            </h2>
-          </div>
-          <div className="flex justify-center items-center">
-            <img 
-              src={phoneMockup} 
-              alt="Vouchify mobile app interface showcasing deals in Lagos" 
-              className="max-w-full h-auto max-h-[800px] object-contain rounded-2xl" 
-              loading="lazy"
-            />
-          </div>
-        </div>
-      </section>
+      
       
       <section id="categories" className="bg-white py-4 md:py-6 lg:py-8">
         <Categories />
