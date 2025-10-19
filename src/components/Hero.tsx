@@ -67,24 +67,15 @@ const Hero = () => {
 
               {/* Urgency Badge */}
               <div className="inline-flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-full mb-6">
-                <span className="text-primary font-semibold text-sm">🔥 Limited Early Access Spots</span>
+                <span className="text-primary font-semibold text-sm">Limited Early Access Spots</span>
               </div>
 
               {/* Single Prominent CTA */}
               <div className="flex flex-col gap-4 justify-center lg:justify-start animate-fade-in">
-                <Button 
-                  onClick={() => openModal("customer")} 
-                  size="lg" 
-                  className="h-14 sm:h-16 px-8 sm:px-12 text-lg sm:text-xl font-bold gradient-primary text-white hover-lift shadow-glow transition-all duration-300"
-                >
+                <Button onClick={() => openModal("customer")} size="lg" className="h-14 sm:h-16 px-8 sm:px-12 text-lg sm:text-xl font-bold gradient-primary text-white hover-lift shadow-glow transition-all duration-300">
                   Join the Waitlist Now
                 </Button>
-                <Button 
-                  onClick={() => openModal("business")} 
-                  size="sm" 
-                  variant="ghost"
-                  className="text-primary font-semibold underline hover:no-underline"
-                >
+                <Button onClick={() => openModal("business")} size="sm" variant="ghost" className="text-primary font-semibold underline hover:no-underline">
                   Are you a business? Click here
                 </Button>
               </div>
