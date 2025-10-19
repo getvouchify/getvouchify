@@ -19,7 +19,7 @@ const QuickValueProp = () => {
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary">
               What is Vouchify?
             </h2>
-            <p className="text-xl md:text-2xl text-foreground leading-relaxed max-w-3xl mx-auto">Lagos' first ever local e-commerce discovery platform. For exclusive time-limited offers from various businesses across the city. </p>
+            <p className="text-xl md:text-2xl text-foreground leading-relaxed max-w-3xl mx-auto">Lagos’ first-ever local e-commerce discovery platform for exclusive time-limited citywide offers and rewards for loyal customers.</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6 md:gap-8 mt-12">
