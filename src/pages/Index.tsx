@@ -5,14 +5,12 @@ import ScrollingCountdown from "@/components/ScrollingCountdown";
 import HowItWorks from "@/components/HowItWorks";
 import MerchantBenefits from "@/components/MerchantBenefits";
 import Categories from "@/components/Categories";
-import AnnouncementBanner from "@/components/AnnouncementBanner";
 import QuickValueProp from "@/components/QuickValueProp";
 import StickyCTA from "@/components/StickyCTA";
 import lagosImage from "@/assets/lagos-bridge.jpg";
 import phoneMockup from "@/assets/vouchify-phone-mockup.png";
 const Index = () => {
   return <div className="min-h-screen scroll-smooth">
-      <AnnouncementBanner />
       <ScrollingCountdown />
       <Navigation />
       <Hero />
