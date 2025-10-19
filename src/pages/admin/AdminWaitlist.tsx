@@ -16,6 +16,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   Dialog,
   DialogContent,
@@ -47,6 +48,7 @@ export default function AdminWaitlist() {
   const [waitlist, setWaitlist] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("all");
   const [editEntry, setEditEntry] = useState<any>(null);
   const [deleteEntry, setDeleteEntry] = useState<any>(null);
   const [formData, setFormData] = useState({
@@ -84,6 +86,22 @@ export default function AdminWaitlist() {
     entry.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     entry.business_name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const merchantWaitlist = filteredWaitlist.filter(entry => entry.type === "merchant");
+  const shopperWaitlist = filteredWaitlist.filter(entry => entry.type === "shopper");
+
+  const getActiveData = () => {
+    switch (activeTab) {
+      case "merchants":
+        return merchantWaitlist;
+      case "shoppers":
+        return shopperWaitlist;
+      default:
+        return filteredWaitlist;
+    }
+  };
+
+  const activeData = getActiveData();
 
   const handleEdit = (entry: any) => {
     setEditEntry(entry);
@@ -142,7 +160,7 @@ export default function AdminWaitlist() {
     }
   };
 
-  const exportData = filteredWaitlist.map(entry => ({
+  const exportData = activeData.map(entry => ({
     Email: entry.email,
     Name: entry.name || "N/A",
     Phone: entry.phone || "N/A",
@@ -179,73 +197,89 @@ export default function AdminWaitlist() {
             />
           </div>
 
-          <div className="border rounded-lg">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Email</TableHead>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Phone</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Business</TableHead>
-                  <TableHead>Interests</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {isLoading ? (
-                  <TableRow>
-                    <TableCell colSpan={7} className="text-center">
-                      Loading...
-                    </TableCell>
-                  </TableRow>
-                ) : filteredWaitlist.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={8} className="text-center">
-                      No waitlist entries found
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  filteredWaitlist.map((entry) => (
-                    <TableRow key={entry.id}>
-                      <TableCell className="font-medium">{entry.email}</TableCell>
-                      <TableCell>{entry.name || "N/A"}</TableCell>
-                      <TableCell>{entry.phone || "N/A"}</TableCell>
-                      <TableCell>
-                        <Badge variant={entry.type === "shopper" ? "default" : "secondary"}>
-                          {entry.type}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>{entry.business_name || "N/A"}</TableCell>
-                      <TableCell>
-                        {entry.interests?.join(", ") || "N/A"}
-                      </TableCell>
-                      <TableCell>{new Date(entry.created_at).toLocaleDateString()}</TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex justify-end gap-2">
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => handleEdit(entry)}
-                          >
-                            <Pencil className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => setDeleteEntry(entry)}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+            <TabsList>
+              <TabsTrigger value="all">
+                All <Badge variant="outline" className="ml-2">{filteredWaitlist.length}</Badge>
+              </TabsTrigger>
+              <TabsTrigger value="merchants">
+                Merchants <Badge variant="outline" className="ml-2">{merchantWaitlist.length}</Badge>
+              </TabsTrigger>
+              <TabsTrigger value="shoppers">
+                Shoppers <Badge variant="outline" className="ml-2">{shopperWaitlist.length}</Badge>
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value={activeTab} className="space-y-4">
+              <div className="border rounded-lg">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Email</TableHead>
+                      <TableHead>Name</TableHead>
+                      <TableHead>Phone</TableHead>
+                      <TableHead>Type</TableHead>
+                      <TableHead>Business</TableHead>
+                      <TableHead>Interests</TableHead>
+                      <TableHead>Date</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
-          </div>
+                  </TableHeader>
+                  <TableBody>
+                    {isLoading ? (
+                      <TableRow>
+                        <TableCell colSpan={8} className="text-center">
+                          Loading...
+                        </TableCell>
+                      </TableRow>
+                    ) : activeData.length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={8} className="text-center">
+                          No waitlist entries found
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                      activeData.map((entry) => (
+                        <TableRow key={entry.id}>
+                          <TableCell className="font-medium">{entry.email}</TableCell>
+                          <TableCell>{entry.name || "N/A"}</TableCell>
+                          <TableCell>{entry.phone || "N/A"}</TableCell>
+                          <TableCell>
+                            <Badge variant={entry.type === "shopper" ? "default" : "secondary"}>
+                              {entry.type}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>{entry.business_name || "N/A"}</TableCell>
+                          <TableCell>
+                            {entry.interests?.join(", ") || "N/A"}
+                          </TableCell>
+                          <TableCell>{new Date(entry.created_at).toLocaleDateString()}</TableCell>
+                          <TableCell className="text-right">
+                            <div className="flex justify-end gap-2">
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => handleEdit(entry)}
+                              >
+                                <Pencil className="h-4 w-4" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => setDeleteEntry(entry)}
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+            </TabsContent>
+          </Tabs>
 
           <Dialog open={!!editEntry} onOpenChange={() => setEditEntry(null)}>
             <DialogContent className="max-w-md">
