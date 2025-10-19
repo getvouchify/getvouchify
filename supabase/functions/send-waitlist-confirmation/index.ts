@@ -151,7 +151,7 @@ serve(async (req) => {
         'Authorization': `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: 'Vouchify <onboarding@resend.dev>',
+        from: 'Vouchify <hello@updates.getvouchify.com>',
         to: [email],
         reply_to: 'hello@getvouchify.com',
         subject: subject,

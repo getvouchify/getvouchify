@@ -128,7 +128,7 @@ serve(async (req) => {
         'Authorization': `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: 'Vouchify Contact <onboarding@resend.dev>',
+        from: 'Vouchify Contact <hello@updates.getvouchify.com>',
         to: [BUSINESS_EMAIL],
         reply_to: email,
         subject: `Contact Form: ${subject || 'New Message'} - from ${name}`,
@@ -151,7 +151,7 @@ serve(async (req) => {
         'Authorization': `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: 'Vouchify <onboarding@resend.dev>',
+        from: 'Vouchify <hello@updates.getvouchify.com>',
         to: [email],
         subject: 'We received your message! - Vouchify',
         html: userConfirmationContent,
