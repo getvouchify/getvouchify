@@ -7,6 +7,7 @@ import MerchantBenefits from "@/components/MerchantBenefits";
 import Categories from "@/components/Categories";
 import QuickValueProp from "@/components/QuickValueProp";
 import StickyCTA from "@/components/StickyCTA";
+import LoyaltyRewards from "@/components/LoyaltyRewards";
 import lagosImage from "@/assets/lagos-bridge.jpg";
 import phoneMockup from "@/assets/vouchify-phone-mockup.png";
 const Index = () => {
@@ -44,6 +45,8 @@ const Index = () => {
       <section className="hidden md:block bg-white py-12 md:py-16 lg:py-24">
         <MerchantBenefits />
       </section>
+      
+      <LoyaltyRewards />
       
       <StickyCTA />
       <Footer />
