@@ -170,8 +170,8 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-hidden">
-        <DialogHeader>
+      <DialogContent className="sm:max-w-[425px] max-h-[85vh] flex flex-col">
+        <DialogHeader className="flex-shrink-0">
           <DialogTitle className="text-2xl font-bold text-primary">
             Join as a {type === "customer" ? "Customer" : "Business"}
           </DialogTitle>
@@ -182,8 +182,8 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <ScrollArea className="max-h-[60vh] pr-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4 flex-1 min-h-0">
+          <ScrollArea className="flex-1 pr-4">
             <div className="space-y-4">
               {type === "business" && (
                 <div className="space-y-2">
@@ -342,16 +342,18 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
             </div>
           </ScrollArea>
 
-          <Button type="submit" className="w-full gradient-primary text-white font-semibold" disabled={isSubmitting}>
-            {isSubmitting ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Joining...
-              </>
-            ) : (
-              "Join the Waitlist"
-            )}
-          </Button>
+          <div className="flex-shrink-0 pt-2">
+            <Button type="submit" className="w-full gradient-primary text-white font-semibold" disabled={isSubmitting}>
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Joining...
+                </>
+              ) : (
+                "Join the Waitlist"
+              )}
+            </Button>
+          </div>
         </form>
       </DialogContent>
     </Dialog>
