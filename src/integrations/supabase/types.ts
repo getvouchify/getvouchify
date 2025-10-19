@@ -24,6 +24,7 @@ export type Database = {
           image_url: string
           is_active: boolean | null
           merchant: string
+          merchant_id: string | null
           offer: string | null
           original_price: number | null
           sold_count: number | null
@@ -39,6 +40,7 @@ export type Database = {
           image_url: string
           is_active?: boolean | null
           merchant: string
+          merchant_id?: string | null
           offer?: string | null
           original_price?: number | null
           sold_count?: number | null
@@ -54,13 +56,22 @@ export type Database = {
           image_url?: string
           is_active?: boolean | null
           merchant?: string
+          merchant_id?: string | null
           offer?: string | null
           original_price?: number | null
           sold_count?: number | null
           title?: string
           updated_at?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "deals_merchant_id_fkey"
+            columns: ["merchant_id"]
+            isOneToOne: false
+            referencedRelation: "merchants"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       merchants: {
         Row: {

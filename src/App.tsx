@@ -16,6 +16,7 @@ import AdminDeals from "./pages/admin/AdminDeals";
 import AdminOrders from "./pages/admin/AdminOrders";
 import AdminMerchants from "./pages/admin/AdminMerchants";
 import AdminWaitlist from "./pages/admin/AdminWaitlist";
+import AdminEmailLogs from "./pages/admin/AdminEmailLogs";
 import { AdminAuthGuard } from "./components/admin/AdminAuthGuard";
 
 const queryClient = new QueryClient();
@@ -38,6 +39,7 @@ const App = () => (
           <Route path="/admin/orders" element={<AdminAuthGuard><AdminOrders /></AdminAuthGuard>} />
           <Route path="/admin/merchants" element={<AdminAuthGuard><AdminMerchants /></AdminAuthGuard>} />
           <Route path="/admin/waitlist" element={<AdminAuthGuard><AdminWaitlist /></AdminAuthGuard>} />
+          <Route path="/admin/email-logs" element={<AdminAuthGuard><AdminEmailLogs /></AdminAuthGuard>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

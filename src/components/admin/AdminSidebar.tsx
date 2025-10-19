@@ -4,7 +4,8 @@ import {
   Tag, 
   ShoppingCart, 
   Store, 
-  Users, 
+  Users,
+  Mail,
   LogOut 
 } from "lucide-react";
 import {
@@ -28,6 +29,7 @@ const menuItems = [
   { title: "Orders", url: "/admin/orders", icon: ShoppingCart },
   { title: "Merchants", url: "/admin/merchants", icon: Store },
   { title: "Waitlist", url: "/admin/waitlist", icon: Users },
+  { title: "Email Logs", url: "/admin/email-logs", icon: Mail },
 ];
 
 export const AdminSidebar = () => {

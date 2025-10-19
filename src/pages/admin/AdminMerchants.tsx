@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { AdminAuthGuard } from "@/components/admin/AdminAuthGuard";
 import { ExportButton } from "@/components/admin/ExportButton";
+import { MerchantDialog } from "@/components/admin/MerchantDialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
@@ -20,6 +21,8 @@ export default function AdminMerchants() {
   const [merchants, setMerchants] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedMerchant, setSelectedMerchant] = useState<any>(null);
 
   useEffect(() => {
     loadMerchants();
@@ -92,7 +95,10 @@ export default function AdminMerchants() {
                 filename="vouchify-merchants" 
                 sheetName="Merchants" 
               />
-              <Button>
+              <Button onClick={() => {
+                setSelectedMerchant(null);
+                setDialogOpen(true);
+              }}>
                 <Plus className="h-4 w-4 mr-2" />
                 Add Merchant
               </Button>
@@ -143,7 +149,14 @@ export default function AdminMerchants() {
                       <TableCell>{new Date(merchant.created_at).toLocaleDateString()}</TableCell>
                       <TableCell>
                         <div className="flex gap-2">
-                          <Button variant="ghost" size="icon">
+                          <Button 
+                            variant="ghost" 
+                            size="icon"
+                            onClick={() => {
+                              setSelectedMerchant(merchant);
+                              setDialogOpen(true);
+                            }}
+                          >
                             <Pencil className="h-4 w-4" />
                           </Button>
                           <Button
@@ -162,6 +175,13 @@ export default function AdminMerchants() {
             </Table>
           </div>
         </div>
+        
+        <MerchantDialog
+          open={dialogOpen}
+          onOpenChange={setDialogOpen}
+          merchant={selectedMerchant}
+          onSuccess={loadMerchants}
+        />
       </AdminLayout>
     </AdminAuthGuard>
   );

@@ -30,7 +30,13 @@ export default function AdminDeals() {
     try {
       const { data, error } = await supabase
         .from("deals")
-        .select("*")
+        .select(`
+          *,
+          merchants (
+            name,
+            email
+          )
+        `)
         .order("created_at", { ascending: false });
 
       if (error) throw error;
@@ -84,7 +90,7 @@ export default function AdminDeals() {
   );
 
   const exportData = filteredDeals.map(deal => ({
-    Merchant: deal.merchant,
+    Merchant: deal.merchants?.name || deal.merchant,
     Title: deal.title,
     Category: deal.category,
     Discount: deal.discount,
@@ -158,7 +164,9 @@ export default function AdminDeals() {
                 ) : (
                   filteredDeals.map((deal) => (
                     <TableRow key={deal.id}>
-                      <TableCell className="font-medium">{deal.merchant}</TableCell>
+                      <TableCell className="font-medium">
+                        {deal.merchants?.name || deal.merchant}
+                      </TableCell>
                       <TableCell>{deal.title}</TableCell>
                       <TableCell>{deal.category}</TableCell>
                       <TableCell>{deal.discount}</TableCell>
