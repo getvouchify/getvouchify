@@ -61,17 +61,31 @@ const Hero = () => {
 
               <p className="text-base md:text-xl lg:text-2xl font-bold text-primary/90 italic">More Than A Daily Deal</p>
 
-              <p className="text-sm md:text-lg text-foreground max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                Discover limited-time perks near you — join the waitlist today!
+              <p className="text-sm md:text-lg text-foreground max-w-xl mx-auto lg:mx-0 leading-relaxed mb-4">
+                Discover limited-time perks near you. Be among the first to experience Lagos like never before.
               </p>
 
-              {/* Dual Waitlist Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start animate-fade-in">
-                <Button onClick={() => openModal("customer")} size="lg" className="h-12 sm:h-14 px-5 sm:px-8 text-sm sm:text-lg font-bold gradient-primary text-white hover-lift shadow-glow transition-all duration-300">
-                  Join as a Customer
+              {/* Urgency Badge */}
+              <div className="inline-flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-full mb-6">
+                <span className="text-primary font-semibold text-sm">🔥 Limited Early Access Spots</span>
+              </div>
+
+              {/* Single Prominent CTA */}
+              <div className="flex flex-col gap-4 justify-center lg:justify-start animate-fade-in">
+                <Button 
+                  onClick={() => openModal("customer")} 
+                  size="lg" 
+                  className="h-14 sm:h-16 px-8 sm:px-12 text-lg sm:text-xl font-bold gradient-primary text-white hover-lift shadow-glow transition-all duration-300"
+                >
+                  Join the Waitlist Now
                 </Button>
-                <Button onClick={() => openModal("business")} size="lg" variant="outline" className="h-12 sm:h-14 px-5 sm:px-8 text-sm sm:text-lg font-bold border-2 border-primary hover:bg-primary hover:text-white transition-all duration-300">
-                  Join as a Business
+                <Button 
+                  onClick={() => openModal("business")} 
+                  size="sm" 
+                  variant="ghost"
+                  className="text-primary font-semibold underline hover:no-underline"
+                >
+                  Are you a business? Click here
                 </Button>
               </div>
             </motion.div>

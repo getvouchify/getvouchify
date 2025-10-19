@@ -87,9 +87,19 @@ const Categories = () => {
                   {category.description}
                 </p>
 
-                <Button variant="secondary" size="sm" className="w-full bg-white text-foreground hover:bg-white/90 font-semibold text-[10px] md:text-xs h-8 md:h-9" onClick={() => setIsWaitlistOpen(true)}>
-                  View Deals
-                </Button>
+                <div className="mt-2 space-y-2">
+                  <span className="inline-block bg-primary/20 text-white text-[10px] md:text-xs font-semibold px-2 py-1 rounded-full">
+                    Coming Soon
+                  </span>
+                  <Button 
+                    variant="secondary" 
+                    size="sm" 
+                    className="w-full bg-white text-foreground hover:bg-white/90 font-semibold text-[10px] md:text-xs h-8 md:h-9" 
+                    onClick={() => setIsWaitlistOpen(true)}
+                  >
+                    Get Notified
+                  </Button>
+                </div>
               </div>
 
               {/* Image indicator dots - only if multiple images */}

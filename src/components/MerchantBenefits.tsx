@@ -78,10 +78,13 @@ const MerchantBenefits = () => {
               <Button 
                 onClick={() => setModalOpen(true)}
                 size="lg"
-                className="gradient-primary text-white font-semibold text-base md:text-lg px-6 md:px-8 py-5 md:py-6 shadow-elegant hover-lift"
+                className="gradient-primary text-white hover-lift shadow-glow px-8 py-3 text-base font-bold w-full sm:w-auto"
               >
-                Sign Up as Merchant
+                Join Business Waitlist
               </Button>
+              <p className="text-sm text-muted-foreground mt-2">
+                📅 Launching Soon - Secure Your Spot
+              </p>
             </motion.div>
 
             {/* Visual Element */}

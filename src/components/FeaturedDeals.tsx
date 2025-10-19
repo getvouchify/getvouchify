@@ -2,14 +2,12 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ShoppingCart, Sparkles } from "lucide-react";
-import { useCart } from "@/contexts/CartContext";
+import { Sparkles } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import WaitlistModal from "./WaitlistModal";
 
 const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
-  const { addToCart } = useCart();
   const [sortBy, setSortBy] = useState("popular");
   const [filterCategory, setFilterCategory] = useState("all");
   const [deals, setDeals] = useState<any[]>([]);
@@ -78,10 +76,10 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
       <div className="container mx-auto px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4">
-            {searchQuery ? `Search Results for "${searchQuery}"` : "Today's Featured Deals"}
+            {searchQuery ? `Search Results for "${searchQuery}"` : "Preview: Deals Coming Soon"}
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            {searchQuery ? `Found ${filteredDeals.length} deals` : "Limited time offers you don't want to miss"}
+            {searchQuery ? `Found ${filteredDeals.length} deals` : "Join the waitlist to be the first to access exclusive offers"}
           </p>
         </div>
 
@@ -140,7 +138,7 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
                 <Button 
                   onClick={() => setWaitlistOpen(true)}
                   size="lg"
-                  className="bg-primary hover:bg-primary/90 text-white font-bold px-8 h-14 text-lg min-h-[44px]"
+                  className="bg-primary hover:bg-primary/90 text-white font-bold px-8 h-14 text-lg min-h-[44px] gradient-primary hover-lift"
                 >
                   Join the Waitlist
                 </Button>
@@ -169,6 +167,11 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
                 <div className="absolute bottom-4 left-4">
                   <Badge variant="secondary" className="bg-white/95 text-foreground font-semibold">
                     {deal.category}
+                  </Badge>
+                </div>
+                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                  <Badge className="bg-white text-primary font-bold text-lg px-4 py-2">
+                    Coming Soon
                   </Badge>
                 </div>
               </div>
@@ -202,21 +205,14 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
 
                 {/* Sold Count */}
                 <p className="text-sm md:text-base text-muted-foreground mb-6">
-                  🔥 {deal.sold_count.toLocaleString()}+ sold
+                  🔥 {deal.sold_count.toLocaleString()}+ interested
                 </p>
 
                 <Button 
-                  onClick={() => {
-                    addToCart(deal);
-                    toast({
-                      title: "Added to cart! 🎉",
-                      description: `${deal.title} has been added to your cart.`,
-                      duration: 3000,
-                    });
-                  }}
+                  onClick={() => setWaitlistOpen(true)}
                   className="w-full bg-primary hover:bg-primary/90 text-white font-bold text-base h-12 min-h-[44px]"
                 >
-                  Claim Now!
+                  Get Notified
                 </Button>
               </div>
             </div>
@@ -227,10 +223,10 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
         <div className="text-center mt-16">
           <Button 
             size="lg" 
-            variant="outline"
-            className="border-2 border-primary text-primary bg-white hover:bg-primary hover:text-white font-bold px-10 h-14 text-lg min-h-[44px]"
+            onClick={() => setWaitlistOpen(true)}
+            className="border-2 border-primary text-white bg-primary hover:bg-primary/90 font-bold px-10 h-14 text-lg min-h-[44px] gradient-primary hover-lift"
           >
-            See All Deals
+            Join Waitlist for Early Access
           </Button>
         </div>
       </div>

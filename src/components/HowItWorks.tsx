@@ -155,9 +155,9 @@ const HowItWorks = () => {
           <Button 
             onClick={() => setModalOpen(true)}
             size="lg"
-            className="h-12 md:h-14 px-6 md:px-10 text-sm md:text-lg font-bold gradient-primary text-white hover-lift min-h-[44px]"
+            className="h-12 md:h-14 px-6 md:px-10 text-sm md:text-lg font-bold gradient-primary text-white hover-lift shadow-glow min-h-[44px]"
           >
-            Get Started Now
+            Join the Waitlist Now
           </Button>
         </motion.div>
       </div>
