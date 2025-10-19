@@ -184,8 +184,10 @@ export type Database = {
           email: string
           id: string
           interests: string[] | null
+          local_government: string | null
           name: string | null
           phone: string | null
+          state: string | null
           type: string
         }
         Insert: {
@@ -194,8 +196,10 @@ export type Database = {
           email: string
           id?: string
           interests?: string[] | null
+          local_government?: string | null
           name?: string | null
           phone?: string | null
+          state?: string | null
           type: string
         }
         Update: {
@@ -204,8 +208,10 @@ export type Database = {
           email?: string
           id?: string
           interests?: string[] | null
+          local_government?: string | null
           name?: string | null
           phone?: string | null
+          state?: string | null
           type?: string
         }
         Relationships: []
