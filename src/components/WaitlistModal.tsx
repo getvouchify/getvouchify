@@ -42,6 +42,7 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
     setIsSubmitting(true);
 
     try {
+      // Insert into database
       const { error } = await supabase
         .from("waitlist")
         .insert({
@@ -55,9 +56,29 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
 
       if (error) throw error;
 
+      // Send confirmation email
+      try {
+        const emailResponse = await supabase.functions.invoke('send-waitlist-confirmation', {
+          body: {
+            email: formData.email,
+            name: formData.name,
+            businessName: formData.businessName,
+            type: type,
+          },
+        });
+
+        if (emailResponse.error) {
+          console.error('Failed to send confirmation email:', emailResponse.error);
+          // Don't fail the whole operation if email fails
+        }
+      } catch (emailError) {
+        console.error('Email sending error:', emailError);
+        // Don't fail the whole operation if email fails
+      }
+
       toast({
         title: "Success! 🎉",
-        description: `You've been added to the ${type} waitlist. We'll be in touch soon!`,
+        description: `You've been added to the ${type} waitlist. Check your email for confirmation!`,
       });
       
       onOpenChange(false);
