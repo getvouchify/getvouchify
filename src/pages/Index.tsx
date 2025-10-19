@@ -13,8 +13,8 @@ import phoneMockup from "@/assets/vouchify-phone-mockup.png";
 const Index = () => {
   return <div className="min-h-screen scroll-smooth">
       <AnnouncementBanner />
-      <Navigation />
       <ScrollingCountdown />
+      <Navigation />
       <Hero />
       
       <QuickValueProp />

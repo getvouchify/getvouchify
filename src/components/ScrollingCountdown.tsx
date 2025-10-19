@@ -47,7 +47,7 @@ const ScrollingCountdown = () => {
   );
 
   return (
-    <div className="fixed top-16 md:top-[120px] left-0 right-0 z-50 bg-primary text-white py-3 shadow-md overflow-hidden">
+    <div className="fixed top-0 left-0 right-0 z-50 bg-primary text-white py-3 shadow-md overflow-hidden">
       <div className="flex whitespace-nowrap">
         <div className="flex animate-marquee">
           {countdownContent}

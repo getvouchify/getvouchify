@@ -13,7 +13,7 @@ const Navigation = () => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-sm">
+      <nav className="fixed top-12 left-0 right-0 z-40 bg-white/95 backdrop-blur-md shadow-sm">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16 md:h-20 gap-4">
             {/* Logo */}
