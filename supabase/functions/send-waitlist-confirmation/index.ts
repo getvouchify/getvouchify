@@ -153,6 +153,7 @@ serve(async (req) => {
       body: JSON.stringify({
         from: 'Vouchify <hello@send.updates.getvouchify.com>',
         to: [email],
+        reply_to: 'hello@getvouchify.com',
         subject: subject,
         html: htmlContent,
       }),
