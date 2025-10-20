@@ -36,7 +36,7 @@ const Hero = () => {
             </motion.p>
 
               {/* Coming Soon Badge */}
-              <motion.div className="inline-block" initial={{
+              <motion.div className="inline-block mt-4" initial={{
               scale: 0
             }} animate={{
               scale: 1
