@@ -75,6 +75,7 @@ const localGovernments: Record<string, string[]> = {
 const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState("");
   const [formData, setFormData] = useState({
     email: "",
     name: "",
@@ -86,63 +87,134 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
     interests: [] as string[],
   });
 
+  // Retry utility with exponential backoff
+  const retryWithBackoff = async <T,>(
+    fn: () => Promise<T>,
+    maxRetries: number = 3,
+    initialDelay: number = 1000
+  ): Promise<T> => {
+    let lastError: Error | null = null;
+    
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+      try {
+        return await fn();
+      } catch (error) {
+        lastError = error as Error;
+        console.log(`Attempt ${attempt + 1} failed:`, error);
+        
+        if (attempt < maxRetries - 1) {
+          const delay = initialDelay * Math.pow(2, attempt);
+          setLoadingMessage(`Retrying... (attempt ${attempt + 2} of ${maxRetries})`);
+          await new Promise(resolve => setTimeout(resolve, delay));
+        }
+      }
+    }
+    
+    throw lastError;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Validation
     if (!formData.email) {
       toast({
-        title: "Error",
-        description: "Please enter your email address",
+        title: "Missing Information",
+        description: "Please enter your email address to continue.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (type === "business" && (!formData.businessName || !formData.name || !formData.phone)) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all required business information.",
         variant: "destructive",
       });
       return;
     }
 
     setIsSubmitting(true);
+    let registrationSuccessful = false;
 
     try {
-      // Insert into database
-      const { error } = await supabase
-        .from("waitlist")
-        .insert({
-          email: formData.email,
-          name: formData.name || null,
-          phone: formData.phone || null,
-          business_name: formData.businessName || null,
-          category: formData.category || null,
-          state: formData.state || null,
-          local_government: formData.localGovernment || null,
-          interests: formData.interests.length > 0 ? formData.interests : null,
-          type: type === "customer" ? "shopper" : "merchant",
-        });
+      // Phase 1: Save to database with retry
+      setLoadingMessage("Saving your information...");
+      console.log("Starting waitlist registration:", { email: formData.email, type });
 
-      if (error) throw error;
+      const dbResult = await retryWithBackoff(
+        async () => {
+          const result = await supabase
+            .from("waitlist")
+            .insert({
+              email: formData.email,
+              name: formData.name || null,
+              phone: formData.phone || null,
+              business_name: formData.businessName || null,
+              category: formData.category || null,
+              state: formData.state || null,
+              local_government: formData.localGovernment || null,
+              interests: formData.interests.length > 0 ? formData.interests : null,
+              type: type === "customer" ? "shopper" : "merchant",
+            });
+          
+          if (result.error) throw result.error;
+          return result;
+        },
+        3,
+        1000
+      );
 
-      // Send confirmation email
-      try {
-        const emailResponse = await supabase.functions.invoke('send-waitlist-confirmation', {
-          body: {
-            email: formData.email,
-            name: formData.name,
-            businessName: formData.businessName,
-            type: type,
-          },
-        });
+      const { error: dbError } = dbResult;
 
-        if (emailResponse.error) {
-          console.error('Failed to send confirmation email:', emailResponse.error);
-          // Don't fail the whole operation if email fails
-        }
-      } catch (emailError) {
-        console.error('Email sending error:', emailError);
-        // Don't fail the whole operation if email fails
+      if (dbError) {
+        console.error("Database error:", dbError);
+        throw new Error("Unable to complete registration. Please check your information and try again.");
       }
 
-      toast({
-        title: "Success! 🎉",
-        description: `You've been added to the ${type} waitlist. Check your email for confirmation!`,
-      });
+      registrationSuccessful = true;
+      console.log("Database registration successful");
+
+      // Phase 2: Send confirmation email (non-blocking)
+      setLoadingMessage("Sending confirmation email...");
       
+      try {
+        const emailResponse = await retryWithBackoff(
+          async () => {
+            const result = await supabase.functions.invoke('send-waitlist-confirmation', {
+              body: {
+                email: formData.email,
+                name: formData.name,
+                businessName: formData.businessName,
+                type: type,
+              },
+            });
+            
+            if (result.error) throw result.error;
+            return result;
+          },
+          3,
+          1000
+        );
+
+        console.log("Email sent successfully:", emailResponse);
+
+        toast({
+          title: "Success! 🎉",
+          description: `You've been added to the ${type} waitlist. Check your email for confirmation!`,
+        });
+      } catch (emailError) {
+        console.error("Email sending failed after retries:", emailError);
+        
+        // Registration was successful even if email failed
+        toast({
+          title: "Registration Successful! 🎉",
+          description: "You've been added to the waitlist. We'll send your confirmation email shortly.",
+        });
+      }
+      
+      // Reset form and close modal
       onOpenChange(false);
       setFormData({
         email: "",
@@ -154,14 +226,32 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
         localGovernment: "",
         interests: [],
       });
+
     } catch (error: any) {
+      console.error("Registration error:", error);
+      
+      // Provide specific error messages based on error type
+      let errorTitle = "Registration Failed";
+      let errorDescription = "Please try again.";
+
+      if (error.message?.includes("duplicate") || error.message?.includes("unique")) {
+        errorTitle = "Already Registered";
+        errorDescription = "This email is already on our waitlist. We'll notify you when we launch!";
+      } else if (error.message?.includes("network") || error.message?.includes("fetch")) {
+        errorTitle = "Connection Issue";
+        errorDescription = "Please check your internet connection and try again.";
+      } else if (error.message) {
+        errorDescription = error.message;
+      }
+
       toast({
-        title: "Error",
-        description: error.message || "Failed to join waitlist. Please try again.",
+        title: errorTitle,
+        description: errorDescription,
         variant: "destructive",
       });
     } finally {
       setIsSubmitting(false);
+      setLoadingMessage("");
     }
   };
 
@@ -341,7 +431,7 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
             {isSubmitting ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Joining...
+                {loadingMessage || "Processing..."}
               </>
             ) : (
               "Join the Waitlist"
