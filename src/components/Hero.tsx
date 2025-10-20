@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import illustration from "@/assets/hero-woman-vouchify.png";
+import heroBackground from "@/assets/hero-background.jpg";
 import { motion } from "framer-motion";
 import { Users, Store } from "lucide-react";
 import WaitlistModal from "@/components/WaitlistModal";
@@ -12,7 +13,16 @@ const Hero = () => {
     setModalOpen(true);
   };
   return <>
-      <section className="min-h-[70vh] relative overflow-hidden bg-white pt-20 md:pt-32 lg:pt-36 pb-12 md:pb-16 lg:pb-24">
+      <section className="min-h-[70vh] relative overflow-hidden pt-20 md:pt-32 lg:pt-36 pb-12 md:pb-16 lg:pb-24">
+        {/* Background Image with 3D Effect */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src={heroBackground} 
+            alt="Vouchify deals background" 
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/90" />
+        </div>
         <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[60vh]">
             {/* Left Content */}
