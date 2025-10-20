@@ -1,73 +1,104 @@
-# Welcome to your Lovable project
+**GetVouchify Web Platform**
 
-## Project info
+The GetVouchify Website is the frontend interface of the GetVouchify digital trust platform — designed to help users send and receive verified recommendations (“vouches”) across categories. It enables structured data collection, analytics, and seamless communication between users and the GetVouchify team.
 
-**URL**: https://lovable.dev/projects/7e466e49-fc43-48ae-94c1-e5066648ff64
+Overview
 
-## How can I edit this code?
+This repository contains the production-ready code deployed to getvouchify.com
+.
+It includes frontend components, integrations, and design logic implemented with Next.js, Tailwind CSS, and Resend API for email notifications.
 
-There are several ways of editing your application.
+Features
+1. Domain & Deployment
 
-**Use Lovable**
+Fully deployed on Vercel and configured with QServers DNS.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/7e466e49-fc43-48ae-94c1-e5066648ff64) and start prompting.
+Supports both:
 
-Changes made via Lovable will be committed automatically to this repo.
+Root domain: https://getvouchify.com
 
-**Use your preferred IDE**
+Subdomain: https://www.getvouchify.com
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Updated to Vercel’s latest DNS A and CNAME records for improved propagation and reliability.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+2. Form Functionality
 
-Follow these steps:
+The main form captures user information with the following structured fields:
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+Full Name
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Email Address
 
-# Step 3: Install the necessary dependencies.
-npm i
+Location (Dropdown — prioritizing Lagos and Abuja)
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+Category (Dropdown — 5 defined categories)
+
+Message / Description
+
+The dropdown implementation replaces free-text inputs, enabling:
+
+Accurate data categorization.
+
+Easy analysis of user distribution by state and category.
+
+3. Email Automation (Resend API Integration)
+
+Integrated Resend Email API for automated email delivery.
+
+On each form submission:
+
+A notification is sent to hello@getvouchify.com
+.
+
+The submitter receives a confirmation email acknowledging receipt.
+
+This ensures real-time communication and centralized tracking.
+
+4. UI/UX Enhancements
+
+Redesigned layout using Tailwind CSS for responsiveness and accessibility.
+
+Added scrolling navigation bar for smoother page transitions.
+
+Incorporated category-specific images and icons for visual identity.
+
+Structured, minimalistic design emphasizing clarity, balance, and performance.
+
+Technology Stack
+Technology	Purpose
+Next.js	Frontend framework
+Tailwind CSS	Styling and layout
+Resend API	Email automation
+Vercel	Hosting and CI/CD
+QServers	DNS and domain management
+Environment Setup
+
+To run the project locally, create a .env.local file and include:
+
+RESEND_API_KEY=your_resend_api_key_here
+NEXT_PUBLIC_SITE_URL=https://getvouchify.com
+
+Running Locally
+# Clone repository
+git clone https://github.com/<repo-link>.git
+
+# Navigate into folder
+cd getvouchify
+
+# Install dependencies
+npm install
+
+# Start development server
 npm run dev
-```
 
-**Edit a file directly in GitHub**
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Visit http://localhost:3000 in your browser.
 
-**Use GitHub Codespaces**
+Credentials
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Vercel Account
+Email: getvouchify@gmail.com
 
-## What technologies are used for this project?
+Password: Vouchify@2025
 
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/7e466e49-fc43-48ae-94c1-e5066648ff64) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+(Note: Provided for internal record purposes. Do not expose publicly.)
