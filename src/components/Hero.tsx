@@ -16,11 +16,7 @@ const Hero = () => {
       <section className="min-h-[70vh] relative overflow-hidden pt-20 md:pt-32 lg:pt-36 pb-12 md:pb-16 lg:pb-24">
         {/* Background Image with 3D Effect */}
         <div className="absolute inset-0 z-0">
-          <img 
-            src={heroBackground} 
-            alt="Vouchify deals background" 
-            className="w-full h-full object-cover"
-          />
+          <img src={heroBackground} alt="Vouchify deals background" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/90" />
         </div>
         <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
@@ -71,7 +67,7 @@ const Hero = () => {
 
               <p className="text-base md:text-xl lg:text-2xl font-bold text-white drop-shadow-lg italic">More Than A Daily Deal</p>
 
-              <p className="text-sm md:text-lg text-white drop-shadow-lg max-w-xl mx-auto lg:mx-0 leading-relaxed mb-4">
+              <p className="text-sm text-white drop-shadow-lg max-w-xl mx-auto lg:mx-0 leading-relaxed mb-4 md:text-2xl">
                 Discover limited-time perks near you. Be among the first to experience Lagos like never before.
               </p>
 
