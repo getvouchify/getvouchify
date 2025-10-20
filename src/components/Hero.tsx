@@ -67,7 +67,7 @@ const Hero = () => {
 
               <p className="text-base md:text-xl lg:text-2xl font-bold text-white drop-shadow-lg italic">More Than A Daily Deal</p>
 
-              <p className="text-sm bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent max-w-xl mx-auto lg:mx-0 leading-relaxed mb-4 font-extrabold md:text-2xl">
+              <p className="text-sm text-accent max-w-xl mx-auto lg:mx-0 leading-relaxed mb-4 font-extrabold md:text-2xl drop-shadow-lg">
                 Discover limited-time perks near you. Be among the first to experience Lagos like never before.
               </p>
 
