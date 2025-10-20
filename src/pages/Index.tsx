@@ -9,7 +9,7 @@ import QuickValueProp from "@/components/QuickValueProp";
 import StickyCTA from "@/components/StickyCTA";
 import LoyaltyRewards from "@/components/LoyaltyRewards";
 import AppPreview from "@/components/AppPreview";
-import lagosImage from "@/assets/lekki-ikoyi-bridge.jpeg";
+import lagosImage from "@/assets/lagos-bridge.jpg";
 import phoneMockup from "@/assets/vouchify-phone-mockup.png";
 const Index = () => {
   return <div className="min-h-screen scroll-smooth">
