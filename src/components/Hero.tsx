@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import illustration from "@/assets/hero-woman-vouchify.png";
-import heroBackground from "@/assets/hero-background.jpg";
 import { motion } from "framer-motion";
 import { Users, Store } from "lucide-react";
 import WaitlistModal from "@/components/WaitlistModal";
@@ -13,16 +12,7 @@ const Hero = () => {
     setModalOpen(true);
   };
   return <>
-      <section className="min-h-[70vh] relative overflow-hidden pt-20 md:pt-32 lg:pt-36 pb-12 md:pb-16 lg:pb-24">
-        {/* Background Image with 3D Effect */}
-        <div className="absolute inset-0 z-0">
-          <img 
-            src={heroBackground} 
-            alt="Vouchify deals background" 
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/90" />
-        </div>
+      <section className="min-h-[70vh] relative overflow-hidden pt-20 md:pt-32 lg:pt-36 pb-12 md:pb-16 lg:pb-24 bg-background">
         <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[60vh]">
             {/* Left Content */}
@@ -60,24 +50,24 @@ const Hero = () => {
               </motion.div>
 
               {/* Main Heading */}
-              <h1 className="text-2xl md:text-4xl lg:text-5xl font-extrabold leading-tight lg:leading-[1.1] text-white drop-shadow-lg mb-2 animate-fade-in">
+              <h1 className="text-2xl md:text-4xl lg:text-5xl font-extrabold leading-tight lg:leading-[1.1] text-foreground mb-2 animate-fade-in">
                 Your City,{" "}
                 <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
                   Your Deals.
                 </span>
                 <br />
-                <span className="text-white drop-shadow-lg">Curated Just for You.</span>
+                <span className="text-foreground">Curated Just for You.</span>
               </h1>
 
-              <p className="text-base md:text-xl lg:text-2xl font-bold text-white drop-shadow-lg italic">More Than A Daily Deal</p>
+              <p className="text-base md:text-xl lg:text-2xl font-bold text-foreground italic">More Than A Daily Deal</p>
 
-              <p className="text-sm md:text-lg text-white drop-shadow-lg max-w-xl mx-auto lg:mx-0 leading-relaxed mb-4">
+              <p className="text-sm md:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 leading-relaxed mb-4">
                 Discover limited-time perks near you. Be among the first to experience Lagos like never before.
               </p>
 
               {/* Urgency Badge */}
-              <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
-                <span className="text-white font-semibold text-sm drop-shadow-lg">Limited Early Access Spots</span>
+              <div className="inline-flex items-center gap-2 bg-primary/10 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
+                <span className="text-foreground font-semibold text-sm">Limited Early Access Spots</span>
               </div>
 
               {/* Single Prominent CTA */}
@@ -85,7 +75,7 @@ const Hero = () => {
                 <Button onClick={() => openModal("customer")} size="lg" className="h-14 sm:h-16 px-8 sm:px-12 text-lg sm:text-xl font-bold gradient-primary text-white hover-lift shadow-glow transition-all duration-300">
                   Join the Waitlist Now
                 </Button>
-                <Button onClick={() => openModal("business")} size="sm" variant="ghost" className="text-white drop-shadow-lg font-semibold underline hover:no-underline hover:text-white/90">
+                <Button onClick={() => openModal("business")} size="sm" variant="ghost" className="font-semibold underline hover:no-underline">
                   Are you a business? Click here
                 </Button>
               </div>
