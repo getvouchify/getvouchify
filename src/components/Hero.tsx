@@ -58,7 +58,7 @@ const Hero = () => {
               {/* Main Heading */}
               <h1 className="text-2xl md:text-4xl lg:text-5xl font-extrabold leading-tight lg:leading-[1.1] text-white drop-shadow-lg mb-2 animate-fade-in">
                 Your City,{" "}
-                <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+                <span className="text-accent">
                   Your Deals.
                 </span>
                 <br />
