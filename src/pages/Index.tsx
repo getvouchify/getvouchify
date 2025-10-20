@@ -8,6 +8,7 @@ import Categories from "@/components/Categories";
 import QuickValueProp from "@/components/QuickValueProp";
 import StickyCTA from "@/components/StickyCTA";
 import LoyaltyRewards from "@/components/LoyaltyRewards";
+import AppPreview from "@/components/AppPreview";
 import lagosImage from "@/assets/lagos-bridge.jpg";
 import phoneMockup from "@/assets/vouchify-phone-mockup.png";
 const Index = () => {
@@ -17,6 +18,8 @@ const Index = () => {
       <Hero />
       
       <QuickValueProp />
+      
+      <AppPreview />
       
       <section className="w-full py-4 md:py-6 lg:py-8 bg-white">
         <div className="container mx-auto px-4 md:px-6 lg:px-8">
