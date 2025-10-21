@@ -62,14 +62,14 @@ const Hero = () => {
                   Your Deals.
                 </span>
                 <br />
-                <span className="text-white drop-shadow-lg">Curated Just for You.</span>
+                <span className="text-white drop-shadow-lg"></span>
               </h1>
 
-              <p className="text-base md:text-xl lg:text-2xl font-bold text-white drop-shadow-lg italic">More Than A Daily Deal</p>
+              <p className="text-base md:text-xl lg:text-2xl font-bold text-white drop-shadow-lg italic">Curated spots, exclusive rewards, and everyday perks — all in one place.</p>
 
-              <p className="text-sm text-accent max-w-xl mx-auto lg:mx-0 leading-relaxed mb-4 font-extrabold md:text-2xl drop-shadow-lg">
-                Discover limited-time perks near you. Be among the first to experience Lagos like never before.
-              </p>
+              <p className="text-sm text-accent max-w-xl mx-auto lg:mx-0 leading-relaxed mb-4 font-extrabold md:text-2xl drop-shadow-lg">Discover limited-time perks near you. Be among the first to experience Lagos like never before. 
+
+See it. Claim it. Vouchify it.</p>
 
               {/* Urgency Badge */}
               <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
