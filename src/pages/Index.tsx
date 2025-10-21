@@ -25,9 +25,7 @@ const Index = () => {
         <div className="container mx-auto px-4 md:px-6 lg:px-8">
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-xl md:text-3xl lg:text-5xl text-primary font-bold mb-2 md:mb-4">Discover Lagos. Unlock Rewards.</h2>
-            <p className="text-sm md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto">
-              Discover the best of Lagos with exclusive offers from top venues
-            </p>
+            
           </div>
           <img src={lagosImage} alt="Lagos cityscape featuring the iconic bridge" className="w-full h-[250px] md:h-[400px] object-cover rounded-xl shadow-elegant" loading="lazy" />
         </div>
