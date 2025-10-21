@@ -1,7 +1,7 @@
 import { CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
 const QuickValueProp = () => {
-  const benefits = ["Up to 70% off local experiences", "Verified merchants & instant vouchers", "Exclusive deals updated daily"];
+  const benefits = ["Up to 70% off local experiences", "Verified merchants & instant vouchers", "New offers and rewards added daily"];
   return <section className="bg-gradient-to-br from-primary/5 to-primary/10 py-6 md:py-8 lg:py-10">
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         <motion.div className="max-w-4xl mx-auto text-center space-y-8" initial={{
