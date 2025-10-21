@@ -8,7 +8,7 @@ import WaitlistModal from "@/components/WaitlistModal";
 const benefits = [
   {
     icon: CloudUpload,
-    title: "Upload Deals Instantly",
+    title: "Upload Offers Instantly",
     description: "Simple dashboard to create and manage your offers in minutes",
   },
   {

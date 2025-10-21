@@ -51,7 +51,7 @@ const LoyaltyRewards = () => {
             </h2>
             <p className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-4xl mx-auto">
               Keep coming back and earn exclusive rewards! Our built-in loyalty system turns every
-              purchase into progress, helping you unlock better deals and special perks as you climb
+              purchase into progress, helping you unlock better offers and special perks as you climb
               through our reward tiers.
             </p>
           </motion.div>

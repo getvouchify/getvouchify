@@ -266,7 +266,7 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
           </DialogTitle>
           <DialogDescription>
             {type === "customer"
-              ? "Be the first to discover exclusive deals in your area"
+              ? "Be the first to discover exclusive offers in your area"
               : "Reach 500,000+ shoppers and grow your business"}
           </DialogDescription>
         </DialogHeader>

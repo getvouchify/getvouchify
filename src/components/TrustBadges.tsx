@@ -11,7 +11,7 @@ const TrustBadges = () => {
   }, {
     icon: TrendingUp,
     value: "10K+",
-    label: "Daily Deals"
+    label: "Daily Offers"
   }, {
     icon: Award,
     value: "5K+",

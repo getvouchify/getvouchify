@@ -39,7 +39,7 @@ const AppPreview = () => {
           duration: 0.6,
           delay: 0.2
         }}>
-            <img src={desktopMockup} alt="Vouchify desktop platform preview showing deals and offers" className="w-full h-auto rounded-lg shadow-elegant hover-lift" />
+            <img src={desktopMockup} alt="Vouchify desktop platform preview showing exclusive offers" className="w-full h-auto rounded-lg shadow-elegant hover-lift" />
           </motion.div>
 
           <motion.div className="relative" initial={{
@@ -54,7 +54,7 @@ const AppPreview = () => {
           duration: 0.6,
           delay: 0.4
         }}>
-            <img src={tabletMockup} alt="Vouchify tablet platform preview showing deals and offers" className="w-full h-auto rounded-lg shadow-elegant hover-lift" />
+            <img src={tabletMockup} alt="Vouchify tablet platform preview showing exclusive offers" className="w-full h-auto rounded-lg shadow-elegant hover-lift" />
           </motion.div>
         </div>
       </div>

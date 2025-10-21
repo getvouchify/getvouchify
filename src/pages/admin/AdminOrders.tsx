@@ -51,7 +51,7 @@ export default function AdminOrders() {
     "Order ID": order.id,
     "Customer Name": order.customer_name,
     "Customer Email": order.customer_email,
-    "Deal": order.deals?.title || "N/A",
+    "Offer": order.deals?.title || "N/A",
     "Merchant": order.deals?.merchant || "N/A",
     "Quantity": order.quantity,
     "Total Amount": order.total_amount,
@@ -108,7 +108,7 @@ export default function AdminOrders() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Customer</TableHead>
-                  <TableHead>Deal</TableHead>
+                  <TableHead>Offer</TableHead>
                   <TableHead>Quantity</TableHead>
                   <TableHead>Amount</TableHead>
                   <TableHead>Order Status</TableHead>

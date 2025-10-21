@@ -29,10 +29,10 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
       if (error) throw error;
       setDeals(data || []);
     } catch (error) {
-      console.error("Error loading deals:", error);
+      console.error("Error loading offers:", error);
       toast({
         title: "Error",
-        description: "Failed to load deals",
+        description: "Failed to load offers",
         variant: "destructive",
       });
     } finally {
@@ -40,7 +40,7 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
     }
   };
 
-  // Filter deals
+  // Filter offers
   let filteredDeals = deals.filter((deal) => {
     const matchesSearch = !searchQuery || 
       deal.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -52,7 +52,7 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
     return matchesSearch && matchesCategory;
   });
 
-  // Sort deals
+  // Sort offers
   filteredDeals = [...filteredDeals].sort((a, b) => {
     switch (sortBy) {
       case "price-low":
@@ -76,10 +76,10 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
       <div className="container mx-auto px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4">
-            {searchQuery ? `Search Results for "${searchQuery}"` : "Preview: Deals Coming Soon"}
+            {searchQuery ? `Search Results for "${searchQuery}"` : "Preview: Offers Coming Soon"}
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            {searchQuery ? `Found ${filteredDeals.length} deals` : "Join the waitlist to be the first to access exclusive offers"}
+            {searchQuery ? `Found ${filteredDeals.length} offers` : "Join the waitlist to be the first to access exclusive offers"}
           </p>
         </div>
 
@@ -121,7 +121,7 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 md:gap-10">
           {isLoading ? (
             <div className="col-span-full text-center py-16">
-              <p className="text-xl text-muted-foreground">Loading deals...</p>
+              <p className="text-xl text-muted-foreground">Loading offers...</p>
             </div>
           ) : filteredDeals.length === 0 ? (
             <div className="col-span-full text-center py-20">
@@ -130,10 +130,10 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
                   <Sparkles className="w-16 h-16 mx-auto text-primary/60" strokeWidth={1.5} />
                 </div>
                 <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
-                  Amazing Deals Coming Soon! 🎉
+                  Amazing Offers Coming Soon! 🎉
                 </h3>
                 <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-                  We're curating the best deals in Lagos just for you. Be the first to know when we launch exclusive offers!
+                  We're curating the best offers in Lagos just for you. Be the first to know when we launch exclusive offers!
                 </p>
                 <Button 
                   onClick={() => setWaitlistOpen(true)}

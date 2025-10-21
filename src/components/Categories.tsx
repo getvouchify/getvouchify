@@ -17,7 +17,7 @@ import retail2 from "@/assets/categories/retail-2.webp";
 const categories = [{
   icon: Utensils,
   title: "Food & Drinks 🍴",
-  description: "Discover exclusive restaurant deals, happy hour offers, and 2-for-1 dining experiences at Lagos' hottest food spots.",
+  description: "Discover exclusive restaurant offers, happy hour offers, and 2-for-1 dining experiences at Lagos' hottest food spots.",
   color: "text-primary",
   images: [restaurant1, restaurant2]
 }, {
@@ -29,13 +29,13 @@ const categories = [{
 }, {
   icon: Dumbbell,
   title: "Health & Fitness",
-  description: "From fitness classes to yoga sessions and gym passes — find deals that help you move, sweat, and feel your best.",
+  description: "From fitness classes to yoga sessions and gym passes — find offers that help you move, sweat, and feel your best.",
   color: "text-primary",
   images: [healthFitness1, healthFitness2]
 }, {
   icon: Compass,
   title: "Things To Do",
-  description: "Paint-and-sip, boat cruises, games, events — explore Lagos with unbeatable deals on experiences.",
+  description: "Paint-and-sip, boat cruises, games, events — explore Lagos with unbeatable offers on experiences.",
   color: "text-primary",
   images: [thingsToDo, thingsToDo2]
 }, {

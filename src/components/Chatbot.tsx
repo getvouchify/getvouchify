@@ -8,7 +8,7 @@ const Chatbot = () => {
   const [messages, setMessages] = useState([
     {
       id: 1,
-      text: "Hi! I'm your Vouchify assistant. How can I help you find the perfect deal today?",
+      text: "Hi! I'm your Vouchify assistant. How can I help you find the perfect offer today?",
       sender: "bot",
     },
   ]);
@@ -30,7 +30,7 @@ const Chatbot = () => {
     setTimeout(() => {
       const botMessage = {
         id: messages.length + 2,
-        text: "Thanks for your message! I can help you find deals in Food & Drink, Beauty & Spa, Health & Fitness, and more. What are you interested in?",
+        text: "Thanks for your message! I can help you find offers in Food & Drink, Beauty & Spa, Health & Fitness, and more. What are you interested in?",
         sender: "bot",
       };
       setMessages((prev) => [...prev, botMessage]);

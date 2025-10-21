@@ -42,8 +42,8 @@ export default function AdminDeals() {
       if (error) throw error;
       setDeals(data || []);
     } catch (error) {
-      console.error("Error loading deals:", error);
-      toast.error("Failed to load deals");
+      console.error("Error loading offers:", error);
+      toast.error("Failed to load offers");
     } finally {
       setIsLoading(false);
     }
@@ -58,15 +58,15 @@ export default function AdminDeals() {
 
       if (error) throw error;
       
-      toast.success(`Deal ${!currentStatus ? "activated" : "deactivated"}`);
+      toast.success(`Offer ${!currentStatus ? "activated" : "deactivated"}`);
       loadDeals();
     } catch (error) {
-      toast.error("Failed to update deal status");
+      toast.error("Failed to update offer status");
     }
   };
 
   const deleteDeal = async (dealId: string) => {
-    if (!confirm("Are you sure you want to delete this deal?")) return;
+    if (!confirm("Are you sure you want to delete this offer?")) return;
 
     try {
       const { error } = await supabase
@@ -76,10 +76,10 @@ export default function AdminDeals() {
 
       if (error) throw error;
       
-      toast.success("Deal deleted successfully");
+      toast.success("Offer deleted successfully");
       loadDeals();
     } catch (error) {
-      toast.error("Failed to delete deal");
+      toast.error("Failed to delete offer");
     }
   };
 
@@ -107,27 +107,27 @@ export default function AdminDeals() {
         <div className="space-y-6">
           <div className="flex justify-between items-center">
             <div>
-              <h2 className="text-3xl font-bold tracking-tight">Deals</h2>
+              <h2 className="text-3xl font-bold tracking-tight">Offers</h2>
               <p className="text-muted-foreground">
-                Manage all deals on the platform
+                Manage all offers on the platform
               </p>
             </div>
             <div className="flex gap-2">
               <ExportButton 
                 data={exportData} 
-                filename="vouchify-deals" 
-                sheetName="Deals" 
+                filename="vouchify-offers" 
+                sheetName="Offers" 
               />
               <Button>
                 <Plus className="h-4 w-4 mr-2" />
-                Add Deal
+                Add Offer
               </Button>
             </div>
           </div>
 
           <div className="flex items-center gap-4">
             <Input
-              placeholder="Search deals..."
+              placeholder="Search offers..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="max-w-sm"
@@ -149,7 +149,7 @@ export default function AdminDeals() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {isLoading ? (
+                 {isLoading ? (
                   <TableRow>
                     <TableCell colSpan={8} className="text-center">
                       Loading...
@@ -158,7 +158,7 @@ export default function AdminDeals() {
                 ) : filteredDeals.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={8} className="text-center">
-                      No deals found
+                      No offers found
                     </TableCell>
                   </TableRow>
                 ) : (

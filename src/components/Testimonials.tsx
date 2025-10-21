@@ -19,7 +19,7 @@ const testimonials = [
     name: "Adebayo Adeleke",
     role: "Fitness Enthusiast",
     rating: 5,
-    text: "The gym membership deals are incredible. I've tried 3 different studios at a fraction of the cost. Perfect for exploring what fits my lifestyle.",
+    text: "The gym membership offers are incredible. I've tried 3 different studios at a fraction of the cost. Perfect for exploring what fits my lifestyle.",
     avatar: "AA",
   },
   {

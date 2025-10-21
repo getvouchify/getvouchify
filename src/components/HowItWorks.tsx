@@ -7,12 +7,12 @@ import WaitlistModal from "./WaitlistModal";
 const steps = [
   {
     icon: Upload,
-    title: "Business Uploads a Deal",
+    title: "Business Uploads an Offer",
     description: "List exclusive offers with time slots and availability — we help you get discovered.",
   },
   {
     icon: Search,
-    title: "Shoppers Discover & Book Deals",
+    title: "Shoppers Discover & Book Offers",
     description: "500,000+ shoppers browse the app to find exclusive offers and book instantly — all from their phone.",
   },
   {
@@ -65,7 +65,7 @@ const HowItWorks = () => {
             How It Works ✨
           </h2>
           <p className="text-sm md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Simple, secure, and seamless deal discovery and redemption
+            Simple, secure, and seamless offer discovery and redemption
           </p>
         </motion.div>
 

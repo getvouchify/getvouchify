@@ -16,7 +16,7 @@ const Hero = () => {
       <section className="min-h-[70vh] relative overflow-hidden pt-20 md:pt-32 lg:pt-36 pb-12 md:pb-16 lg:pb-24">
         {/* Background Image with 3D Effect */}
         <div className="absolute inset-0 z-0">
-          <img src={heroBackground} alt="Vouchify deals background" className="w-full h-full object-cover" />
+          <img src={heroBackground} alt="Vouchify offers background" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/90" />
         </div>
         <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
@@ -59,7 +59,7 @@ const Hero = () => {
               <h1 className="text-2xl md:text-4xl lg:text-5xl font-extrabold leading-tight lg:leading-[1.1] text-white drop-shadow-lg mb-2 animate-fade-in">
                 Your City,{" "}
                 <span className="text-accent">
-                  Your Deals.
+                  Your Offers.
                 </span>
                 <br />
                 <span className="text-white drop-shadow-lg"></span>
@@ -96,7 +96,7 @@ const Hero = () => {
             duration: 0.8,
             delay: 0.2
           }}>
-            <motion.img src={illustration} alt="Vouchify platform showcasing exclusive deals and vouchers for shoppers and merchants" className="w-full h-auto rounded-2xl" animate={{
+            <motion.img src={illustration} alt="Vouchify platform showcasing exclusive offers and vouchers for shoppers and merchants" className="w-full h-auto rounded-2xl" animate={{
               y: [0, -10, 0]
             }} transition={{
               duration: 1.5,

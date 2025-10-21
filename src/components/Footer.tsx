@@ -9,9 +9,9 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Brand Column */}
           <div className="space-y-4">
-            <img src={logo} alt="Vouchify - Daily Deals Platform" className="h-12 md:h-16 w-auto" />
+            <img src={logo} alt="Vouchify - Exclusive Offers Platform" className="h-12 md:h-16 w-auto" />
             <p className="text-xs md:text-sm text-muted-foreground max-w-xs">
-              Discover and redeem amazing deals across food, beauty, fitness, and more. Join the waitlist today!
+              Discover and redeem amazing offers across food, beauty, fitness, and more. Join the waitlist today!
             </p>
             <div className="flex space-x-4">
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors" aria-label="Visit our Facebook page">
