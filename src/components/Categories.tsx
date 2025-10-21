@@ -55,8 +55,8 @@ const Categories = () => {
             
           </div>
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Categories</h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-6">Tap into Lagos’ urban youth, young professionals, and experience-seeking crowd.</p>
-          <p className="text-base text-muted-foreground max-w-2xl mx-auto">Discover the categories where great deals drive traffic, fill slow hours, and spark social buzz.</p>
+          
+          <p className="text-base text-muted-foreground max-w-2xl mx-auto">Smart offers that drive traffic, fill quiet hours, and get people talking.</p>
         </div>
 
         {/* Desktop: 5 columns, Tablet: 3 columns, Mobile: 1 column */}
@@ -91,12 +91,7 @@ const Categories = () => {
                   <span className="inline-block bg-primary/20 text-white text-[10px] md:text-xs font-semibold px-2 py-1 rounded-full">
                     Coming Soon
                   </span>
-                  <Button 
-                    variant="secondary" 
-                    size="sm" 
-                    className="w-full bg-white text-foreground hover:bg-white/90 font-semibold text-[10px] md:text-xs h-8 md:h-9" 
-                    onClick={() => setIsWaitlistOpen(true)}
-                  >
+                  <Button variant="secondary" size="sm" className="w-full bg-white text-foreground hover:bg-white/90 font-semibold text-[10px] md:text-xs h-8 md:h-9" onClick={() => setIsWaitlistOpen(true)}>
                     Get Notified
                   </Button>
                 </div>
