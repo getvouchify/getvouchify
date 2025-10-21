@@ -65,10 +65,7 @@ const Hero = () => {
                 <span className="text-white drop-shadow-lg"></span>
               </h1>
 
-              <p className="text-base md:text-xl lg:text-2xl font-bold text-white drop-shadow-lg italic">Curated spots, exclusive rewards, and everyday perks — all in one place.  
-Exclusive offers and rewards — all in one place.
-
-Offers, exclusive rewards, and everyday perks — all in one place.</p>
+              <p className="text-base md:text-xl lg:text-2xl font-bold text-white drop-shadow-lg italic">Exclusive offers and rewards — all in one place.</p>
 
               <p className="text-sm text-accent max-w-xl mx-auto lg:mx-0 leading-relaxed mb-4 font-extrabold md:text-2xl drop-shadow-lg">See it. Claim it. Vouchify it.</p>
 
