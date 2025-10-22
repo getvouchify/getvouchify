@@ -45,7 +45,7 @@ const Terms = () => {
                 <h2 className="text-2xl font-bold text-primary mt-8 mb-4">3. For Shoppers</h2>
                 <p>As a shopper on Vouchify, you agree to:</p>
                 <ul className="list-disc pl-6 space-y-2">
-                  <li>Provide accurate information when booking deals</li>
+                  <li>Provide accurate information when booking offers</li>
                   <li>Honor booked appointments and reservations</li>
                   <li>Use vouchers only as intended and within validity periods</li>
                   <li>Respect merchant policies and terms</li>
@@ -56,7 +56,7 @@ const Terms = () => {
                 <h2 className="text-2xl font-bold text-primary mt-8 mb-4">4. For Merchants</h2>
                 <p>Merchants using Vouchify agree to:</p>
                 <ul className="list-disc pl-6 space-y-2">
-                  <li>Provide accurate deal descriptions and terms</li>
+                  <li>Provide accurate offer descriptions and terms</li>
                   <li>Honor all valid vouchers presented by customers</li>
                   <li>Maintain quality standards for advertised services</li>
                   <li>Comply with all applicable laws and regulations</li>

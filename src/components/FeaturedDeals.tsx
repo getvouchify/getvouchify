@@ -10,15 +10,15 @@ import WaitlistModal from "./WaitlistModal";
 const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
   const [sortBy, setSortBy] = useState("popular");
   const [filterCategory, setFilterCategory] = useState("all");
-  const [deals, setDeals] = useState<any[]>([]);
+  const [offers, setOffers] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [waitlistOpen, setWaitlistOpen] = useState(false);
 
   useEffect(() => {
-    loadDeals();
+    loadOffers();
   }, []);
 
-  const loadDeals = async () => {
+  const loadOffers = async () => {
     try {
       const { data, error } = await supabase
         .from("deals")
@@ -27,7 +27,7 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      setDeals(data || []);
+      setOffers(data || []);
     } catch (error) {
       console.error("Error loading offers:", error);
       toast({
@@ -41,19 +41,19 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
   };
 
   // Filter offers
-  let filteredDeals = deals.filter((deal) => {
+  let filteredOffers = offers.filter((offer) => {
     const matchesSearch = !searchQuery || 
-      deal.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      deal.merchant.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      deal.category.toLowerCase().includes(searchQuery.toLowerCase());
+      offer.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      offer.merchant.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      offer.category.toLowerCase().includes(searchQuery.toLowerCase());
     
-    const matchesCategory = filterCategory === "all" || deal.category === filterCategory;
+    const matchesCategory = filterCategory === "all" || offer.category === filterCategory;
     
     return matchesSearch && matchesCategory;
   });
 
   // Sort offers
-  filteredDeals = [...filteredDeals].sort((a, b) => {
+  filteredOffers = [...filteredOffers].sort((a, b) => {
     switch (sortBy) {
       case "price-low":
         if (!a.current_price) return 1;
@@ -79,7 +79,7 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
             {searchQuery ? `Search Results for "${searchQuery}"` : "Preview: Offers Coming Soon"}
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            {searchQuery ? `Found ${filteredDeals.length} offers` : "Join the waitlist to be the first to access exclusive offers"}
+            {searchQuery ? `Found ${filteredOffers.length} offers` : "Join the waitlist to be the first to access exclusive offers"}
           </p>
         </div>
 
@@ -123,7 +123,7 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
             <div className="col-span-full text-center py-16">
               <p className="text-xl text-muted-foreground">Loading offers...</p>
             </div>
-          ) : filteredDeals.length === 0 ? (
+          ) : filteredOffers.length === 0 ? (
             <div className="col-span-full text-center py-20">
               <div className="max-w-md mx-auto">
                 <div className="mb-6">
@@ -145,28 +145,28 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
               </div>
             </div>
           ) : (
-            filteredDeals.map((deal, index) => (
+            filteredOffers.map((offer, index) => (
             <div
-              key={deal.id}
+              key={offer.id}
               className="bg-white rounded-xl shadow-card hover-lift overflow-hidden group cursor-pointer animate-fade-in border border-border"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               {/* Image with Discount Badge */}
               <div className="relative overflow-hidden h-56 md:h-64">
                 <img
-                  src={deal.image_url}
-                  alt={deal.title}
+                  src={offer.image_url}
+                  alt={offer.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   loading="lazy"
                 />
                 <div className="absolute top-4 right-4">
                   <Badge className="gradient-gold text-accent-foreground font-bold text-base md:text-lg px-4 py-2 shadow-lg">
-                    {deal.discount}
+                    {offer.discount}
                   </Badge>
                 </div>
                 <div className="absolute bottom-4 left-4">
                   <Badge variant="secondary" className="bg-white/95 text-foreground font-semibold">
-                    {deal.category}
+                    {offer.category}
                   </Badge>
                 </div>
                 <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
@@ -178,34 +178,34 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
 
               {/* Content */}
               <div className="p-6 md:p-8">
-                <p className="text-sm md:text-base text-muted-foreground mb-2 font-medium">{deal.merchant}</p>
+                <p className="text-sm md:text-base text-muted-foreground mb-2 font-medium">{offer.merchant}</p>
                 <h3 className="text-xl md:text-2xl font-bold text-foreground mb-4 group-hover:text-primary transition-colors leading-tight">
-                  {deal.title}
+                  {offer.title}
                 </h3>
 
                 {/* Price or Offer */}
                 <div className="mb-4">
-                  {deal.current_price ? (
+                  {offer.current_price ? (
                     <div className="flex items-baseline gap-3">
                       <span className="text-2xl md:text-3xl font-bold text-primary">
-                        ₦{Number(deal.current_price).toLocaleString()}
+                        ₦{Number(offer.current_price).toLocaleString()}
                       </span>
-                      {deal.original_price && (
+                      {offer.original_price && (
                         <span className="text-base md:text-lg text-muted-foreground line-through">
-                          ₦{Number(deal.original_price).toLocaleString()}
+                          ₦{Number(offer.original_price).toLocaleString()}
                         </span>
                       )}
                     </div>
                   ) : (
                     <div className="text-lg md:text-xl font-bold text-primary">
-                      {deal.offer}
+                      {offer.offer}
                     </div>
                   )}
                 </div>
 
                 {/* Sold Count */}
                 <p className="text-sm md:text-base text-muted-foreground mb-6">
-                  🔥 {deal.sold_count.toLocaleString()}+ interested
+                  🔥 {offer.sold_count.toLocaleString()}+ interested
                 </p>
 
                 <Button 

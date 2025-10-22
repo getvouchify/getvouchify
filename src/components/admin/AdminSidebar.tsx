@@ -25,7 +25,7 @@ import { toast } from "sonner";
 
 const menuItems = [
   { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
-  { title: "Deals", url: "/admin/deals", icon: Tag },
+  { title: "Offers", url: "/admin/offers", icon: Tag },
   { title: "Orders", url: "/admin/orders", icon: ShoppingCart },
   { title: "Merchants", url: "/admin/merchants", icon: Store },
   { title: "Waitlist", url: "/admin/waitlist", icon: Users },

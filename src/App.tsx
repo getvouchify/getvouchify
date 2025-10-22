@@ -35,7 +35,7 @@ const App = () => (
           <Route path="/terms" element={<Terms />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminAuthGuard><AdminDashboard /></AdminAuthGuard>} />
-          <Route path="/admin/deals" element={<AdminAuthGuard><AdminDeals /></AdminAuthGuard>} />
+          <Route path="/admin/offers" element={<AdminAuthGuard><AdminDeals /></AdminAuthGuard>} />
           <Route path="/admin/orders" element={<AdminAuthGuard><AdminOrders /></AdminAuthGuard>} />
           <Route path="/admin/merchants" element={<AdminAuthGuard><AdminMerchants /></AdminAuthGuard>} />
           <Route path="/admin/waitlist" element={<AdminAuthGuard><AdminWaitlist /></AdminAuthGuard>} />

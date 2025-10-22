@@ -35,7 +35,7 @@ const Privacy = () => {
                 <p>We use the information we collect to:</p>
                 <ul className="list-disc pl-6 space-y-2">
                   <li>Notify you about Vouchify's launch and updates</li>
-                  <li>Send you relevant deals based on your interests and location</li>
+                  <li>Send you relevant offers based on your interests and location</li>
                   <li>Improve our platform and user experience</li>
                   <li>Communicate important service announcements</li>
                 </ul>

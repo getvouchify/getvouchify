@@ -69,7 +69,7 @@ export default function AdminDashboard() {
         w => new Date(w.created_at) >= sevenDaysAgo
       ).length || 0;
 
-      // Deals stats
+      // Offers stats
       const { count: dealsCount } = await supabase
         .from("deals")
         .select("*", { count: "exact", head: true });
@@ -146,7 +146,7 @@ export default function AdminDashboard() {
 
   const secondaryStats = [
     {
-      title: "Total Deals",
+      title: "Total Offers",
       value: stats.totalDeals,
       icon: Package,
     },

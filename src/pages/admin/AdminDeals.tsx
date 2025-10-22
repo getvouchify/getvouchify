@@ -18,15 +18,15 @@ import {
 import { Badge } from "@/components/ui/badge";
 
 export default function AdminDeals() {
-  const [deals, setDeals] = useState<any[]>([]);
+  const [offers, setOffers] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    loadDeals();
+    loadOffers();
   }, []);
 
-  const loadDeals = async () => {
+  const loadOffers = async () => {
     try {
       const { data, error } = await supabase
         .from("deals")
@@ -40,7 +40,7 @@ export default function AdminDeals() {
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      setDeals(data || []);
+      setOffers(data || []);
     } catch (error) {
       console.error("Error loading offers:", error);
       toast.error("Failed to load offers");
@@ -49,56 +49,56 @@ export default function AdminDeals() {
     }
   };
 
-  const toggleDealStatus = async (dealId: string, currentStatus: boolean) => {
+  const toggleOfferStatus = async (offerId: string, currentStatus: boolean) => {
     try {
       const { error } = await supabase
         .from("deals")
         .update({ is_active: !currentStatus })
-        .eq("id", dealId);
+        .eq("id", offerId);
 
       if (error) throw error;
       
       toast.success(`Offer ${!currentStatus ? "activated" : "deactivated"}`);
-      loadDeals();
+      loadOffers();
     } catch (error) {
       toast.error("Failed to update offer status");
     }
   };
 
-  const deleteDeal = async (dealId: string) => {
+  const deleteOffer = async (offerId: string) => {
     if (!confirm("Are you sure you want to delete this offer?")) return;
 
     try {
       const { error } = await supabase
         .from("deals")
         .delete()
-        .eq("id", dealId);
+        .eq("id", offerId);
 
       if (error) throw error;
       
       toast.success("Offer deleted successfully");
-      loadDeals();
+      loadOffers();
     } catch (error) {
       toast.error("Failed to delete offer");
     }
   };
 
-  const filteredDeals = deals.filter(deal =>
-    deal.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    deal.merchant.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    deal.category.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredOffers = offers.filter(offer =>
+    offer.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    offer.merchant.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    offer.category.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const exportData = filteredDeals.map(deal => ({
-    Merchant: deal.merchants?.name || deal.merchant,
-    Title: deal.title,
-    Category: deal.category,
-    Discount: deal.discount,
-    "Original Price": deal.original_price,
-    "Current Price": deal.current_price,
-    "Sold Count": deal.sold_count,
-    Status: deal.is_active ? "Active" : "Inactive",
-    "Created At": new Date(deal.created_at).toLocaleDateString(),
+  const exportData = filteredOffers.map(offer => ({
+    Merchant: offer.merchants?.name || offer.merchant,
+    Title: offer.title,
+    Category: offer.category,
+    Discount: offer.discount,
+    "Original Price": offer.original_price,
+    "Current Price": offer.current_price,
+    "Sold Count": offer.sold_count,
+    Status: offer.is_active ? "Active" : "Inactive",
+    "Created At": new Date(offer.created_at).toLocaleDateString(),
   }));
 
   return (
@@ -155,28 +155,28 @@ export default function AdminDeals() {
                       Loading...
                     </TableCell>
                   </TableRow>
-                ) : filteredDeals.length === 0 ? (
+                ) : filteredOffers.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={8} className="text-center">
                       No offers found
                     </TableCell>
                   </TableRow>
                 ) : (
-                  filteredDeals.map((deal) => (
-                    <TableRow key={deal.id}>
+                  filteredOffers.map((offer) => (
+                    <TableRow key={offer.id}>
                       <TableCell className="font-medium">
-                        {deal.merchants?.name || deal.merchant}
+                        {offer.merchants?.name || offer.merchant}
                       </TableCell>
-                      <TableCell>{deal.title}</TableCell>
-                      <TableCell>{deal.category}</TableCell>
-                      <TableCell>{deal.discount}</TableCell>
+                      <TableCell>{offer.title}</TableCell>
+                      <TableCell>{offer.category}</TableCell>
+                      <TableCell>{offer.discount}</TableCell>
                       <TableCell>
-                        {deal.current_price ? `₦${deal.current_price}` : deal.offer}
+                        {offer.current_price ? `₦${offer.current_price}` : offer.offer}
                       </TableCell>
-                      <TableCell>{deal.sold_count}</TableCell>
+                      <TableCell>{offer.sold_count}</TableCell>
                       <TableCell>
-                        <Badge variant={deal.is_active ? "default" : "secondary"}>
-                          {deal.is_active ? "Active" : "Inactive"}
+                        <Badge variant={offer.is_active ? "default" : "secondary"}>
+                          {offer.is_active ? "Active" : "Inactive"}
                         </Badge>
                       </TableCell>
                       <TableCell>
@@ -184,9 +184,9 @@ export default function AdminDeals() {
                           <Button
                             variant="ghost"
                             size="icon"
-                            onClick={() => toggleDealStatus(deal.id, deal.is_active)}
+                            onClick={() => toggleOfferStatus(offer.id, offer.is_active)}
                           >
-                            {deal.is_active ? (
+                            {offer.is_active ? (
                               <EyeOff className="h-4 w-4" />
                             ) : (
                               <Eye className="h-4 w-4" />
@@ -198,7 +198,7 @@ export default function AdminDeals() {
                           <Button
                             variant="ghost"
                             size="icon"
-                            onClick={() => deleteDeal(deal.id)}
+                            onClick={() => deleteOffer(offer.id)}
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>

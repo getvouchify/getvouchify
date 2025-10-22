@@ -21,22 +21,22 @@ const About = () => {
             
             <div className="prose prose-lg max-w-none space-y-6 text-muted-foreground">
               <p className="text-xl leading-relaxed">
-                Vouchify is revolutionizing how people discover and redeem exclusive deals across Nigeria.
+                Vouchify is revolutionizing how people discover and redeem exclusive offers across Nigeria.
                 We're building a platform that connects shoppers with amazing offers from local businesses.
               </p>
 
               <h2 className="text-2xl font-bold text-primary mt-8 mb-4">Our Mission</h2>
               <p>
                 To make quality experiences more accessible while helping local businesses thrive.
-                We believe everyone deserves access to great deals, and every business deserves to reach
+                We believe everyone deserves access to great offers, and every business deserves to reach
                 customers who will love what they offer.
               </p>
 
               <h2 className="text-2xl font-bold text-primary mt-8 mb-4">Why Vouchify?</h2>
               <p>
-                Traditional deal platforms charge high commissions and complicate the process. We're different.
+                Traditional offer platforms charge high commissions and complicate the process. We're different.
                 Our secure escrow system ensures businesses get paid after service delivery, our simple
-                dashboard makes deal management effortless, and our growing community of 500,000+ shoppers
+                dashboard makes offer management effortless, and our growing community of 500,000+ shoppers
                 means instant visibility.
               </p>
 
@@ -50,7 +50,7 @@ const About = () => {
                 <h3 className="text-xl font-bold text-primary mb-4">Join Our Journey</h3>
                 <p className="mb-4">
                   We're currently in waitlist mode, building the platform with feedback from early users
-                  and merchants. Be part of shaping the future of local deals.
+                  and merchants. Be part of shaping the future of local offers.
                 </p>
                 <a
                   href="/"
