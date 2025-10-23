@@ -135,6 +135,33 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
       return;
     }
 
+    if (type === "business" && !formData.category) {
+      toast({
+        title: "Missing Information",
+        description: "Please select your business category.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!formData.state) {
+      toast({
+        title: "Missing Information",
+        description: "Please select your state.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!formData.localGovernment) {
+      toast({
+        title: "Missing Information",
+        description: "Please select your local government area.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     let registrationSuccessful = false;
 
@@ -327,7 +354,6 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
                 <Select
                   value={formData.category}
                   onValueChange={(value) => setFormData({ ...formData, category: value })}
-                  required
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select your category" />
@@ -355,7 +381,6 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
                   localGovernment: ""
                 });
               }}
-              required
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select your state" />
@@ -376,7 +401,6 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
               <Select
                 value={formData.localGovernment}
                 onValueChange={(value) => setFormData({ ...formData, localGovernment: value })}
-                required
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Select your LGA" />
