@@ -297,8 +297,8 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[500px] max-h-[90vh] p-0 gap-0 overflow-hidden">
-        <DialogHeader className="px-4 sm:px-6 pt-6 pb-2">
+      <DialogContent className="sm:max-w-[500px] max-h-[85vh] p-0 gap-0 overflow-hidden flex flex-col">
+        <DialogHeader className="px-4 sm:px-6 pt-6 pb-4 shrink-0">
           <DialogTitle className="text-2xl font-bold text-primary">
             Join as a {type === "customer" ? "Customer" : "Business"}
           </DialogTitle>
@@ -309,7 +309,7 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
           </DialogDescription>
         </DialogHeader>
 
-        <ScrollArea className="max-h-[calc(90vh-140px)] px-4 sm:px-6">
+        <ScrollArea className="flex-1 min-h-0 px-4 sm:px-6">
           <form onSubmit={handleSubmit} className="space-y-4 pb-4">
           {type === "business" && (
             <div className="space-y-2">
@@ -470,7 +470,7 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
           </form>
         </ScrollArea>
         
-        <div className="px-4 sm:px-6 py-4 border-t bg-background rounded-b-lg">
+        <div className="px-4 sm:px-6 py-4 border-t bg-background rounded-b-lg shrink-0">
           <Button 
             type="submit" 
             onClick={(e) => {
