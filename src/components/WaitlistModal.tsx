@@ -297,7 +297,7 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[500px] max-h-[90vh] p-0 gap-0">
+      <DialogContent className="sm:max-w-[500px] max-h-[90vh] p-0 gap-0 overflow-hidden">
         <DialogHeader className="px-4 sm:px-6 pt-6 pb-2">
           <DialogTitle className="text-2xl font-bold text-primary">
             Join as a {type === "customer" ? "Customer" : "Business"}
@@ -470,7 +470,7 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
           </form>
         </ScrollArea>
         
-        <div className="px-4 sm:px-6 py-4 border-t">
+        <div className="px-4 sm:px-6 py-4 border-t bg-background rounded-b-lg">
           <Button 
             type="submit" 
             onClick={(e) => {
