@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2 } from "lucide-react";
 
@@ -284,10 +285,20 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
 
   const categories = ["Food & Drinks", "Beauty & Spa", "Health & Fitness", "Things To Do", "Retail"];
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const form = e.currentTarget.form;
+      if (form) {
+        form.requestSubmit();
+      }
+    }
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[500px]">
-        <DialogHeader>
+      <DialogContent className="sm:max-w-[500px] max-h-[90vh] p-0 gap-0">
+        <DialogHeader className="px-4 sm:px-6 pt-6 pb-2">
           <DialogTitle className="text-2xl font-bold text-primary">
             Join as a {type === "customer" ? "Customer" : "Business"}
           </DialogTitle>
@@ -298,7 +309,8 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+        <ScrollArea className="max-h-[calc(90vh-140px)] px-4 sm:px-6">
+          <form onSubmit={handleSubmit} className="space-y-4 pb-4">
           {type === "business" && (
             <div className="space-y-2">
               <Label htmlFor="businessName">Business Name *</Label>
@@ -306,6 +318,7 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
                 id="businessName"
                 value={formData.businessName}
                 onChange={(e) => setFormData({ ...formData, businessName: e.target.value })}
+                onKeyDown={handleKeyDown}
                 placeholder="Your business name"
                 required
               />
@@ -318,6 +331,7 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
               id="name"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              onKeyDown={handleKeyDown}
               placeholder="Your full name"
               required={type === "business"}
             />
@@ -330,6 +344,7 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
               type="email"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              onKeyDown={handleKeyDown}
               placeholder="you@example.com"
               required
             />
@@ -344,6 +359,7 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
                   type="tel"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  onKeyDown={handleKeyDown}
                   placeholder="+234 XXX XXX XXXX"
                   required
                 />
@@ -451,7 +467,20 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
             </div>
           )}
 
-          <Button type="submit" className="w-full gradient-primary text-white font-semibold" disabled={isSubmitting}>
+          </form>
+        </ScrollArea>
+        
+        <div className="px-4 sm:px-6 py-4 border-t">
+          <Button 
+            type="submit" 
+            onClick={(e) => {
+              e.preventDefault();
+              const form = document.querySelector('form');
+              if (form) form.requestSubmit();
+            }}
+            className="w-full gradient-primary text-white font-semibold" 
+            disabled={isSubmitting}
+          >
             {isSubmitting ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -461,7 +490,7 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
               "Join the Waitlist"
             )}
           </Button>
-        </form>
+        </div>
       </DialogContent>
     </Dialog>
   );
