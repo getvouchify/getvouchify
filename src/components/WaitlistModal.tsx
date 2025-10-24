@@ -309,8 +309,7 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
           </DialogDescription>
         </DialogHeader>
 
-        <ScrollArea className="max-h-[55vh] px-4 sm:px-6">
-          <div className="pb-4">
+        <ScrollArea className="h-[55vh] px-4 sm:px-6">
           <form onSubmit={handleSubmit} className="space-y-4 pb-4">
           {type === "business" && (
             <div className="space-y-2">
@@ -469,7 +468,6 @@ const WaitlistModal = ({ open, onOpenChange, type }: WaitlistModalProps) => {
           )}
 
           </form>
-          </div>
         </ScrollArea>
         
         <div className="px-4 sm:px-6 py-4 border-t bg-background rounded-b-lg shrink-0">
