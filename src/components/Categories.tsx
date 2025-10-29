@@ -23,7 +23,7 @@ const categories = [{
 }, {
   icon: Sparkles,
   title: "Beauty & Spa",
-  description: "Indulge in discounted facials, massages, mani-pedis, and more. Self-care just got a whole lot more affordable.",
+  description: "Indulge in exclusive facials, massages, mani-pedis, and more. Discover premium self-care experiences you'll love.",
   color: "text-primary",
   images: [beautySpa1, beautySpa2]
 }, {
@@ -41,7 +41,7 @@ const categories = [{
 }, {
   icon: ShoppingBag,
   title: "Retail",
-  description: "Shop exclusive discounts on fashion, accessories, thrift finds, and more. Stylish steals you won't find anywhere else.",
+  description: "Shop exclusive fashion, accessories, thrift finds, and more. Stylish discoveries you won't find anywhere else.",
   color: "text-primary",
   images: [retail1, retail2]
 }];
