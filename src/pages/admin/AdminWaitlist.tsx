@@ -166,7 +166,9 @@ export default function AdminWaitlist() {
     Phone: entry.phone || "N/A",
     "Business Name": entry.business_name || "N/A",
     Type: entry.type,
-    Interests: entry.interests?.join(", ") || "N/A",
+    "Category/Interests": entry.type === "merchant" 
+      ? (entry.category || "N/A")
+      : (entry.interests?.join(", ") || "N/A"),
     "Signed Up": new Date(entry.created_at).toLocaleDateString(),
   }));
 
@@ -220,7 +222,7 @@ export default function AdminWaitlist() {
                       <TableHead>Phone</TableHead>
                       <TableHead>Type</TableHead>
                       <TableHead>Business</TableHead>
-                      <TableHead>Interests</TableHead>
+                      <TableHead>Category/Interests</TableHead>
                       <TableHead>Date</TableHead>
                       <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
@@ -251,7 +253,10 @@ export default function AdminWaitlist() {
                           </TableCell>
                           <TableCell>{entry.business_name || "N/A"}</TableCell>
                           <TableCell>
-                            {entry.interests?.join(", ") || "N/A"}
+                            {entry.type === "merchant" 
+                              ? (entry.category || "N/A")
+                              : (entry.interests?.join(", ") || "N/A")
+                            }
                           </TableCell>
                           <TableCell>{new Date(entry.created_at).toLocaleDateString()}</TableCell>
                           <TableCell className="text-right">
