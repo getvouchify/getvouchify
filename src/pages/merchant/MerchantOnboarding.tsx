@@ -46,8 +46,12 @@ const BUSINESS_CATEGORIES = [
 ];
 
 const BUSINESS_TYPES = [
-  'Sole Proprietorship', 'Partnership', 'Limited Liability Company (LLC)', 
-  'Corporation', 'Cooperative'
+  'Restaurant', 'Lounge', 'Bakery', 'Cafe',
+  'Spa', 'Salon', 'Beauty Center',
+  'Gym', 'Fitness Center', 'Yoga Studio',
+  'Retail Store', 'Boutique', 'Supermarket',
+  'Hotel', 'Resort', 'Event Center',
+  'Other'
 ];
 
 const DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
@@ -80,6 +84,7 @@ export default function MerchantOnboarding() {
     full_description: '',
     year_established: '',
     business_reg_number: '',
+    tax_id: '',
     logo_url: '',
     storefront_image_url: '',
     
@@ -321,6 +326,30 @@ export default function MerchantOnboarding() {
     }
   };
 
+  const handleMenuPdfUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.type !== 'application/pdf') {
+      toast.error('Please upload a PDF file');
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      toast.error('Menu PDF must be less than 10MB');
+      return;
+    }
+
+    toast.loading('Uploading menu PDF...', { id: 'menu-upload' });
+    try {
+      const url = await uploadFile(file, 'merchant-documents', merchantData?.id + '/menu_');
+      updateField('menu_pdf_url', url);
+      toast.success('Menu PDF uploaded successfully', { id: 'menu-upload' });
+    } catch (error) {
+      toast.error('Failed to upload menu PDF', { id: 'menu-upload' });
+    }
+  };
+
   const validateCurrentStep = () => {
     switch (currentStep) {
       case 1:
@@ -467,6 +496,7 @@ export default function MerchantOnboarding() {
           full_description: formData.full_description,
           year_established: formData.year_established ? parseInt(formData.year_established) : null,
           business_reg_number: formData.business_reg_number || null,
+          tax_id: formData.tax_id || null,
           logo_url: formData.logo_url,
           storefront_image_url: formData.storefront_image_url || null,
           
@@ -713,6 +743,19 @@ export default function MerchantOnboarding() {
                       placeholder="CAC/BN number"
                     />
                   </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="tax_id">Tax ID (Optional)</Label>
+                  <Input
+                    id="tax_id"
+                    value={formData.tax_id}
+                    onChange={(e) => updateField('tax_id', e.target.value)}
+                    placeholder="Enter tax identification number"
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    Federal tax identification number if applicable
+                  </p>
                 </div>
 
                 <div className="space-y-2">
@@ -1172,14 +1215,47 @@ export default function MerchantOnboarding() {
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="menu_pdf_url">Menu PDF</Label>
-                        <Input
-                          id="menu_pdf_url"
-                          type="url"
-                          value={formData.menu_pdf_url}
-                          onChange={(e) => updateField('menu_pdf_url', e.target.value)}
-                          placeholder="Link to menu PDF"
-                        />
+                        <Label>Menu PDF (Optional)</Label>
+                        <div className="border-2 border-dashed rounded-lg p-4 hover:border-primary/50 transition-colors">
+                          {formData.menu_pdf_url ? (
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <CheckCircle2 className="w-5 h-5 text-primary" />
+                                <span className="text-sm font-medium">Menu uploaded</span>
+                              </div>
+                              <div className="flex gap-2">
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => window.open(formData.menu_pdf_url, '_blank')}
+                                >
+                                  View
+                                </Button>
+                                <Button
+                                  type="button"
+                                  variant="destructive"
+                                  size="sm"
+                                  onClick={() => updateField('menu_pdf_url', '')}
+                                >
+                                  <X className="w-4 h-4" />
+                                </Button>
+                              </div>
+                            </div>
+                          ) : (
+                            <label className="cursor-pointer block text-center">
+                              <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
+                              <p className="text-sm text-muted-foreground">Click to upload menu PDF</p>
+                              <p className="text-xs text-muted-foreground mt-1">PDF format, max 10MB</p>
+                              <input
+                                type="file"
+                                accept="application/pdf"
+                                className="hidden"
+                                onChange={handleMenuPdfUpload}
+                              />
+                            </label>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </>
@@ -1384,42 +1460,47 @@ export default function MerchantOnboarding() {
                   <h3 className="font-semibold">Settlement Preferences</h3>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="settlement_frequency">Settlement Frequency</Label>
+                    <Label htmlFor="settlement_frequency">Settlement Preference *</Label>
                     <Select 
                       value={formData.settlement_frequency} 
                       onValueChange={(val) => updateField('settlement_frequency', val)}
                     >
                       <SelectTrigger>
-                        <SelectValue />
+                        <SelectValue placeholder="Select settlement frequency" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="daily">Daily</SelectItem>
-                        <SelectItem value="weekly">Weekly</SelectItem>
-                        <SelectItem value="bi-weekly">Bi-weekly</SelectItem>
-                        <SelectItem value="monthly">Monthly</SelectItem>
+                        <SelectItem value="instant">Instant Payout (Higher fees apply)</SelectItem>
+                        <SelectItem value="daily">Daily Payout</SelectItem>
+                        <SelectItem value="weekly">Weekly Payout (Recommended)</SelectItem>
+                        <SelectItem value="bi-weekly">Bi-Weekly Payout</SelectItem>
+                        <SelectItem value="monthly">Monthly Payout</SelectItem>
                       </SelectContent>
                     </Select>
                     <p className="text-xs text-muted-foreground">
-                      How often you'd like to receive payments
+                      Choose how frequently you'd like to receive payments
                     </p>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="escrow_type">Escrow Type</Label>
+                    <Label htmlFor="escrow_type">Preferred Escrow Type *</Label>
                     <Select 
                       value={formData.escrow_type} 
                       onValueChange={(val) => updateField('escrow_type', val)}
                     >
                       <SelectTrigger>
-                        <SelectValue />
+                        <SelectValue placeholder="Select escrow type" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="standard">Standard (Released after redemption)</SelectItem>
-                        <SelectItem value="express">Express (Released immediately)</SelectItem>
+                        <SelectItem value="standard">
+                          Standard Escrow (7-day hold after redemption)
+                        </SelectItem>
+                        <SelectItem value="instant">
+                          Instant Settlement (3% additional fee)
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                     <p className="text-xs text-muted-foreground">
-                      Standard is recommended for better customer protection
+                      Standard escrow protects both parties; instant settlement available with additional fee
                     </p>
                   </div>
                 </div>
