@@ -18,10 +18,15 @@ import AdminMerchants from "./pages/admin/AdminMerchants";
 import AdminWaitlist from "./pages/admin/AdminWaitlist";
 import AdminEmailLogs from "./pages/admin/AdminEmailLogs";
 import { AdminAuthGuard } from "./components/admin/AdminAuthGuard";
+import { AdminLayout } from "./components/admin/AdminLayout";
 import MerchantLogin from "./pages/merchant/MerchantLogin";
 import MerchantDashboard from "./pages/merchant/MerchantDashboard";
+import MerchantDeals from "./pages/merchant/MerchantDeals";
+import CreateDeal from "./pages/merchant/CreateDeal";
+import EditDeal from "./pages/merchant/EditDeal";
 import ApplicationSubmitted from "./pages/merchant/ApplicationSubmitted";
 import { MerchantAuthGuard } from "./components/merchant/MerchantAuthGuard";
+import { MerchantLayout } from "./components/merchant/MerchantLayout";
 
 const queryClient = new QueryClient();
 
@@ -40,17 +45,117 @@ const App = () => (
           
           {/* Merchant Routes */}
           <Route path="/merchant/login" element={<MerchantLogin />} />
-          <Route path="/merchant/application-submitted" element={<ApplicationSubmitted />} />
-          <Route path="/merchant/dashboard" element={<MerchantAuthGuard><MerchantDashboard /></MerchantAuthGuard>} />
+          <Route 
+            path="/merchant/dashboard" 
+            element={
+              <MerchantAuthGuard>
+                <MerchantLayout>
+                  <MerchantDashboard />
+                </MerchantLayout>
+              </MerchantAuthGuard>
+            } 
+          />
+          <Route 
+            path="/merchant/deals" 
+            element={
+              <MerchantAuthGuard>
+                <MerchantLayout>
+                  <MerchantDeals />
+                </MerchantLayout>
+              </MerchantAuthGuard>
+            } 
+          />
+          <Route 
+            path="/merchant/deals/new" 
+            element={
+              <MerchantAuthGuard>
+                <MerchantLayout>
+                  <CreateDeal />
+                </MerchantLayout>
+              </MerchantAuthGuard>
+            } 
+          />
+          <Route 
+            path="/merchant/deals/:id/edit" 
+            element={
+              <MerchantAuthGuard>
+                <MerchantLayout>
+                  <EditDeal />
+                </MerchantLayout>
+              </MerchantAuthGuard>
+            } 
+          />
+          <Route 
+            path="/merchant/application-submitted" 
+            element={
+              <MerchantAuthGuard>
+                <ApplicationSubmitted />
+              </MerchantAuthGuard>
+            } 
+          />
           
           {/* Admin Routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin" element={<AdminAuthGuard><AdminDashboard /></AdminAuthGuard>} />
-          <Route path="/admin/offers" element={<AdminAuthGuard><AdminDeals /></AdminAuthGuard>} />
-          <Route path="/admin/orders" element={<AdminAuthGuard><AdminOrders /></AdminAuthGuard>} />
-          <Route path="/admin/merchants" element={<AdminAuthGuard><AdminMerchants /></AdminAuthGuard>} />
-          <Route path="/admin/waitlist" element={<AdminAuthGuard><AdminWaitlist /></AdminAuthGuard>} />
-          <Route path="/admin/email-logs" element={<AdminAuthGuard><AdminEmailLogs /></AdminAuthGuard>} />
+          <Route 
+            path="/admin" 
+            element={
+              <AdminAuthGuard>
+                <AdminLayout>
+                  <AdminDashboard />
+                </AdminLayout>
+              </AdminAuthGuard>
+            } 
+          />
+          <Route 
+            path="/admin/offers" 
+            element={
+              <AdminAuthGuard>
+                <AdminLayout>
+                  <AdminDeals />
+                </AdminLayout>
+              </AdminAuthGuard>
+            } 
+          />
+          <Route 
+            path="/admin/orders" 
+            element={
+              <AdminAuthGuard>
+                <AdminLayout>
+                  <AdminOrders />
+                </AdminLayout>
+              </AdminAuthGuard>
+            } 
+          />
+          <Route 
+            path="/admin/merchants" 
+            element={
+              <AdminAuthGuard>
+                <AdminLayout>
+                  <AdminMerchants />
+                </AdminLayout>
+              </AdminAuthGuard>
+            } 
+          />
+          <Route 
+            path="/admin/waitlist" 
+            element={
+              <AdminAuthGuard>
+                <AdminLayout>
+                  <AdminWaitlist />
+                </AdminLayout>
+              </AdminAuthGuard>
+            } 
+          />
+          <Route 
+            path="/admin/email-logs" 
+            element={
+              <AdminAuthGuard>
+                <AdminLayout>
+                  <AdminEmailLogs />
+                </AdminLayout>
+              </AdminAuthGuard>
+            } 
+          />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
