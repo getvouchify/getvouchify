@@ -17,6 +17,7 @@ import AdminOrders from "./pages/admin/AdminOrders";
 import AdminMerchants from "./pages/admin/AdminMerchants";
 import AdminWaitlist from "./pages/admin/AdminWaitlist";
 import AdminEmailLogs from "./pages/admin/AdminEmailLogs";
+import AdminMerchantAccounts from "./pages/admin/AdminMerchantAccounts";
 import { AdminAuthGuard } from "./components/admin/AdminAuthGuard";
 import { AdminLayout } from "./components/admin/AdminLayout";
 import MerchantLogin from "./pages/merchant/MerchantLogin";
@@ -153,6 +154,16 @@ function App() {
               <AdminAuthGuard>
                 <AdminLayout>
                   <AdminEmailLogs />
+                </AdminLayout>
+              </AdminAuthGuard>
+            } 
+          />
+          <Route 
+            path="/admin/merchants/create-accounts" 
+            element={
+              <AdminAuthGuard>
+                <AdminLayout>
+                  <AdminMerchantAccounts />
                 </AdminLayout>
               </AdminAuthGuard>
             } 

@@ -6,6 +6,7 @@ import {
   Store, 
   Users,
   Mail,
+  UserPlus,
   LogOut 
 } from "lucide-react";
 import {
@@ -29,6 +30,7 @@ const menuItems = [
   { title: "Orders", url: "/admin/orders", icon: ShoppingCart },
   { title: "Merchants", url: "/admin/merchants", icon: Store },
   { title: "Waitlist", url: "/admin/waitlist", icon: Users },
+  { title: "Create Accounts", url: "/admin/merchants/create-accounts", icon: UserPlus },
   { title: "Email Logs", url: "/admin/email-logs", icon: Mail },
 ];
 

@@ -1,4 +1,3 @@
-import * as React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -70,6 +69,7 @@ export default function MerchantOnboarding() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [isPrePopulated, setIsPrePopulated] = useState(false);
   
   const [formData, setFormData] = useState({
     name: '',
@@ -150,6 +150,27 @@ export default function MerchantOnboarding() {
   const [storefrontPreview, setStorefrontPreview] = useState('');
   const [cacDocPreview, setCacDocPreview] = useState('');
   const [ownerIdPreview, setOwnerIdPreview] = useState('');
+
+  // Pre-populate form data from merchant profile
+  useEffect(() => {
+    if (merchantData && !isPrePopulated && !formData.name) {
+      setFormData(prev => ({
+        ...prev,
+        name: merchantData.name || '',
+        category: merchantData.category || '',
+        state: merchantData.state || '',
+        lga: merchantData.lga || '',
+        address: merchantData.address || '',
+        city: merchantData.city || '',
+        phone: merchantData.phone || '',
+        primary_contact_name: merchantData.primary_contact_name || '',
+        primary_contact_email: merchantData.primary_contact_email || '',
+        primary_contact_phone: merchantData.primary_contact_phone || '',
+      }));
+      setIsPrePopulated(true);
+      toast.info("We've pre-filled some details from your registration");
+    }
+  }, [merchantData, isPrePopulated, formData.name]);
 
   const updateField = (field: string, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -599,7 +620,10 @@ export default function MerchantOnboarding() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              {React.createElement(steps[currentStep - 1].icon, { className: "w-5 h-5" })}
+              {(() => {
+                const Icon = steps[currentStep - 1].icon;
+                return <Icon className="w-5 h-5" />;
+              })()}
               {steps[currentStep - 1].label}
             </CardTitle>
             <CardDescription>
