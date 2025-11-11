@@ -18,6 +18,10 @@ import AdminMerchants from "./pages/admin/AdminMerchants";
 import AdminWaitlist from "./pages/admin/AdminWaitlist";
 import AdminEmailLogs from "./pages/admin/AdminEmailLogs";
 import { AdminAuthGuard } from "./components/admin/AdminAuthGuard";
+import MerchantLogin from "./pages/merchant/MerchantLogin";
+import MerchantDashboard from "./pages/merchant/MerchantDashboard";
+import ApplicationSubmitted from "./pages/merchant/ApplicationSubmitted";
+import { MerchantAuthGuard } from "./components/merchant/MerchantAuthGuard";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +37,13 @@ const App = () => (
           <Route path="/contact" element={<Contact />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
+          
+          {/* Merchant Routes */}
+          <Route path="/merchant/login" element={<MerchantLogin />} />
+          <Route path="/merchant/application-submitted" element={<ApplicationSubmitted />} />
+          <Route path="/merchant/dashboard" element={<MerchantAuthGuard><MerchantDashboard /></MerchantAuthGuard>} />
+          
+          {/* Admin Routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminAuthGuard><AdminDashboard /></AdminAuthGuard>} />
           <Route path="/admin/offers" element={<AdminAuthGuard><AdminDeals /></AdminAuthGuard>} />

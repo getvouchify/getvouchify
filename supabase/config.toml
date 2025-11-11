@@ -5,3 +5,12 @@ verify_jwt = false
 
 [functions.send-contact-email]
 verify_jwt = false
+
+[functions.send-merchant-welcome]
+verify_jwt = false
+
+[functions.send-merchant-approval]
+verify_jwt = false
+
+[functions.send-merchant-rejection]
+verify_jwt = false
