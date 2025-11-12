@@ -26,6 +26,11 @@ import MerchantDeals from "./pages/merchant/MerchantDeals";
 import CreateDeal from "./pages/merchant/CreateDeal";
 import EditDeal from "./pages/merchant/EditDeal";
 import ApplicationSubmitted from "./pages/merchant/ApplicationSubmitted";
+import MerchantOrders from "./pages/merchant/MerchantOrders";
+import MerchantRedemptions from "./pages/merchant/MerchantRedemptions";
+import MerchantMessages from "./pages/merchant/MerchantMessages";
+import MerchantSettlements from "./pages/merchant/MerchantSettlements";
+import MerchantSettings from "./pages/merchant/MerchantSettings";
 import { MerchantAuthGuard } from "./components/merchant/MerchantAuthGuard";
 import { MerchantLayout } from "./components/merchant/MerchantLayout";
 
@@ -92,6 +97,56 @@ function App() {
             element={
               <MerchantAuthGuard>
                 <ApplicationSubmitted />
+              </MerchantAuthGuard>
+            } 
+          />
+          <Route 
+            path="/merchant/orders" 
+            element={
+              <MerchantAuthGuard>
+                <MerchantLayout>
+                  <MerchantOrders />
+                </MerchantLayout>
+              </MerchantAuthGuard>
+            } 
+          />
+          <Route 
+            path="/merchant/redemptions" 
+            element={
+              <MerchantAuthGuard>
+                <MerchantLayout>
+                  <MerchantRedemptions />
+                </MerchantLayout>
+              </MerchantAuthGuard>
+            } 
+          />
+          <Route 
+            path="/merchant/messages" 
+            element={
+              <MerchantAuthGuard>
+                <MerchantLayout>
+                  <MerchantMessages />
+                </MerchantLayout>
+              </MerchantAuthGuard>
+            } 
+          />
+          <Route 
+            path="/merchant/settlements" 
+            element={
+              <MerchantAuthGuard>
+                <MerchantLayout>
+                  <MerchantSettlements />
+                </MerchantLayout>
+              </MerchantAuthGuard>
+            } 
+          />
+          <Route 
+            path="/merchant/settings" 
+            element={
+              <MerchantAuthGuard>
+                <MerchantLayout>
+                  <MerchantSettings />
+                </MerchantLayout>
               </MerchantAuthGuard>
             } 
           />
