@@ -24,13 +24,12 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 const menuItems = [
-  { title: "Dashboard", url: "/merchant/dashboard", icon: LayoutDashboard },
+  { title: "Profile", url: "/merchant/profile", icon: Store },
   { title: "My Deals", url: "/merchant/deals", icon: Tag },
   { title: "Orders & Bookings", url: "/merchant/orders", icon: ShoppingCart },
   { title: "QR Redemptions", url: "/merchant/redemptions", icon: QrCode },
   { title: "Messages", url: "/merchant/messages", icon: MessageSquare },
   { title: "Settlements", url: "/merchant/settlements", icon: DollarSign },
-  { title: "Business Profile", url: "/merchant/profile", icon: Store },
   { title: "Settings", url: "/merchant/settings", icon: Settings },
 ];
 
