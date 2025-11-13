@@ -31,8 +31,10 @@ import MerchantRedemptions from "./pages/merchant/MerchantRedemptions";
 import MerchantMessages from "./pages/merchant/MerchantMessages";
 import MerchantSettlements from "./pages/merchant/MerchantSettlements";
 import MerchantSettings from "./pages/merchant/MerchantSettings";
+import MerchantProfile from "./pages/merchant/MerchantProfile";
 import { MerchantAuthGuard } from "./components/merchant/MerchantAuthGuard";
 import { MerchantLayout } from "./components/merchant/MerchantLayout";
+import { Navigate } from "react-router-dom";
 
 const queryClient = new QueryClient();
 
@@ -56,8 +58,16 @@ function App() {
             path="/merchant/dashboard" 
             element={
               <MerchantAuthGuard>
+                <Navigate to="/merchant/profile" replace />
+              </MerchantAuthGuard>
+            } 
+          />
+          <Route 
+            path="/merchant/profile" 
+            element={
+              <MerchantAuthGuard>
                 <MerchantLayout>
-                  <MerchantDashboard />
+                  <MerchantProfile />
                 </MerchantLayout>
               </MerchantAuthGuard>
             } 
