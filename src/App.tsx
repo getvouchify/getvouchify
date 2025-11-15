@@ -15,6 +15,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminDeals from "./pages/admin/AdminDeals";
 import AdminOrders from "./pages/admin/AdminOrders";
 import AdminMerchants from "./pages/admin/AdminMerchants";
+import AdminMerchantDetail from "./pages/admin/AdminMerchantDetail";
 import AdminWaitlist from "./pages/admin/AdminWaitlist";
 import AdminEmailLogs from "./pages/admin/AdminEmailLogs";
 import AdminMerchantAccounts from "./pages/admin/AdminMerchantAccounts";
@@ -199,6 +200,16 @@ function App() {
               <AdminAuthGuard>
                 <AdminLayout>
                   <AdminMerchants />
+                </AdminLayout>
+              </AdminAuthGuard>
+            } 
+          />
+          <Route 
+            path="/admin/merchants/:id" 
+            element={
+              <AdminAuthGuard>
+                <AdminLayout>
+                  <AdminMerchantDetail />
                 </AdminLayout>
               </AdminAuthGuard>
             } 

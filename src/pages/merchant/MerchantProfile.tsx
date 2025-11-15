@@ -14,7 +14,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Switch } from "@/components/ui/switch";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Loader2, Upload, X, Plus, Pencil, Trash2 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { DocumentUploader } from "@/components/merchant/DocumentUploader";
+import { Loader2, Upload, X, Plus, Pencil, Trash2, Package, ShoppingCart, TrendingUp, Eye } from "lucide-react";
 
 interface Branch {
   id?: string;
@@ -33,6 +35,9 @@ export default function MerchantProfile() {
   const [branches, setBranches] = useState<Branch[]>([]);
   const [branchDialogOpen, setBranchDialogOpen] = useState(false);
   const [editingBranch, setEditingBranch] = useState<Branch | null>(null);
+  const [documents, setDocuments] = useState<any[]>([]);
+  const [activeDeals, setActiveDeals] = useState<any[]>([]);
+  const [loadingDeals, setLoadingDeals] = useState(false);
 
   // Form state
   const [formData, setFormData] = useState({
@@ -159,6 +164,32 @@ export default function MerchantProfile() {
       .eq("merchant_id", merchantData.id);
     if (!error && data) setBranches(data);
   };
+
+  const loadDeals = async () => {
+    if (!merchantData?.id) return;
+    setLoadingDeals(true);
+    try {
+      const { data, error } = await supabase
+        .from("deals")
+        .select("*")
+        .eq("merchant_id", merchantData.id)
+        .eq("is_active", true)
+        .order("created_at", { ascending: false })
+        .limit(5);
+      if (!error && data) setActiveDeals(data);
+    } catch (error) {
+      console.error("Error loading deals:", error);
+    } finally {
+      setLoadingDeals(false);
+    }
+  };
+
+  useEffect(() => {
+    if (merchantData?.id) {
+      setDocuments((merchantData.other_documents as any) || []);
+      loadDeals();
+    }
+  }, [merchantData]);
 
   const handleImageUpload = async (file: File, type: 'logo' | 'storefront') => {
     if (!merchantData?.id) return;
@@ -346,14 +377,44 @@ export default function MerchantProfile() {
         </div>
       </div>
 
+      {/* Quick Actions */}
+      <Card className="bg-primary/5 border-primary/20">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <TrendingUp className="h-5 w-5" />
+            Quick Actions
+          </CardTitle>
+          <CardDescription>Manage your deals and orders</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Button onClick={() => navigate("/merchant/deals/create")} className="h-20 flex flex-col gap-2">
+              <Plus className="h-6 w-6" />
+              <span>Create New Deal</span>
+            </Button>
+            <Button variant="outline" onClick={() => navigate("/merchant/deals")} className="h-20 flex flex-col gap-2">
+              <Package className="h-6 w-6" />
+              <span>View My Deals</span>
+            </Button>
+            <Button variant="outline" onClick={() => navigate("/merchant/orders")} className="h-20 flex flex-col gap-2">
+              <ShoppingCart className="h-6 w-6" />
+              <span>Manage Orders</span>
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
       <Tabs defaultValue="business" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-6">
+        <TabsList className="grid w-full grid-cols-7">
           <TabsTrigger value="business">Business Info</TabsTrigger>
           <TabsTrigger value="contact">Contact</TabsTrigger>
-          <TabsTrigger value="digital">Digital Presence</TabsTrigger>
+          <TabsTrigger value="digital">Digital</TabsTrigger>
           <TabsTrigger value="uploads">Uploads</TabsTrigger>
           <TabsTrigger value="payment">Payment</TabsTrigger>
           <TabsTrigger value="service">Service</TabsTrigger>
+          <TabsTrigger value="deals">
+            Deals ({activeDeals.length})
+          </TabsTrigger>
         </TabsList>
 
         {/* Business Information Tab */}
@@ -895,8 +956,8 @@ export default function MerchantProfile() {
         <TabsContent value="uploads" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Required Uploads</CardTitle>
-              <CardDescription>Business documents and images</CardDescription>
+              <CardTitle>Business Images</CardTitle>
+              <CardDescription>Logo and storefront images</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="grid grid-cols-2 gap-6">
@@ -938,61 +999,16 @@ export default function MerchantProfile() {
                   )}
                 </div>
               </div>
-
-              {formData.category === "Food and Drinks" && (
-                <div className="space-y-2">
-                  <Label htmlFor="menu_pdf">Menu PDF or Image</Label>
-                  {formData.menu_pdf_url && (
-                    <p className="text-sm text-muted-foreground">File uploaded</p>
-                  )}
-                  {isEditing && (
-                    <Input
-                      type="file"
-                      accept=".pdf,image/*"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) handleFileUpload(file, 'menu_pdf_url');
-                      }}
-                    />
-                  )}
-                </div>
-              )}
-
-              <div className="space-y-2">
-                <Label htmlFor="cac_document">CAC Documents or Registration Certificate</Label>
-                {formData.cac_document_url && (
-                  <p className="text-sm text-muted-foreground">File uploaded</p>
-                )}
-                {isEditing && (
-                  <Input
-                    type="file"
-                    accept=".pdf,image/*"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0];
-                      if (file) handleFileUpload(file, 'cac_document_url');
-                    }}
-                  />
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="owner_id">ID of Business Owner</Label>
-                {formData.owner_id_url && (
-                  <p className="text-sm text-muted-foreground">File uploaded</p>
-                )}
-                {isEditing && (
-                  <Input
-                    type="file"
-                    accept=".pdf,image/*"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0];
-                      if (file) handleFileUpload(file, 'owner_id_url');
-                    }}
-                  />
-                )}
-              </div>
             </CardContent>
           </Card>
+
+          {merchantData?.id && (
+            <DocumentUploader
+              merchantId={merchantData.id}
+              documents={documents}
+              onDocumentsChange={setDocuments}
+            />
+          )}
         </TabsContent>
 
         {/* Payment Tab */}
@@ -1091,7 +1107,7 @@ export default function MerchantProfile() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="support_email">Email for Alerts</Label>
+                  <Label htmlFor="support_email">Support Email</Label>
                   <Input
                     id="support_email"
                     type="email"
@@ -1101,24 +1117,82 @@ export default function MerchantProfile() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="support_phone">Phone for SMS Alerts</Label>
+                  <Label htmlFor="support_phone">Support Phone</Label>
                   <Input
                     id="support_phone"
+                    type="tel"
                     value={formData.support_phone}
                     onChange={(e) => setFormData(prev => ({ ...prev, support_phone: e.target.value }))}
                     disabled={!isEditing}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="support_whatsapp">WhatsApp Number for Support</Label>
+                  <Label htmlFor="support_whatsapp">WhatsApp Support</Label>
                   <Input
                     id="support_whatsapp"
+                    type="tel"
                     value={formData.support_whatsapp}
                     onChange={(e) => setFormData(prev => ({ ...prev, support_whatsapp: e.target.value }))}
                     disabled={!isEditing}
                   />
                 </div>
               </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Deals Tab */}
+        <TabsContent value="deals" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>My Active Deals</CardTitle>
+              <CardDescription>Recently created deals</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {loadingDeals ? (
+                <div className="flex justify-center py-8">
+                  <Loader2 className="h-8 w-8 animate-spin" />
+                </div>
+              ) : activeDeals.length > 0 ? (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Title</TableHead>
+                      <TableHead>Category</TableHead>
+                      <TableHead>Discount</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead className="text-right">Action</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {activeDeals.map((deal) => (
+                      <TableRow key={deal.id}>
+                        <TableCell className="font-medium">{deal.title}</TableCell>
+                        <TableCell>{deal.category}</TableCell>
+                        <TableCell>{deal.discount}</TableCell>
+                        <TableCell>
+                          <Badge variant={deal.is_active ? "default" : "secondary"}>
+                            {deal.is_active ? "Active" : "Inactive"}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <Button variant="ghost" size="sm" onClick={() => navigate(`/merchant/deals/${deal.id}/edit`)}>
+                            <Eye className="h-4 w-4 mr-2" />
+                            View
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              ) : (
+                <div className="text-center py-8">
+                  <p className="text-muted-foreground">No active deals</p>
+                  <Button onClick={() => navigate("/merchant/deals/new")} className="mt-4">
+                    Create Your First Deal
+                  </Button>
+                </div>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
