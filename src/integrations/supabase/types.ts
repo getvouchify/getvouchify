@@ -184,6 +184,56 @@ export type Database = {
           },
         ]
       }
+      merchant_account_credentials: {
+        Row: {
+          business_name: string | null
+          created_at: string | null
+          created_by_admin_id: string
+          first_login_at: string | null
+          id: string
+          merchant_email: string
+          merchant_id: string
+          merchant_name: string | null
+          notes: string | null
+          password_changed: boolean | null
+          temporary_password: string
+        }
+        Insert: {
+          business_name?: string | null
+          created_at?: string | null
+          created_by_admin_id: string
+          first_login_at?: string | null
+          id?: string
+          merchant_email: string
+          merchant_id: string
+          merchant_name?: string | null
+          notes?: string | null
+          password_changed?: boolean | null
+          temporary_password: string
+        }
+        Update: {
+          business_name?: string | null
+          created_at?: string | null
+          created_by_admin_id?: string
+          first_login_at?: string | null
+          id?: string
+          merchant_email?: string
+          merchant_id?: string
+          merchant_name?: string | null
+          notes?: string | null
+          password_changed?: boolean | null
+          temporary_password?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "merchant_account_credentials_merchant_id_fkey"
+            columns: ["merchant_id"]
+            isOneToOne: false
+            referencedRelation: "merchants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       merchant_branches: {
         Row: {
           address: string
@@ -365,6 +415,7 @@ export type Database = {
           lga: string | null
           logo_url: string | null
           menu_pdf_url: string | null
+          must_change_password: boolean | null
           name: string
           online_menu_url: string | null
           other_documents: Json | null
@@ -428,6 +479,7 @@ export type Database = {
           lga?: string | null
           logo_url?: string | null
           menu_pdf_url?: string | null
+          must_change_password?: boolean | null
           name: string
           online_menu_url?: string | null
           other_documents?: Json | null
@@ -491,6 +543,7 @@ export type Database = {
           lga?: string | null
           logo_url?: string | null
           menu_pdf_url?: string | null
+          must_change_password?: boolean | null
           name?: string
           online_menu_url?: string | null
           other_documents?: Json | null
