@@ -192,16 +192,31 @@ export default function MerchantProfile() {
   }, [merchantData]);
 
   const handleImageUpload = async (file: File, type: 'logo' | 'storefront') => {
-    if (!merchantData?.id) return;
+    // Get authenticated user ID
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    
+    if (authError || !user) {
+      toast({
+        title: "Authentication required",
+        description: "Please log in to upload files",
+        variant: "destructive"
+      });
+      return;
+    }
+
     const bucket = type === 'logo' ? 'merchant-logos' : 'merchant-storefronts';
-    const filePath = `${merchantData.id}/${Date.now()}_${file.name}`;
+    const filePath = `${user.id}/${Date.now()}_${file.name}`;
     
     const { error: uploadError } = await supabase.storage
       .from(bucket)
       .upload(filePath, file);
 
     if (uploadError) {
-      toast({ title: "Upload failed", description: uploadError.message, variant: "destructive" });
+      toast({ 
+        title: "Upload failed", 
+        description: uploadError.message, 
+        variant: "destructive" 
+      });
       return;
     }
 
@@ -214,23 +229,61 @@ export default function MerchantProfile() {
       setFormData(prev => ({ ...prev, storefront_image_url: publicUrl }));
       setStorefrontPreview(publicUrl);
     }
+
+    toast({
+      title: "Upload successful",
+      description: `${file.name} has been uploaded`,
+    });
   };
 
   const handleFileUpload = async (file: File, field: string) => {
-    if (!merchantData?.id) return;
-    const filePath = `${merchantData.id}/${Date.now()}_${file.name}`;
+    // Get authenticated user ID
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    
+    if (authError || !user) {
+      toast({
+        title: "Authentication required",
+        description: "Please log in to upload files",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const filePath = `${user.id}/${Date.now()}_${file.name}`;
     
     const { error: uploadError } = await supabase.storage
       .from('merchant-documents')
       .upload(filePath, file);
 
     if (uploadError) {
-      toast({ title: "Upload failed", description: uploadError.message, variant: "destructive" });
+      toast({ 
+        title: "Upload failed", 
+        description: uploadError.message, 
+        variant: "destructive" 
+      });
       return;
     }
 
-    const { data: { publicUrl } } = supabase.storage.from('merchant-documents').getPublicUrl(filePath);
-    setFormData(prev => ({ ...prev, [field]: publicUrl }));
+    // Use signed URL for private bucket (expires in 1 year)
+    const { data: signedUrlData, error: urlError } = await supabase.storage
+      .from('merchant-documents')
+      .createSignedUrl(filePath, 60 * 60 * 24 * 365);
+
+    if (urlError || !signedUrlData) {
+      toast({
+        title: "Error generating URL",
+        description: "File uploaded but couldn't generate access URL",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setFormData(prev => ({ ...prev, [field]: signedUrlData.signedUrl }));
+    
+    toast({
+      title: "Upload successful",
+      description: `${file.name} has been uploaded`,
+    });
   };
 
   const handleSave = async () => {
