@@ -86,17 +86,15 @@ export default function CreateDeal() {
     }
 
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
-
-      const { data: merchant } = await supabase
-        .from("merchants")
-        .select("id")
-        .eq("user_id", user.id)
-        .single();
+      const { data: { user }, error: authError } = await supabase.auth.getUser();
+      
+      if (authError || !user) {
+        toast.error("Authentication required. Please log in again.");
+        return;
+      }
 
       const fileExt = file.name.split('.').pop();
-      const fileName = `${merchant.id}/${Date.now()}.${fileExt}`;
+      const fileName = `${user.id}/${Date.now()}.${fileExt}`;
 
       const { error: uploadError } = await supabase.storage
         .from("merchant-deal-images")
