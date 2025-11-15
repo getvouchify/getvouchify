@@ -406,20 +406,25 @@ export default function CreateDeal() {
         return (
           <div className="space-y-6">
             <div>
-              <Label htmlFor="age_restriction">Age Restriction</Label>
-              <Select 
+              <Label>Age Restriction</Label>
+              <RadioGroup 
                 value={formData.age_restriction}
                 onValueChange={(v) => updateField('age_restriction', v)}
+                className="space-y-3 mt-3"
               >
-                <SelectTrigger>
-                  <SelectValue placeholder="No restriction" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="">No restriction</SelectItem>
-                  <SelectItem value="18+">18+ only</SelectItem>
-                  <SelectItem value="21+">21+ only</SelectItem>
-                </SelectContent>
-              </Select>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="" id="no-restriction" />
+                  <Label htmlFor="no-restriction" className="font-normal cursor-pointer">No restriction</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="18+" id="18plus" />
+                  <Label htmlFor="18plus" className="font-normal cursor-pointer">18+ only</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="21+" id="21plus" />
+                  <Label htmlFor="21plus" className="font-normal cursor-pointer">21+ only</Label>
+                </div>
+              </RadioGroup>
             </div>
 
             <div>
