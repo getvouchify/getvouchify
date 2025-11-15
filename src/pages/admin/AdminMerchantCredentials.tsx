@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { Eye, EyeOff, Copy, Download, Search, AlertTriangle, RefreshCw, Loader2 } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Checkbox } from "@/components/ui/checkbox";
+import { format } from "date-fns";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -209,7 +210,7 @@ Login URL: ${loginUrl}
               </div>
             </CardHeader>
             <CardContent>
-              {isLoading ? (
+              {loading ? (
                 <div className="text-center py-12">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
                   <p className="text-muted-foreground mt-4">Loading credentials...</p>
