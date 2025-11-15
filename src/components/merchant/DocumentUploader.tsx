@@ -99,15 +99,20 @@ export function DocumentUploader({ merchantId, documents, onDocumentsChange }: D
 
       if (uploadError) throw uploadError;
 
-      const { data: { publicUrl } } = supabase.storage
+      // Get signed URL for private bucket (expires in 1 year)
+      const { data: signedUrlData, error: urlError } = await supabase.storage
         .from('merchant-documents')
-        .getPublicUrl(fileName);
+        .createSignedUrl(fileName, 60 * 60 * 24 * 365);
+
+      if (urlError) throw urlError;
+
+      const documentUrl = signedUrlData.signedUrl;
 
       const newDocument: Document = {
         id: Date.now().toString(),
         name: file.name,
         type: selectedType,
-        url: publicUrl,
+        url: documentUrl,
         uploaded_at: new Date().toISOString(),
         size: file.size
       };
