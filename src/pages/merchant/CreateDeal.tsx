@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { DEAL_CATEGORIES } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -205,11 +206,11 @@ export default function CreateDeal() {
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Food & Drinks">Food & Drinks</SelectItem>
-                  <SelectItem value="Beauty & Spa">Beauty & Spa</SelectItem>
-                  <SelectItem value="Health & Fitness">Health & Fitness</SelectItem>
-                  <SelectItem value="Things To Do">Things To Do</SelectItem>
-                  <SelectItem value="Retail">Retail</SelectItem>
+                  {DEAL_CATEGORIES.map((category) => (
+                    <SelectItem key={category} value={category}>
+                      {category}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>

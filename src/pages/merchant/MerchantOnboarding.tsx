@@ -22,6 +22,7 @@ import {
   ChevronLeft, ChevronRight, Clock
 } from "lucide-react";
 import { useMerchant } from "@/hooks/useMerchant";
+import { BUSINESS_CATEGORIES } from "@/lib/constants";
 
 const NIGERIAN_STATES = [
   'Abia', 'Adamawa', 'Akwa Ibom', 'Anambra', 'Bauchi', 'Bayelsa', 'Benue', 
@@ -40,10 +41,6 @@ const NIGERIAN_BANKS = [
   'Unity Bank', 'Wema Bank', 'Zenith Bank'
 ];
 
-const BUSINESS_CATEGORIES = [
-  'Restaurant', 'Beauty & Spa', 'Retail', 'Health & Fitness', 
-  'Things To Do', 'Electronics', 'Home & Lifestyle'
-];
 
 const BUSINESS_TYPES = [
   'Restaurant', 'Lounge', 'Bakery', 'Cafe',
