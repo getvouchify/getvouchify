@@ -114,8 +114,8 @@ serve(async (req: Request) => {
       throw new Error(`Failed to assign role: ${roleError.message}`);
     }
 
-    // Create merchant profile with pre-populated data
-    const { error: merchantError } = await supabaseAdmin
+    // Create merchant profile with pre-populated data and auto-approve
+    const { data: merchantData, error: merchantError } = await supabaseAdmin
       .from("merchants")
       .insert({
         user_id: authData.user.id,
@@ -128,14 +128,37 @@ serve(async (req: Request) => {
         primary_contact_name: waitlistData.name || '',
         primary_contact_email: waitlistData.email,
         primary_contact_phone: waitlistData.phone || '',
-        status: 'pending',
-      });
+        status: 'approved',
+        approved_at: new Date().toISOString(),
+        approved_by_admin_id: user.id,
+        must_change_password: true,
+      })
+      .select()
+      .single();
 
-    if (merchantError) {
-      throw new Error(`Failed to create merchant profile: ${merchantError.message}`);
+    if (merchantError || !merchantData) {
+      throw new Error(`Failed to create merchant profile: ${merchantError?.message || 'Unknown error'}`);
     }
 
-    console.log(`Successfully created account for ${merchantEmail}`);
+    // Store credentials in the credentials table for admin access
+    const { error: credentialsError } = await supabaseAdmin
+      .from("merchant_account_credentials")
+      .insert({
+        merchant_id: merchantData.id,
+        merchant_email: merchantEmail,
+        merchant_name: waitlistData.name || '',
+        business_name: waitlistData.business_name || '',
+        temporary_password: password,
+        created_by_admin_id: user.id,
+        password_changed: false,
+      });
+
+    if (credentialsError) {
+      console.error("Failed to store credentials:", credentialsError);
+      // Don't throw error here, merchant account is already created
+    }
+
+    console.log(`Successfully created and approved account for ${merchantEmail}`);
 
     return new Response(
       JSON.stringify({ 

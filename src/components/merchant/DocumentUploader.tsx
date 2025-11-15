@@ -84,8 +84,14 @@ export function DocumentUploader({ merchantId, documents, onDocumentsChange }: D
 
     setUploading(true);
     try {
+      // Get current user's auth ID for folder structure
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        throw new Error("Not authenticated");
+      }
+
       const fileExt = file.name.split('.').pop();
-      const fileName = `${merchantId}/${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+      const fileName = `${user.id}/${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
       
       const { error: uploadError } = await supabase.storage
         .from('merchant-documents')

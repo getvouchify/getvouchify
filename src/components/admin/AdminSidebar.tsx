@@ -7,7 +7,8 @@ import {
   Users,
   Mail,
   UserPlus,
-  LogOut 
+  LogOut,
+  Key
 } from "lucide-react";
 import {
   Sidebar,
@@ -31,6 +32,7 @@ const menuItems = [
   { title: "Merchants", url: "/admin/merchants", icon: Store },
   { title: "Waitlist", url: "/admin/waitlist", icon: Users },
   { title: "Create Accounts", url: "/admin/merchants/create-accounts", icon: UserPlus },
+  { title: "Credentials", url: "/admin/credentials", icon: Key },
   { title: "Email Logs", url: "/admin/email-logs", icon: Mail },
 ];
 
