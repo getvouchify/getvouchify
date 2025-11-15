@@ -25,6 +25,7 @@ export default function AdminMerchantDetail() {
   const [deals, setDeals] = useState<any[]>([]);
   const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [downloading, setDownloading] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -89,6 +90,32 @@ export default function AdminMerchantDetail() {
         return <Badge variant="destructive">Rejected</Badge>;
       default:
         return <Badge variant="secondary">Unknown</Badge>;
+    }
+  };
+
+  const downloadFile = async (url: string, filename: string) => {
+    try {
+      setDownloading(true);
+      
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('Download failed');
+      
+      const blob = await response.blob();
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(downloadUrl);
+      
+      toast.success(`${filename} downloaded successfully`);
+    } catch (error) {
+      console.error('Download error:', error);
+      toast.error('Failed to download file');
+    } finally {
+      setDownloading(false);
     }
   };
 
@@ -429,53 +456,119 @@ export default function AdminMerchantDetail() {
             <TabsContent value="documents" className="space-y-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>Uploaded Documents</CardTitle>
-                  <CardDescription>All merchant documents and certificates</CardDescription>
+                  <CardTitle>Business Images</CardTitle>
+                  <CardDescription>Visual branding and storefront photos</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-3">
+                      <Label>Business Logo</Label>
+                      {merchant.logo_url ? (
+                        <>
+                          <img 
+                            src={merchant.logo_url} 
+                            alt="Business Logo"
+                            className="w-full max-w-[200px] h-auto border rounded-lg object-contain bg-muted/30 p-2"
+                          />
+                          <div className="flex gap-2">
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              onClick={() => downloadFile(merchant.logo_url, `${merchant.name}-logo.png`)}
+                              disabled={downloading}
+                            >
+                              {downloading ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Download className="h-4 w-4 mr-2" />}
+                              Download
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              variant="ghost"
+                              onClick={() => window.open(merchant.logo_url, '_blank')}
+                            >
+                              <ExternalLink className="h-4 w-4 mr-2" />
+                              View Full Size
+                            </Button>
+                          </div>
+                        </>
+                      ) : (
+                        <div className="border rounded-lg p-8 text-center text-muted-foreground bg-muted/20">
+                          No logo uploaded
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="space-y-3">
+                      <Label>Storefront Image</Label>
+                      {merchant.storefront_image_url ? (
+                        <>
+                          <img 
+                            src={merchant.storefront_image_url} 
+                            alt="Storefront"
+                            className="w-full max-w-[200px] h-auto border rounded-lg object-cover"
+                          />
+                          <div className="flex gap-2">
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              onClick={() => downloadFile(merchant.storefront_image_url, `${merchant.name}-storefront.png`)}
+                              disabled={downloading}
+                            >
+                              {downloading ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Download className="h-4 w-4 mr-2" />}
+                              Download
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              variant="ghost"
+                              onClick={() => window.open(merchant.storefront_image_url, '_blank')}
+                            >
+                              <ExternalLink className="h-4 w-4 mr-2" />
+                              View Full Size
+                            </Button>
+                          </div>
+                        </>
+                      ) : (
+                        <div className="border rounded-lg p-8 text-center text-muted-foreground bg-muted/20">
+                          No storefront image uploaded
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Business Documents</CardTitle>
+                  <CardDescription>Legal documents and certificates</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {merchant.logo_url && (
-                      <div className="flex items-center justify-between p-4 border rounded-lg">
-                        <div className="flex items-center gap-3">
-                          <FileText className="h-5 w-5 text-muted-foreground" />
-                          <div>
-                            <p className="font-medium">Business Logo</p>
-                            <p className="text-sm text-muted-foreground">Company branding</p>
-                          </div>
-                        </div>
-                        <Button variant="ghost" size="sm" onClick={() => window.open(merchant.logo_url, '_blank')}>
-                          <Download className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    )}
-                    
-                    {merchant.storefront_image_url && (
-                      <div className="flex items-center justify-between p-4 border rounded-lg">
-                        <div className="flex items-center gap-3">
-                          <FileText className="h-5 w-5 text-muted-foreground" />
-                          <div>
-                            <p className="font-medium">Storefront Image</p>
-                            <p className="text-sm text-muted-foreground">Business premises</p>
-                          </div>
-                        </div>
-                        <Button variant="ghost" size="sm" onClick={() => window.open(merchant.storefront_image_url, '_blank')}>
-                          <Download className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    )}
-
                     {merchant.cac_document_url && (
                       <div className="flex items-center justify-between p-4 border rounded-lg">
                         <div className="flex items-center gap-3">
                           <FileText className="h-5 w-5 text-muted-foreground" />
                           <div>
                             <p className="font-medium">CAC Document</p>
-                            <p className="text-sm text-muted-foreground">Business registration</p>
+                            <p className="text-sm text-muted-foreground">Business registration certificate</p>
                           </div>
                         </div>
-                        <Button variant="ghost" size="sm" onClick={() => window.open(merchant.cac_document_url, '_blank')}>
-                          <Download className="h-4 w-4" />
-                        </Button>
+                        <div className="flex gap-2">
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            onClick={() => downloadFile(merchant.cac_document_url, `${merchant.name}-cac.pdf`)}
+                            disabled={downloading}
+                          >
+                            {downloading ? <Loader2 className="h-4 w-4" /> : <Download className="h-4 w-4" />}
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            onClick={() => window.open(merchant.cac_document_url, '_blank')}
+                          >
+                            <ExternalLink className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </div>
                     )}
 
@@ -485,12 +578,26 @@ export default function AdminMerchantDetail() {
                           <FileText className="h-5 w-5 text-muted-foreground" />
                           <div>
                             <p className="font-medium">Owner ID</p>
-                            <p className="text-sm text-muted-foreground">Identification document</p>
+                            <p className="text-sm text-muted-foreground">Owner identification document</p>
                           </div>
                         </div>
-                        <Button variant="ghost" size="sm" onClick={() => window.open(merchant.owner_id_url, '_blank')}>
-                          <Download className="h-4 w-4" />
-                        </Button>
+                        <div className="flex gap-2">
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            onClick={() => downloadFile(merchant.owner_id_url, `${merchant.name}-owner-id.pdf`)}
+                            disabled={downloading}
+                          >
+                            {downloading ? <Loader2 className="h-4 w-4" /> : <Download className="h-4 w-4" />}
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            onClick={() => window.open(merchant.owner_id_url, '_blank')}
+                          >
+                            <ExternalLink className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </div>
                     )}
 
@@ -507,9 +614,23 @@ export default function AdminMerchantDetail() {
                                 <p className="text-sm text-muted-foreground">{doc.type}</p>
                               </div>
                             </div>
-                            <Button variant="ghost" size="sm" onClick={() => window.open(doc.url, '_blank')}>
-                              <Download className="h-4 w-4" />
-                            </Button>
+                            <div className="flex gap-2">
+                              <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                onClick={() => downloadFile(doc.url, doc.name)}
+                                disabled={downloading}
+                              >
+                                {downloading ? <Loader2 className="h-4 w-4" /> : <Download className="h-4 w-4" />}
+                              </Button>
+                              <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                onClick={() => window.open(doc.url, '_blank')}
+                              >
+                                <ExternalLink className="h-4 w-4" />
+                              </Button>
+                            </div>
                           </div>
                         ))}
                       </>
