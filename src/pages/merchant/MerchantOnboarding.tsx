@@ -133,6 +133,7 @@ export default function MerchantOnboarding() {
     primary_contact_email: '',
     primary_contact_phone: '',
     secondary_contact_name: '',
+    secondary_contact_role: '',
     secondary_contact_email: '',
     secondary_contact_phone: '',
     customer_service_contact: '',
@@ -1330,6 +1331,18 @@ export default function MerchantOnboarding() {
                       />
                     </div>
 
+                    <div className="space-y-2">
+                      <Label htmlFor="secondary_contact_role">Role/Position</Label>
+                      <Input
+                        id="secondary_contact_role"
+                        value={formData.secondary_contact_role}
+                        onChange={(e) => updateField('secondary_contact_role', e.target.value)}
+                        placeholder="e.g., Operations Manager"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="secondary_contact_phone">Phone</Label>
                       <Input

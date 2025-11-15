@@ -380,6 +380,7 @@ export type Database = {
           secondary_contact_email: string | null
           secondary_contact_name: string | null
           secondary_contact_phone: string | null
+          secondary_contact_role: string | null
           settlement_frequency: string | null
           short_description: string | null
           state: string | null
@@ -442,6 +443,7 @@ export type Database = {
           secondary_contact_email?: string | null
           secondary_contact_name?: string | null
           secondary_contact_phone?: string | null
+          secondary_contact_role?: string | null
           settlement_frequency?: string | null
           short_description?: string | null
           state?: string | null
@@ -504,6 +506,7 @@ export type Database = {
           secondary_contact_email?: string | null
           secondary_contact_name?: string | null
           secondary_contact_phone?: string | null
+          secondary_contact_role?: string | null
           settlement_frequency?: string | null
           short_description?: string | null
           state?: string | null
