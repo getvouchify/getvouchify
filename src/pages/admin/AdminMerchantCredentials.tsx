@@ -3,13 +3,24 @@ import { AdminAuthGuard } from "@/components/admin/AdminAuthGuard";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Copy, Eye, EyeOff, Download, Search } from "lucide-react";
 import { toast } from "sonner";
-import { format } from "date-fns";
+import { Eye, EyeOff, Copy, Download, Search, AlertTriangle, RefreshCw, Loader2 } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 interface Credential {
   id: string;
@@ -28,9 +39,14 @@ interface Credential {
 const AdminMerchantCredentials = () => {
   const [credentials, setCredentials] = useState<Credential[]>([]);
   const [filteredCredentials, setFilteredCredentials] = useState<Credential[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [visiblePasswords, setVisiblePasswords] = useState<Record<string, boolean>>({});
+  const [visiblePasswords, setVisiblePasswords] = useState<Set<string>>(new Set());
+  const [selectedCredentials, setSelectedCredentials] = useState<Set<string>>(new Set());
+  const [resettingPassword, setResettingPassword] = useState<string | null>(null);
+  const [bulkResetting, setBulkResetting] = useState(false);
+  const [showResetDialog, setShowResetDialog] = useState(false);
+  const [resetTarget, setResetTarget] = useState<{ type: 'single' | 'bulk', email?: string }>({ type: 'single' });
 
   useEffect(() => {
     loadCredentials();
@@ -41,7 +57,7 @@ const AdminMerchantCredentials = () => {
   }, [searchTerm, credentials]);
 
   const loadCredentials = async () => {
-    setIsLoading(true);
+    setLoading(true);
     try {
       const { data, error } = await supabase
         .from("merchant_account_credentials")
@@ -54,7 +70,7 @@ const AdminMerchantCredentials = () => {
       console.error("Error loading credentials:", error);
       toast.error("Failed to load credentials");
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
@@ -74,10 +90,13 @@ const AdminMerchantCredentials = () => {
   };
 
   const togglePasswordVisibility = (id: string) => {
-    setVisiblePasswords((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
+    const newVisible = new Set(visiblePasswords);
+    if (newVisible.has(id)) {
+      newVisible.delete(id);
+    } else {
+      newVisible.add(id);
+    }
+    setVisiblePasswords(newVisible);
   };
 
   const copyToClipboard = (text: string, label: string) => {
@@ -95,7 +114,7 @@ Email: ${cred.merchant_email}
 Password: ${cred.temporary_password}
 Login URL: ${loginUrl}
 
-⚠️ Please change your password after first login.
+⚠️ This password can be changed anytime in Settings.
     `.trim();
     
     navigator.clipboard.writeText(info);

@@ -131,7 +131,7 @@ serve(async (req: Request) => {
         status: 'approved',
         approved_at: new Date().toISOString(),
         approved_by_admin_id: user.id,
-        must_change_password: true,
+        must_change_password: false,
       })
       .select()
       .single();
