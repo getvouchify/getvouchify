@@ -22,6 +22,13 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 interface Credential {
   id: string;
@@ -48,6 +55,8 @@ const AdminMerchantCredentials = () => {
   const [bulkResetting, setBulkResetting] = useState(false);
   const [showResetDialog, setShowResetDialog] = useState(false);
   const [resetTarget, setResetTarget] = useState<{ type: 'single' | 'bulk', email?: string }>({ type: 'single' });
+  const [showNewPasswordDialog, setShowNewPasswordDialog] = useState(false);
+  const [newPasswordData, setNewPasswordData] = useState<{ email: string; password: string; loginUrl: string } | null>(null);
 
   useEffect(() => {
     loadCredentials();
@@ -120,6 +129,33 @@ Login URL: ${loginUrl}
     
     navigator.clipboard.writeText(info);
     toast.success("Full login info copied to clipboard");
+  };
+
+  const resetPassword = async (email: string) => {
+    setResettingPassword(email);
+    try {
+      const { data, error } = await supabase.functions.invoke('reset-merchant-password', {
+        body: { merchantEmail: email }
+      });
+
+      if (error) throw error;
+
+      toast.success("Password reset successfully!");
+      setNewPasswordData({
+        email: email,
+        password: data.newPassword,
+        loginUrl: `${window.location.origin}/merchant/login`
+      });
+      setShowNewPasswordDialog(true);
+      
+      // Reload credentials to show updated data
+      loadCredentials();
+    } catch (error: any) {
+      console.error('Password reset error:', error);
+      toast.error(error.message || "Failed to reset password");
+    } finally {
+      setResettingPassword(null);
+    }
   };
 
   const exportToCSV = () => {
@@ -273,6 +309,7 @@ Login URL: ${loginUrl}
                                 variant="ghost"
                                 size="sm"
                                 onClick={() => copyToClipboard(cred.temporary_password, "Password")}
+                                title="Copy password"
                               >
                                 <Copy className="h-4 w-4" />
                               </Button>
@@ -282,6 +319,22 @@ Login URL: ${loginUrl}
                                 onClick={() => copyLoginInfo(cred)}
                               >
                                 Copy Login Info
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => {
+                                  setResetTarget({ type: 'single', email: cred.merchant_email });
+                                  setShowResetDialog(true);
+                                }}
+                                disabled={resettingPassword === cred.merchant_email}
+                                title="Reset password"
+                              >
+                                {resettingPassword === cred.merchant_email ? (
+                                  <Loader2 className="h-4 w-4 animate-spin" />
+                                ) : (
+                                  <RefreshCw className="h-4 w-4" />
+                                )}
                               </Button>
                             </div>
                           </TableCell>
@@ -294,6 +347,84 @@ Login URL: ${loginUrl}
             </CardContent>
           </Card>
         </div>
+
+        {/* Reset Password Confirmation Dialog */}
+        <AlertDialog open={showResetDialog} onOpenChange={setShowResetDialog}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Reset Password?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This will generate a new temporary password for <strong>{resetTarget.email}</strong>.
+                The old password will no longer work.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={() => {
+                if (resetTarget.email) resetPassword(resetTarget.email);
+                setShowResetDialog(false);
+              }}>
+                Reset Password
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+
+        {/* New Password Display Dialog */}
+        <Dialog open={showNewPasswordDialog} onOpenChange={setShowNewPasswordDialog}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>New Password Generated</DialogTitle>
+              <DialogDescription>
+                Password has been reset successfully. Share this with the merchant securely.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div className="bg-muted p-4 rounded-lg space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium">Email:</span>
+                  <span className="font-mono text-sm">{newPasswordData?.email}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium">New Password:</span>
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono font-bold text-sm">{newPasswordData?.password}</span>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => copyToClipboard(newPasswordData?.password || '', 'Password')}
+                    >
+                      <Copy className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium">Login URL:</span>
+                  <span className="text-xs text-muted-foreground">{newPasswordData?.loginUrl}</span>
+                </div>
+              </div>
+              
+              <Button
+                className="w-full"
+                onClick={() => {
+                  const info = `
+Merchant Login Credentials (RESET)
+━━━━━━━━━━━━━━━━━━━━━━━━
+Email: ${newPasswordData?.email}
+Password: ${newPasswordData?.password}
+Login URL: ${newPasswordData?.loginUrl}
+
+⚠️ This is a new password. The old password no longer works.
+                  `.trim();
+                  copyToClipboard(info, 'Full login info');
+                }}
+              >
+                <Copy className="mr-2 h-4 w-4" />
+                Copy Full Login Info
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </AdminLayout>
     </AdminAuthGuard>
   );
