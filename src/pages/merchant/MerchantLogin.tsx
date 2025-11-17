@@ -135,7 +135,7 @@ export default function MerchantLogin() {
         }
       });
 
-      if (authError) throw authError;
+      if (authError) throw new Error(`Account creation failed: ${authError.message}`);
 
       if (authData.user) {
         // Create user_roles entry
@@ -143,7 +143,7 @@ export default function MerchantLogin() {
           .from("user_roles")
           .insert({ user_id: authData.user.id, role: "merchant" });
 
-        if (roleError) throw roleError;
+        if (roleError) throw new Error(`Role assignment failed: ${roleError.message}`);
 
         // Create initial merchants profile
         const { error: merchantError } = await supabase
@@ -151,12 +151,12 @@ export default function MerchantLogin() {
           .insert({
             user_id: authData.user.id,
             email: signupEmail,
-            status: 'pending',
+            status: 'approved',
             name: '',
             category: '',
           });
 
-        if (merchantError) throw merchantError;
+        if (merchantError) throw new Error(`Profile creation failed: ${merchantError.message}`);
 
         // Send welcome email
         try {
@@ -174,6 +174,7 @@ export default function MerchantLogin() {
         navigate("/merchant/onboarding");
       }
     } catch (error: any) {
+      console.error('Registration error:', error);
       toast.error(error.message || "Signup failed");
     } finally {
       setIsLoading(false);
