@@ -8,11 +8,28 @@ import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, Plus, Pencil, Trash2, Eye } from "lucide-react";
+import { Loader2, Plus, Pencil, Trash2, Eye, RefreshCw, Copy } from "lucide-react";
 import { toast } from "sonner";
 import { MerchantDialog } from "@/components/admin/MerchantDialog";
 import { MerchantReviewDialog } from "@/components/admin/MerchantReviewDialog";
 import { ExportButton } from "@/components/admin/ExportButton";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 export default function AdminMerchants() {
   const [merchants, setMerchants] = useState<any[]>([]);
@@ -22,6 +39,16 @@ export default function AdminMerchants() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [reviewDialogOpen, setReviewDialogOpen] = useState(false);
   const [selectedMerchant, setSelectedMerchant] = useState<any>(null);
+  const [resettingPassword, setResettingPassword] = useState<string | null>(null);
+  const [showResetDialog, setShowResetDialog] = useState(false);
+  const [resetTarget, setResetTarget] = useState<{ email: string; name: string } | null>(null);
+  const [showNewPasswordDialog, setShowNewPasswordDialog] = useState(false);
+  const [newPasswordData, setNewPasswordData] = useState<{ 
+    email: string; 
+    password: string; 
+    loginUrl: string;
+    merchantName: string;
+  } | null>(null);
 
   useEffect(() => {
     loadMerchants();
@@ -59,6 +86,31 @@ export default function AdminMerchants() {
     } catch (error: any) {
       console.error("Error deleting merchant:", error);
       toast.error("Failed to delete merchant");
+    }
+  };
+
+  const resetPassword = async (email: string, merchantName: string) => {
+    setResettingPassword(email);
+    try {
+      const { data, error } = await supabase.functions.invoke('reset-merchant-password', {
+        body: { merchantEmail: email }
+      });
+
+      if (error) throw error;
+
+      toast.success(`Password reset for ${merchantName}`);
+      setNewPasswordData({
+        email: email,
+        password: data.newPassword,
+        loginUrl: `${window.location.origin}/merchant/login`,
+        merchantName: merchantName
+      });
+      setShowNewPasswordDialog(true);
+    } catch (error: any) {
+      console.error('Password reset error:', error);
+      toast.error(error.message || "Failed to reset password");
+    } finally {
+      setResettingPassword(null);
     }
   };
 
@@ -199,14 +251,33 @@ export default function AdminMerchants() {
                               >
                                 <Pencil className="h-4 w-4" />
                               </Button>
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => deleteMerchant(merchant.id)}
-                              >
-                                <Trash2 className="h-4 w-4" />
-                              </Button>
-                            </TableCell>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => deleteMerchant(merchant.id)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => {
+                          setResetTarget({ 
+                            email: merchant.email, 
+                            name: merchant.name || merchant.email 
+                          });
+                          setShowResetDialog(true);
+                        }}
+                        disabled={resettingPassword === merchant.email}
+                        title="Reset Password"
+                      >
+                        {resettingPassword === merchant.email ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <RefreshCw className="h-4 w-4" />
+                        )}
+                      </Button>
+                    </TableCell>
                           </TableRow>
                         ))
                       )}
@@ -230,6 +301,94 @@ export default function AdminMerchants() {
             merchant={selectedMerchant}
             onSuccess={loadMerchants}
           />
+
+          <AlertDialog open={showResetDialog} onOpenChange={setShowResetDialog}>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Reset Password?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Generate a new password for <strong>{resetTarget?.name}</strong> ({resetTarget?.email})?
+                  <br />The old password will no longer work.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={() => {
+                  if (resetTarget) {
+                    resetPassword(resetTarget.email, resetTarget.name);
+                  }
+                  setShowResetDialog(false);
+                }}>
+                  Reset Password
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+
+          <Dialog open={showNewPasswordDialog} onOpenChange={setShowNewPasswordDialog}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Password Reset Successful</DialogTitle>
+                <DialogDescription>
+                  New password generated for {newPasswordData?.merchantName}
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4">
+                <div className="bg-muted p-4 rounded-lg space-y-3">
+                  <div className="space-y-1">
+                    <div className="text-sm font-medium text-muted-foreground">Business Name</div>
+                    <div className="font-medium">{newPasswordData?.merchantName}</div>
+                  </div>
+                  <div className="space-y-1">
+                    <div className="text-sm font-medium text-muted-foreground">Email</div>
+                    <div className="font-mono text-sm">{newPasswordData?.email}</div>
+                  </div>
+                  <div className="space-y-1">
+                    <div className="text-sm font-medium text-muted-foreground">New Password</div>
+                    <div className="flex items-center justify-between gap-2 bg-background p-2 rounded border">
+                      <span className="font-mono font-bold">{newPasswordData?.password}</span>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => {
+                          navigator.clipboard.writeText(newPasswordData?.password || '');
+                          toast.success('Password copied!');
+                        }}
+                      >
+                        <Copy className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="space-y-1">
+                    <div className="text-sm font-medium text-muted-foreground">Login URL</div>
+                    <div className="text-xs text-muted-foreground break-all">{newPasswordData?.loginUrl}</div>
+                  </div>
+                </div>
+                
+                <Button
+                  className="w-full"
+                  onClick={() => {
+                    const info = `
+Vouchify Merchant Login Credentials
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Business: ${newPasswordData?.merchantName}
+Email: ${newPasswordData?.email}
+Password: ${newPasswordData?.password}
+Login URL: ${newPasswordData?.loginUrl}
+
+⚠️ This is a NEW password. The old password no longer works.
+Please change this password after your first login.
+                    `.trim();
+                    navigator.clipboard.writeText(info);
+                    toast.success('Full login details copied to clipboard!');
+                  }}
+                >
+                  <Copy className="mr-2 h-4 w-4" />
+                  Copy Full Login Details
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       </AdminLayout>
     </AdminAuthGuard>
