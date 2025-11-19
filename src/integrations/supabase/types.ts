@@ -95,14 +95,16 @@ export type Database = {
           deal_end_date: string | null
           deal_images: Json | null
           deal_start_date: string | null
-          discount: string
+          discount: string | null
           discount_type: string | null
           expiry_date: string | null
           id: string
           image_url: string
           is_active: boolean | null
+          listing_type: string | null
           merchant: string
           merchant_id: string | null
+          merchant_loyalty_details: string | null
           offer: string | null
           original_price: number | null
           requires_booking: boolean | null
@@ -125,14 +127,16 @@ export type Database = {
           deal_end_date?: string | null
           deal_images?: Json | null
           deal_start_date?: string | null
-          discount: string
+          discount?: string | null
           discount_type?: string | null
           expiry_date?: string | null
           id?: string
           image_url: string
           is_active?: boolean | null
+          listing_type?: string | null
           merchant: string
           merchant_id?: string | null
+          merchant_loyalty_details?: string | null
           offer?: string | null
           original_price?: number | null
           requires_booking?: boolean | null
@@ -155,14 +159,16 @@ export type Database = {
           deal_end_date?: string | null
           deal_images?: Json | null
           deal_start_date?: string | null
-          discount?: string
+          discount?: string | null
           discount_type?: string | null
           expiry_date?: string | null
           id?: string
           image_url?: string
           is_active?: boolean | null
+          listing_type?: string | null
           merchant?: string
           merchant_id?: string | null
+          merchant_loyalty_details?: string | null
           offer?: string | null
           original_price?: number | null
           requires_booking?: boolean | null
