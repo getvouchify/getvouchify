@@ -11,7 +11,9 @@ import {
   MoreVertical, 
   BarChart3, 
   Copy, 
-  Trash2 
+  Trash2,
+  Gift,
+  Percent
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -84,6 +86,18 @@ export const DealCard = ({ deal, onUpdate }: DealCardProps) => {
             {deal.is_active ? "Active" : "Inactive"}
           </Badge>
         )}
+        {deal.listing_type === 'loyalty_program' && (
+          <Badge variant="secondary" className="absolute top-2 left-2 flex items-center gap-1">
+            <Gift className="h-3 w-3" />
+            Loyalty Rewards
+          </Badge>
+        )}
+        {deal.listing_type === 'discounted_offer' && deal.discount && (
+          <Badge variant="destructive" className="absolute top-2 left-2 flex items-center gap-1">
+            <Percent className="h-3 w-3" />
+            {deal.discount}
+          </Badge>
+        )}
       </div>
 
       <CardHeader>
@@ -95,14 +109,29 @@ export const DealCard = ({ deal, onUpdate }: DealCardProps) => {
 
       <CardContent>
         <div className="space-y-2">
-          <div className="flex justify-between items-center">
-            <span className="text-sm text-muted-foreground">Discount:</span>
-            <span className="font-bold text-primary">{deal.discount}</span>
-          </div>
+          {deal.listing_type === 'loyalty_program' && deal.merchant_loyalty_details && (
+            <div className="bg-secondary/20 border border-secondary/30 rounded-lg p-3 mb-3">
+              <div className="flex items-start gap-2">
+                <Gift className="h-4 w-4 text-primary mt-0.5" />
+                <div>
+                  <p className="text-xs font-medium text-foreground mb-1">Loyalty Program</p>
+                  <p className="text-xs text-muted-foreground">{deal.merchant_loyalty_details}</p>
+                </div>
+              </div>
+            </div>
+          )}
+          
+          {deal.listing_type === 'discounted_offer' && deal.discount && (
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-muted-foreground">Discount:</span>
+              <span className="font-bold text-primary">{deal.discount}</span>
+            </div>
+          )}
+          
           <div className="flex justify-between items-center">
             <span className="text-sm text-muted-foreground">Price:</span>
             <div className="flex items-center gap-2">
-              {deal.original_price && (
+              {deal.listing_type === 'discounted_offer' && deal.original_price && (
                 <span className="text-sm line-through text-muted-foreground">
                   ₦{Number(deal.original_price).toLocaleString()}
                 </span>

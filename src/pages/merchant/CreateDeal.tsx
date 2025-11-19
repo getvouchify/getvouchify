@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { DEAL_CATEGORIES } from "@/lib/constants";
+import { DEAL_CATEGORIES, ListingType } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,6 +15,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { ArrowLeft, ArrowRight, Check, Loader2, Info, Calculator, Upload, X, ImagePlus, Plus, Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { ListingTypeSelector } from "@/components/merchant/ListingTypeSelector";
 
 const STEPS = [
   { id: 1, label: "Basic Info" },
@@ -36,6 +37,8 @@ export default function CreateDeal() {
     title: '',
     category: '',
     offer: '',
+    listing_type: 'full_price' as ListingType,
+    merchant_loyalty_details: '',
     original_price: '',
     discount_type: 'percentage',
     discount: '',
@@ -58,11 +61,12 @@ export default function CreateDeal() {
 
   // Auto-calculate current price
   useEffect(() => {
-    if (formData.original_price && formData.discount) {
-      const original = Number(formData.original_price);
+    const original = Number(formData.original_price);
+    
+    if (formData.listing_type === 'discounted_offer' && formData.discount) {
       const discount = Number(formData.discount);
-      
       let currentPrice = original;
+      
       if (formData.discount_type === 'percentage') {
         currentPrice = original - (original * discount / 100);
       } else {
@@ -70,8 +74,11 @@ export default function CreateDeal() {
       }
       
       setFormData(prev => ({ ...prev, current_price: currentPrice.toString() }));
+    } else if (formData.listing_type === 'full_price' || formData.listing_type === 'loyalty_program') {
+      // For full price listings, current price equals original price
+      setFormData(prev => ({ ...prev, current_price: formData.original_price }));
     }
-  }, [formData.original_price, formData.discount, formData.discount_type]);
+  }, [formData.original_price, formData.discount, formData.discount_type, formData.listing_type]);
 
   const updateField = (field: string, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -143,10 +150,12 @@ export default function CreateDeal() {
           merchant: merchant.name,
           title: formData.title,
           category: formData.category,
-          discount: formData.discount_type === 'percentage' 
-            ? `${formData.discount}%` 
-            : `₦${formData.discount}`,
-          discount_type: formData.discount_type,
+          listing_type: formData.listing_type,
+          merchant_loyalty_details: formData.listing_type === 'loyalty_program' ? formData.merchant_loyalty_details : null,
+          discount: formData.listing_type === 'discounted_offer' 
+            ? (formData.discount_type === 'percentage' ? `${formData.discount}%` : `₦${formData.discount}`)
+            : null,
+          discount_type: formData.listing_type === 'discounted_offer' ? formData.discount_type : null,
           original_price: formData.original_price ? Number(formData.original_price) : null,
           current_price: formData.current_price ? Number(formData.current_price) : null,
           image_url: formData.image_url,
@@ -236,6 +245,17 @@ export default function CreateDeal() {
         return (
           <div className="space-y-6">
             <div>
+              <Label className="text-base font-semibold">Select Listing Type *</Label>
+              <p className="text-sm text-muted-foreground mb-4">
+                Choose how you want to list your service
+              </p>
+              <ListingTypeSelector 
+                value={formData.listing_type} 
+                onChange={(value) => updateField('listing_type', value)} 
+              />
+            </div>
+
+            <div>
               <Label htmlFor="original_price">Regular Price (₦) *</Label>
               <Input
                 id="original_price"
@@ -248,48 +268,79 @@ export default function CreateDeal() {
               />
             </div>
 
-            <div>
-              <Label>Discount Type *</Label>
-              <RadioGroup 
-                value={formData.discount_type}
-                onValueChange={(v) => updateField('discount_type', v)}
-              >
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="percentage" id="percentage" />
-                  <Label htmlFor="percentage">Percentage (%)</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="fixed" id="fixed" />
-                  <Label htmlFor="fixed">Fixed Amount (₦)</Label>
-                </div>
-              </RadioGroup>
-            </div>
+            {formData.listing_type === 'loyalty_program' && (
+              <div>
+                <Label htmlFor="merchant_loyalty_details">Merchant Loyalty Program Details *</Label>
+                <Textarea
+                  id="merchant_loyalty_details"
+                  placeholder="Describe your loyalty rewards, e.g., 'Book 3 services, get 50% off the 4th' or 'Earn 1 point per ₦100 spent'"
+                  value={formData.merchant_loyalty_details}
+                  onChange={(e) => updateField('merchant_loyalty_details', e.target.value)}
+                  rows={3}
+                />
+                <p className="text-xs text-muted-foreground mt-1">
+                  Your loyalty program will be displayed on the deal card to attract repeat customers
+                </p>
+              </div>
+            )}
 
-            <div>
-              <Label htmlFor="discount">
-                Discount {formData.discount_type === 'percentage' ? '(%)' : '(₦)'} *
-              </Label>
-              <Input
-                id="discount"
-                type="number"
-                placeholder={formData.discount_type === 'percentage' ? '50' : '5000'}
-                value={formData.discount}
-                onChange={(e) => updateField('discount', e.target.value)}
-                min="0"
-                max={formData.discount_type === 'percentage' ? '100' : undefined}
-              />
-            </div>
+            {formData.listing_type === 'discounted_offer' && (
+              <>
+                <div>
+                  <Label>Discount Type *</Label>
+                  <RadioGroup 
+                    value={formData.discount_type}
+                    onValueChange={(v) => updateField('discount_type', v)}
+                  >
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="percentage" id="percentage" />
+                      <Label htmlFor="percentage">Percentage (%)</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="fixed" id="fixed" />
+                      <Label htmlFor="fixed">Fixed Amount (₦)</Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+
+                <div>
+                  <Label htmlFor="discount">
+                    Discount {formData.discount_type === 'percentage' ? '(%)' : '(₦)'} *
+                  </Label>
+                  <Input
+                    id="discount"
+                    type="number"
+                    placeholder={formData.discount_type === 'percentage' ? '50' : '5000'}
+                    value={formData.discount}
+                    onChange={(e) => updateField('discount', e.target.value)}
+                    min="0"
+                    max={formData.discount_type === 'percentage' ? '100' : undefined}
+                  />
+                </div>
+              </>
+            )}
 
             <Alert>
               <Calculator className="h-4 w-4" />
-              <AlertTitle>Vouchify Price (Calculated)</AlertTitle>
+              <AlertTitle>
+                {formData.listing_type === 'discounted_offer' ? 'Vouchify Price (Calculated)' : 'Customer Price'}
+              </AlertTitle>
               <AlertDescription>
                 <span className="text-2xl font-bold text-primary">
-                  ₦{Number(formData.current_price || 0).toLocaleString()}
+                  ₦{formData.current_price ? Number(formData.current_price).toLocaleString() : '0'}
                 </span>
-                <p className="text-sm mt-2">
-                  Customers will pay this discounted price
-                </p>
+                {formData.listing_type === 'full_price' && (
+                  <p className="text-xs mt-1">Customers will pay full regular price</p>
+                )}
+                {formData.listing_type === 'loyalty_program' && (
+                  <p className="text-xs mt-1">Customers pay full price + earn loyalty rewards</p>
+                )}
+                {formData.listing_type === 'discounted_offer' && formData.original_price && formData.discount && (
+                  <p className="text-xs mt-1">
+                    Original: ₦{Number(formData.original_price).toLocaleString()} | 
+                    Savings: ₦{(Number(formData.original_price) - Number(formData.current_price)).toLocaleString()}
+                  </p>
+                )}
               </AlertDescription>
             </Alert>
           </div>
@@ -541,7 +592,21 @@ export default function CreateDeal() {
       case 1:
         return formData.title && formData.category && formData.offer;
       case 2:
-        return formData.original_price && formData.discount && formData.current_price;
+        const hasPrice = formData.original_price && Number(formData.original_price) > 0;
+        
+        if (formData.listing_type === 'full_price') {
+          return hasPrice;
+        }
+        
+        if (formData.listing_type === 'loyalty_program') {
+          return hasPrice && formData.merchant_loyalty_details.trim().length > 0;
+        }
+        
+        if (formData.listing_type === 'discounted_offer') {
+          return hasPrice && formData.discount && Number(formData.discount) > 0 && formData.current_price;
+        }
+        
+        return false;
       case 6:
         return formData.image_url;
       default:
