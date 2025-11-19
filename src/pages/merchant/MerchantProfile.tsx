@@ -441,7 +441,7 @@ export default function MerchantProfile() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Button onClick={() => navigate("/merchant/deals/create")} className="h-20 flex flex-col gap-2">
+            <Button onClick={() => navigate("/merchant/deals/new")} className="h-20 flex flex-col gap-2">
               <Plus className="h-6 w-6" />
               <span>Create New Deal</span>
             </Button>
