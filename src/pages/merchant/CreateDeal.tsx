@@ -18,13 +18,14 @@ import { Badge } from "@/components/ui/badge";
 import { ListingTypeSelector } from "@/components/merchant/ListingTypeSelector";
 
 const STEPS = [
-  { id: 1, label: "Basic Info" },
-  { id: 2, label: "Pricing" },
-  { id: 3, label: "Availability" },
-  { id: 4, label: "Booking" },
-  { id: 5, label: "Details" },
-  { id: 6, label: "Images" },
-  { id: 7, label: "Review" },
+  { id: 1, label: "Listing Type" },
+  { id: 2, label: "Basic Info" },
+  { id: 3, label: "Pricing" },
+  { id: 4, label: "Availability" },
+  { id: 5, label: "Booking" },
+  { id: 6, label: "Details" },
+  { id: 7, label: "Images" },
+  { id: 8, label: "Review" },
 ];
 
 export default function CreateDeal() {
@@ -194,11 +195,58 @@ export default function CreateDeal() {
       case 1:
         return (
           <div className="space-y-6">
+            <div className="text-center space-y-2 mb-8">
+              <h3 className="text-2xl font-bold">Choose Your Listing Type</h3>
+              <p className="text-muted-foreground">
+                Select how you want to offer your service. This determines the pricing structure.
+              </p>
+            </div>
+            
+            <ListingTypeSelector 
+              value={formData.listing_type} 
+              onChange={(value) => updateField('listing_type', value)} 
+            />
+            
+            {formData.listing_type === 'full_price' && (
+              <Alert>
+                <Info className="h-4 w-4" />
+                <AlertTitle>Full-Price Listing</AlertTitle>
+                <AlertDescription>
+                  Your service will be listed at regular price with no discounts.
+                </AlertDescription>
+              </Alert>
+            )}
+            
+            {formData.listing_type === 'loyalty_program' && (
+              <Alert>
+                <Info className="h-4 w-4" />
+                <AlertTitle>Loyalty Program</AlertTitle>
+                <AlertDescription>
+                  You'll add your loyalty incentive in the next steps (e.g., "Book 3 times, get 50% off the 4th").
+                </AlertDescription>
+              </Alert>
+            )}
+            
+            {formData.listing_type === 'discounted_offer' && (
+              <Alert>
+                <Info className="h-4 w-4" />
+                <AlertTitle>Discounted Offer</AlertTitle>
+                <AlertDescription>
+                  Create a time-limited promotional offer with a discount.
+                </AlertDescription>
+              </Alert>
+            )}
+          </div>
+        );
+
+      case 2:
+        return (
+          <div className="space-y-6">
             <div>
-              <Label htmlFor="title">Deal Title *</Label>
+              <Label htmlFor="title">Service Title *</Label>
               <Input
                 id="title"
-                placeholder="e.g., 50% Off Spa Package"
+                placeholder="e.g., Relaxing Full Body Massage"
                 value={formData.title}
                 onChange={(e) => updateField('title', e.target.value)}
                 maxLength={100}
@@ -241,18 +289,16 @@ export default function CreateDeal() {
           </div>
         );
 
-      case 2:
+      case 3:
         return (
           <div className="space-y-6">
-            <div>
-              <Label className="text-base font-semibold">Select Listing Type *</Label>
-              <p className="text-sm text-muted-foreground mb-4">
-                Choose how you want to list your service
-              </p>
-              <ListingTypeSelector 
-                value={formData.listing_type} 
-                onChange={(value) => updateField('listing_type', value)} 
-              />
+            <div className="flex items-center gap-2 p-3 bg-muted rounded-lg mb-4">
+              <Badge variant="secondary">
+                {formData.listing_type === 'full_price' && 'Full-Price Listing'}
+                {formData.listing_type === 'loyalty_program' && 'Loyalty Program'}
+                {formData.listing_type === 'discounted_offer' && 'Discounted Offer'}
+              </Badge>
+              <span className="text-sm text-muted-foreground">Selected in Step 1</span>
             </div>
 
             <div>
@@ -346,7 +392,7 @@ export default function CreateDeal() {
           </div>
         );
 
-      case 3:
+      case 4:
         return (
           <div className="space-y-6">
             <div className="grid grid-cols-2 gap-4">
@@ -415,7 +461,7 @@ export default function CreateDeal() {
           </div>
         );
 
-      case 4:
+      case 6:
         return (
           <div className="space-y-6">
             <div className="flex items-center justify-between p-4 border rounded-lg">
@@ -452,12 +498,12 @@ export default function CreateDeal() {
           </div>
         );
 
-      case 5:
+      case 6:
         return (
           <div className="space-y-6">
             <div>
               <Label>Age Restriction</Label>
-              <RadioGroup 
+              <RadioGroup
                 value={formData.age_restriction}
                 onValueChange={(v) => updateField('age_restriction', v)}
                 className="space-y-3 mt-3"
@@ -490,7 +536,7 @@ export default function CreateDeal() {
           </div>
         );
 
-      case 6:
+      case 8:
         return (
           <div className="space-y-6">
             <div>
@@ -541,7 +587,7 @@ export default function CreateDeal() {
           </div>
         );
 
-      case 7:
+      case 8:
         return (
           <div className="space-y-6">
             <Alert>
@@ -590,8 +636,10 @@ export default function CreateDeal() {
   const isStepValid = () => {
     switch (currentStep) {
       case 1:
-        return formData.title && formData.category && formData.offer;
+        return true;
       case 2:
+        return formData.title && formData.category && formData.offer;
+      case 3:
         const hasPrice = formData.original_price && Number(formData.original_price) > 0;
         
         if (formData.listing_type === 'full_price') {
@@ -607,7 +655,7 @@ export default function CreateDeal() {
         }
         
         return false;
-      case 6:
+      case 7:
         return formData.image_url;
       default:
         return true;
