@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { AdminAuthGuard } from "@/components/admin/AdminAuthGuard";
 import { AdminLayout } from "@/components/admin/AdminLayout";
@@ -8,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, Plus, Pencil, Trash2, Eye, RefreshCw, Copy } from "lucide-react";
+import { Loader2, Plus, Pencil, Trash2, Eye, RefreshCw, Copy, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
 import { MerchantDialog } from "@/components/admin/MerchantDialog";
 import { MerchantReviewDialog } from "@/components/admin/MerchantReviewDialog";
@@ -32,6 +33,7 @@ import {
 } from "@/components/ui/dialog";
 
 export default function AdminMerchants() {
+  const navigate = useNavigate();
   const [merchants, setMerchants] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -233,14 +235,24 @@ export default function AdminMerchants() {
                               <Button
                                 variant="ghost"
                                 size="icon"
-                                onClick={() => {
-                                  setSelectedMerchant(merchant);
-                                  setReviewDialogOpen(true);
-                                }}
-                                title="Review Application"
+                                onClick={() => navigate(`/admin/merchants/${merchant.id}`)}
+                                title="View Merchant Details"
                               >
                                 <Eye className="h-4 w-4" />
                               </Button>
+                              {merchant.status === 'pending' && (
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  onClick={() => {
+                                    setSelectedMerchant(merchant);
+                                    setReviewDialogOpen(true);
+                                  }}
+                                  title="Review Application"
+                                >
+                                  <AlertTriangle className="h-4 w-4" />
+                                </Button>
+                              )}
                               <Button
                                 variant="ghost"
                                 size="icon"
@@ -248,6 +260,7 @@ export default function AdminMerchants() {
                                   setSelectedMerchant(merchant);
                                   setDialogOpen(true);
                                 }}
+                                title="Edit Merchant"
                               >
                                 <Pencil className="h-4 w-4" />
                               </Button>
