@@ -14,8 +14,9 @@ import { toast } from "sonner";
 import { 
   ArrowLeft, Building2, MapPin, Globe, Phone, CreditCard, 
   FileText, Download, Mail, ExternalLink, Loader2, Package,
-  ShoppingBag, Calendar, DollarSign
+  ShoppingBag, Calendar, DollarSign, Eye, Image as ImageIcon
 } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export default function AdminMerchantDetail() {
   const { id } = useParams();
@@ -26,6 +27,8 @@ export default function AdminMerchantDetail() {
   const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [downloading, setDownloading] = useState(false);
+  const [selectedDeal, setSelectedDeal] = useState<any>(null);
+  const [dealDialogOpen, setDealDialogOpen] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -116,6 +119,65 @@ export default function AdminMerchantDetail() {
       toast.error('Failed to download file');
     } finally {
       setDownloading(false);
+    }
+  };
+
+  const downloadImage = async (imageUrl: string, filename: string) => {
+    try {
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+      toast.success(`${filename} downloaded`);
+    } catch (error) {
+      toast.error('Download failed');
+    }
+  };
+
+  const downloadAllDealImages = async (deal: any) => {
+    const images = [deal.image_url, ...(deal.deal_images || [])];
+    for (let i = 0; i < images.length; i++) {
+      const filename = `${merchant.name}-${deal.title}-image-${i + 1}.jpg`.replace(/[^a-z0-9.-]/gi, '-');
+      await downloadImage(images[i], filename);
+      await new Promise(resolve => setTimeout(resolve, 500));
+    }
+    toast.success(`Downloaded ${images.length} images`);
+  };
+
+  const openDealDetailDialog = (deal: any) => {
+    setSelectedDeal(deal);
+    setDealDialogOpen(true);
+  };
+
+  const getListingTypeLabel = (type: string) => {
+    switch (type) {
+      case 'full_price':
+        return 'Full Price';
+      case 'loyalty_program':
+        return 'Loyalty Program';
+      case 'discounted_offer':
+        return 'Discounted Offer';
+      default:
+        return type;
+    }
+  };
+
+  const getListingTypeBadge = (type: string) => {
+    switch (type) {
+      case 'full_price':
+        return 'default';
+      case 'loyalty_program':
+        return 'secondary';
+      case 'discounted_offer':
+        return 'default';
+      default:
+        return 'outline';
     }
   };
 
@@ -651,25 +713,54 @@ export default function AdminMerchantDetail() {
                     <Table>
                       <TableHeader>
                         <TableRow>
+                          <TableHead>Image</TableHead>
                           <TableHead>Title</TableHead>
                           <TableHead>Category</TableHead>
-                          <TableHead>Discount</TableHead>
+                          <TableHead>Listing Type</TableHead>
+                          <TableHead>Images</TableHead>
                           <TableHead>Status</TableHead>
-                          <TableHead>Created</TableHead>
+                          <TableHead>Actions</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
                         {deals.map((deal) => (
                           <TableRow key={deal.id}>
+                            <TableCell>
+                              <img 
+                                src={deal.image_url} 
+                                alt={deal.title}
+                                className="w-12 h-12 rounded object-cover cursor-pointer hover:scale-110 transition-transform"
+                                onClick={() => window.open(deal.image_url, '_blank')}
+                              />
+                            </TableCell>
                             <TableCell className="font-medium">{deal.title}</TableCell>
                             <TableCell>{deal.category}</TableCell>
-                            <TableCell>{deal.discount}</TableCell>
+                            <TableCell>
+                              <Badge variant={getListingTypeBadge(deal.listing_type) as any}>
+                                {getListingTypeLabel(deal.listing_type)}
+                              </Badge>
+                            </TableCell>
+                            <TableCell>
+                              <div className="flex items-center gap-1">
+                                <ImageIcon className="h-4 w-4" />
+                                {1 + (deal.deal_images?.length || 0)}
+                              </div>
+                            </TableCell>
                             <TableCell>
                               <Badge variant={deal.is_active ? "default" : "secondary"}>
                                 {deal.is_active ? "Active" : "Inactive"}
                               </Badge>
                             </TableCell>
-                            <TableCell>{new Date(deal.created_at).toLocaleDateString()}</TableCell>
+                            <TableCell>
+                              <Button 
+                                size="sm" 
+                                variant="outline"
+                                onClick={() => openDealDetailDialog(deal)}
+                              >
+                                <Eye className="h-4 w-4 mr-2" />
+                                View Details
+                              </Button>
+                            </TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
@@ -723,6 +814,242 @@ export default function AdminMerchantDetail() {
             </TabsContent>
           </Tabs>
         </div>
+
+        {/* Deal Detail Dialog */}
+        <Dialog open={dealDialogOpen} onOpenChange={setDealDialogOpen}>
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            {selectedDeal && (
+              <>
+                <DialogHeader>
+                  <DialogTitle className="flex items-center justify-between">
+                    <span>{selectedDeal.title}</span>
+                    <Badge variant={selectedDeal.is_active ? "default" : "secondary"}>
+                      {selectedDeal.is_active ? "Active" : "Inactive"}
+                    </Badge>
+                  </DialogTitle>
+                </DialogHeader>
+
+                {/* Image Gallery */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center justify-between">
+                      <span>Deal Images</span>
+                      <Button 
+                        size="sm" 
+                        onClick={() => downloadAllDealImages(selectedDeal)}
+                        disabled={downloading}
+                      >
+                        <Download className="h-4 w-4 mr-2" />
+                        Download All ({1 + (selectedDeal.deal_images?.length || 0)})
+                      </Button>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {/* Main Image */}
+                    <div>
+                      <Label>Main Image</Label>
+                      <div className="relative group mt-2">
+                        <img 
+                          src={selectedDeal.image_url} 
+                          alt="Main deal image"
+                          className="w-full h-64 object-cover rounded-lg cursor-pointer"
+                          onClick={() => window.open(selectedDeal.image_url, '_blank')}
+                        />
+                        <Button 
+                          size="sm"
+                          className="absolute bottom-2 right-2"
+                          onClick={() => downloadImage(
+                            selectedDeal.image_url, 
+                            `${merchant?.name}-${selectedDeal.title}-main.jpg`.replace(/[^a-z0-9.-]/gi, '-')
+                          )}
+                        >
+                          <Download className="h-4 w-4 mr-2" />
+                          Download
+                        </Button>
+                      </div>
+                    </div>
+
+                    {/* Additional Images */}
+                    {selectedDeal.deal_images && selectedDeal.deal_images.length > 0 && (
+                      <div>
+                        <Label>Additional Images ({selectedDeal.deal_images.length})</Label>
+                        <div className="grid grid-cols-3 gap-4 mt-2">
+                          {selectedDeal.deal_images.map((img: string, idx: number) => (
+                            <div key={idx} className="relative group">
+                              <img 
+                                src={img} 
+                                alt={`Additional image ${idx + 1}`}
+                                className="w-full h-32 object-cover rounded-lg cursor-pointer"
+                                onClick={() => window.open(img, '_blank')}
+                              />
+                              <Button 
+                                size="sm"
+                                className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                                onClick={() => downloadImage(
+                                  img, 
+                                  `${merchant?.name}-${selectedDeal.title}-${idx + 2}.jpg`.replace(/[^a-z0-9.-]/gi, '-')
+                                )}
+                              >
+                                <Download className="h-3 w-3" />
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+
+                {/* Listing Details */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Listing Details</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label>Listing Type</Label>
+                        <div className="mt-1">
+                          <Badge variant={getListingTypeBadge(selectedDeal.listing_type) as any}>
+                            {getListingTypeLabel(selectedDeal.listing_type)}
+                          </Badge>
+                        </div>
+                      </div>
+                      {selectedDeal.listing_type === 'loyalty_program' && selectedDeal.merchant_loyalty_details && (
+                        <div className="col-span-2">
+                          <Label>Loyalty Program Details</Label>
+                          <p className="text-sm mt-1">{selectedDeal.merchant_loyalty_details}</p>
+                        </div>
+                      )}
+                      <div>
+                        <Label>Category</Label>
+                        <p className="text-sm mt-1">{selectedDeal.category}</p>
+                      </div>
+                      <div>
+                        <Label>Created</Label>
+                        <p className="text-sm mt-1">{new Date(selectedDeal.created_at).toLocaleDateString()}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Pricing Information */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Pricing Information</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-3 gap-4">
+                      {selectedDeal.original_price && (
+                        <div>
+                          <Label>Original Price</Label>
+                          <p className="text-lg font-semibold mt-1">₦{selectedDeal.original_price?.toLocaleString()}</p>
+                        </div>
+                      )}
+                      {selectedDeal.current_price && (
+                        <div>
+                          <Label>Current Price</Label>
+                          <p className="text-lg font-semibold mt-1">₦{selectedDeal.current_price?.toLocaleString()}</p>
+                        </div>
+                      )}
+                      {selectedDeal.discount && (
+                        <div>
+                          <Label>Discount</Label>
+                          <p className="text-lg font-semibold text-green-600 mt-1">{selectedDeal.discount}% off</p>
+                        </div>
+                      )}
+                      {selectedDeal.sold_count !== null && (
+                        <div>
+                          <Label>Units Sold</Label>
+                          <p className="text-lg font-semibold mt-1">{selectedDeal.sold_count}</p>
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Description & Offer */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Description & Offer</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {selectedDeal.offer && (
+                      <div>
+                        <Label>Offer Description</Label>
+                        <p className="text-sm mt-1 whitespace-pre-wrap">{selectedDeal.offer}</p>
+                      </div>
+                    )}
+                    {selectedDeal.terms_and_conditions && (
+                      <div>
+                        <Label>Terms & Conditions</Label>
+                        <p className="text-sm mt-1 whitespace-pre-wrap">{selectedDeal.terms_and_conditions}</p>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+
+                {/* Availability & Requirements */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Availability & Requirements</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {selectedDeal.available_days && selectedDeal.available_days.length > 0 && (
+                      <div>
+                        <Label>Available Days</Label>
+                        <div className="flex flex-wrap gap-2 mt-2">
+                          {selectedDeal.available_days.map((day: string) => (
+                            <Badge key={day} variant="outline">{day}</Badge>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {(selectedDeal.deal_start_date || selectedDeal.deal_end_date) && (
+                      <div>
+                        <Label>Valid Period</Label>
+                        <p className="text-sm mt-1">
+                          {selectedDeal.deal_start_date ? new Date(selectedDeal.deal_start_date).toLocaleDateString() : 'N/A'} 
+                          {' to '}
+                          {selectedDeal.deal_end_date ? new Date(selectedDeal.deal_end_date).toLocaleDateString() : 'N/A'}
+                        </p>
+                      </div>
+                    )}
+                    <div className="flex flex-wrap gap-2">
+                      {selectedDeal.requires_booking && (
+                        <Badge variant="secondary">Requires Booking</Badge>
+                      )}
+                      {selectedDeal.requires_time_slot && (
+                        <Badge variant="secondary">Requires Time Slot</Badge>
+                      )}
+                      {selectedDeal.requires_qr_code && (
+                        <Badge variant="secondary">Requires QR Code</Badge>
+                      )}
+                    </div>
+                    {selectedDeal.usage_limit && (
+                      <div>
+                        <Label>Usage Limit</Label>
+                        <p className="text-sm mt-1">{selectedDeal.usage_limit} per customer</p>
+                      </div>
+                    )}
+                    {selectedDeal.daily_limit && (
+                      <div>
+                        <Label>Daily Limit</Label>
+                        <p className="text-sm mt-1">{selectedDeal.daily_limit} per day</p>
+                      </div>
+                    )}
+                    {selectedDeal.age_restriction && (
+                      <div>
+                        <Label>Age Restriction</Label>
+                        <p className="text-sm mt-1">{selectedDeal.age_restriction}</p>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </>
+            )}
+          </DialogContent>
+        </Dialog>
       </AdminLayout>
     </AdminAuthGuard>
   );
