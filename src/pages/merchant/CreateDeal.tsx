@@ -461,7 +461,7 @@ export default function CreateDeal() {
           </div>
         );
 
-      case 6:
+      case 5:
         return (
           <div className="space-y-6">
             <div className="flex items-center justify-between p-4 border rounded-lg">
@@ -536,7 +536,7 @@ export default function CreateDeal() {
           </div>
         );
 
-      case 8:
+      case 7:
         return (
           <div className="space-y-6">
             <div>
