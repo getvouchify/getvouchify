@@ -14,6 +14,7 @@ export default function MerchantDeals() {
   const [deals, setDeals] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | "active" | "inactive" | "expired">("all");
+  const [listingTypeFilter, setListingTypeFilter] = useState<"all" | "full_price" | "loyalty_program" | "discounted_offer">("all");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -59,10 +60,14 @@ export default function MerchantDeals() {
     }
   };
 
-  const filteredDeals = deals.filter(deal =>
-    deal.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    deal.category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredDeals = deals.filter(deal => {
+    const matchesSearch = deal.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      deal.category.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesListingType = listingTypeFilter === "all" || deal.listing_type === listingTypeFilter;
+    
+    return matchesSearch && matchesListingType;
+  });
 
   return (
     <div className="space-y-6">
@@ -79,28 +84,51 @@ export default function MerchantDeals() {
         </Button>
       </div>
 
-      <div className="flex items-center gap-4">
-        <Tabs value={statusFilter} onValueChange={(v: any) => setStatusFilter(v)}>
-          <TabsList>
-            <TabsTrigger value="all">All ({deals.length})</TabsTrigger>
-            <TabsTrigger value="active">
-              Active ({deals.filter(d => d.is_active).length})
-            </TabsTrigger>
-            <TabsTrigger value="inactive">
-              Inactive ({deals.filter(d => !d.is_active).length})
-            </TabsTrigger>
-            <TabsTrigger value="expired">
-              Expired ({deals.filter(d => new Date(d.expiry_date) < new Date()).length})
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
+      <div className="space-y-4">
+        {/* Status Filters */}
+        <div className="flex items-center gap-4">
+          <Tabs value={statusFilter} onValueChange={(v: any) => setStatusFilter(v)}>
+            <TabsList>
+              <TabsTrigger value="all">All ({deals.length})</TabsTrigger>
+              <TabsTrigger value="active">
+                Active ({deals.filter(d => d.is_active).length})
+              </TabsTrigger>
+              <TabsTrigger value="inactive">
+                Inactive ({deals.filter(d => !d.is_active).length})
+              </TabsTrigger>
+              <TabsTrigger value="expired">
+                Expired ({deals.filter(d => new Date(d.expiry_date) < new Date()).length})
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
 
-        <Input
-          placeholder="Search deals..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="max-w-sm"
-        />
+          <Input
+            placeholder="Search deals..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="max-w-sm"
+          />
+        </div>
+
+        {/* Listing Type Filters */}
+        <div className="flex items-center gap-4">
+          <Tabs value={listingTypeFilter} onValueChange={(v: any) => setListingTypeFilter(v)}>
+            <TabsList>
+              <TabsTrigger value="all">
+                All Types ({deals.length})
+              </TabsTrigger>
+              <TabsTrigger value="full_price">
+                Full-Price ({deals.filter(d => d.listing_type === 'full_price').length})
+              </TabsTrigger>
+              <TabsTrigger value="loyalty_program">
+                Loyalty Programs ({deals.filter(d => d.listing_type === 'loyalty_program').length})
+              </TabsTrigger>
+              <TabsTrigger value="discounted_offer">
+                Discounted Offers ({deals.filter(d => d.listing_type === 'discounted_offer').length})
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
       </div>
 
       {isLoading ? (

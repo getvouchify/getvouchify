@@ -102,25 +102,36 @@ export const DealCard = ({ deal, onUpdate }: DealCardProps) => {
 
       <CardHeader>
         <CardTitle className="line-clamp-2">{deal.title}</CardTitle>
-        <CardDescription className="line-clamp-2">
-          {deal.category}
-        </CardDescription>
+        <div className="flex flex-wrap items-center gap-2 mt-2">
+          {deal.listing_type === 'full_price' && (
+            <Badge variant="outline" className="flex items-center gap-1">
+              <BarChart3 className="h-3 w-3" />
+              Standard Listing
+            </Badge>
+          )}
+          {deal.listing_type === 'loyalty_program' && (
+            <Badge variant="secondary" className="flex items-center gap-1">
+              <Gift className="h-3 w-3" />
+              Merchant Loyalty
+            </Badge>
+          )}
+          {deal.listing_type === 'discounted_offer' && (
+            <Badge variant="destructive" className="flex items-center gap-1">
+              <Percent className="h-3 w-3" />
+              Discounted Offer
+            </Badge>
+          )}
+          <Badge variant="outline">{deal.category}</Badge>
+        </div>
+        {deal.listing_type === 'loyalty_program' && deal.merchant_loyalty_details && (
+          <CardDescription className="mt-2 text-xs">
+            {deal.merchant_loyalty_details}
+          </CardDescription>
+        )}
       </CardHeader>
 
       <CardContent>
         <div className="space-y-2">
-          {deal.listing_type === 'loyalty_program' && deal.merchant_loyalty_details && (
-            <div className="bg-secondary/20 border border-secondary/30 rounded-lg p-3 mb-3">
-              <div className="flex items-start gap-2">
-                <Gift className="h-4 w-4 text-primary mt-0.5" />
-                <div>
-                  <p className="text-xs font-medium text-foreground mb-1">Loyalty Program</p>
-                  <p className="text-xs text-muted-foreground">{deal.merchant_loyalty_details}</p>
-                </div>
-              </div>
-            </div>
-          )}
-          
           {deal.listing_type === 'discounted_offer' && deal.discount && (
             <div className="flex justify-between items-center">
               <span className="text-sm text-muted-foreground">Discount:</span>
@@ -185,7 +196,7 @@ export const DealCard = ({ deal, onUpdate }: DealCardProps) => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate(`/merchant/deals/${deal.id}/analytics`)}>
               <BarChart3 className="h-4 w-4 mr-2" />
               View Analytics
             </DropdownMenuItem>

@@ -124,6 +124,60 @@ export default function CreateDeal() {
     }
   };
 
+  const handleAdditionalImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    const currentImages = formData.deal_images.length;
+    const remainingSlots = 4 - currentImages;
+
+    if (files.length > remainingSlots) {
+      toast.error(`You can only upload ${remainingSlots} more image(s)`);
+      return;
+    }
+
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        toast.error("Authentication required");
+        return;
+      }
+
+      const uploadPromises = Array.from(files).map(async (file) => {
+        if (file.size > 5 * 1024 * 1024) {
+          throw new Error("Each image must be less than 5MB");
+        }
+
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${user.id}/${Date.now()}_${Math.random()}.${fileExt}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from("merchant-deal-images")
+          .upload(fileName, file);
+
+        if (uploadError) throw uploadError;
+
+        const { data: { publicUrl } } = supabase.storage
+          .from("merchant-deal-images")
+          .getPublicUrl(fileName);
+
+        return publicUrl;
+      });
+
+      const uploadedUrls = await Promise.all(uploadPromises);
+      updateField('deal_images', [...formData.deal_images, ...uploadedUrls]);
+      toast.success(`${uploadedUrls.length} image(s) uploaded successfully`);
+    } catch (error: any) {
+      console.error("Error uploading images:", error);
+      toast.error(error.message || "Failed to upload images");
+    }
+  };
+
+  const removeAdditionalImage = (index: number) => {
+    const newImages = formData.deal_images.filter((_, i) => i !== index);
+    updateField('deal_images', newImages);
+  };
+
   const handleSubmit = async () => {
     if (!formData.image_url) {
       toast.error("Please upload a deal image");
@@ -480,6 +534,104 @@ export default function CreateDeal() {
               />
             </div>
 
+            {formData.requires_booking && (
+              <div className="space-y-4 p-4 border rounded-lg bg-muted/30">
+                <h4 className="font-medium">Booking Schedule</h4>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="booking_start_date">Booking Start Date</Label>
+                    <Input
+                      id="booking_start_date"
+                      type="date"
+                      value={formData.deal_start_date}
+                      onChange={(e) => updateField('deal_start_date', e.target.value)}
+                      min={new Date().toISOString().split('T')[0]}
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">
+                      When bookings can start
+                    </p>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="booking_end_date">Booking End Date</Label>
+                    <Input
+                      id="booking_end_date"
+                      type="date"
+                      value={formData.deal_end_date}
+                      onChange={(e) => updateField('deal_end_date', e.target.value)}
+                      min={formData.deal_start_date || new Date().toISOString().split('T')[0]}
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">
+                      When bookings close
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="opening_time">Service Hours - Opening</Label>
+                    <Input
+                      id="opening_time"
+                      type="time"
+                      value={formData.available_time_slots[0]?.start || '09:00'}
+                      onChange={(e) => {
+                        const slots = [...formData.available_time_slots];
+                        if (slots.length === 0) {
+                          slots.push({ start: e.target.value, end: '17:00' });
+                        } else {
+                          slots[0].start = e.target.value;
+                        }
+                        updateField('available_time_slots', slots);
+                      }}
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="closing_time">Service Hours - Closing</Label>
+                    <Input
+                      id="closing_time"
+                      type="time"
+                      value={formData.available_time_slots[0]?.end || '17:00'}
+                      onChange={(e) => {
+                        const slots = [...formData.available_time_slots];
+                        if (slots.length === 0) {
+                          slots.push({ start: '09:00', end: e.target.value });
+                        } else {
+                          slots[0].end = e.target.value;
+                        }
+                        updateField('available_time_slots', slots);
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <Label>Available Days</Label>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
+                    {['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'].map((day) => (
+                      <div key={day} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={day}
+                          checked={formData.available_days.includes(day)}
+                          onCheckedChange={(checked) => {
+                            if (checked) {
+                              updateField('available_days', [...formData.available_days, day]);
+                            } else {
+                              updateField('available_days', formData.available_days.filter((d: string) => d !== day));
+                            }
+                          }}
+                        />
+                        <Label htmlFor={day} className="font-normal cursor-pointer capitalize">
+                          {day.slice(0, 3)}
+                        </Label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className="flex items-center justify-between p-4 border rounded-lg">
               <div className="space-y-1">
                 <Label htmlFor="requires_qr_code" className="font-medium">
@@ -583,6 +735,56 @@ export default function CreateDeal() {
                   </>
                 )}
               </div>
+            </div>
+
+            {/* Additional Images */}
+            <div>
+              <Label>Additional Images (Optional)</Label>
+              <p className="text-sm text-muted-foreground mb-3">
+                Upload up to 4 more images to showcase your deal ({formData.deal_images.length}/4)
+              </p>
+              
+              {formData.deal_images.length > 0 && (
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                  {formData.deal_images.map((url, index) => (
+                    <div key={index} className="relative aspect-square border rounded-lg overflow-hidden group">
+                      <img src={url} alt={`Additional ${index + 1}`} className="w-full h-full object-cover" />
+                      <Button
+                        variant="destructive"
+                        size="icon"
+                        className="absolute top-1 right-1 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
+                        onClick={() => removeAdditionalImage(index)}
+                      >
+                        <X className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {formData.deal_images.length < 4 && (
+                <div className="border-2 border-dashed rounded-lg p-4 text-center hover:border-primary transition-colors">
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handleAdditionalImageUpload}
+                    className="hidden"
+                    id="additional-images"
+                  />
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => document.getElementById('additional-images')?.click()}
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add More Images
+                  </Button>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    Upload {4 - formData.deal_images.length} more image(s)
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         );
