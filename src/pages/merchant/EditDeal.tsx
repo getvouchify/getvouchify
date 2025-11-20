@@ -219,8 +219,8 @@ export default function EditDeal() {
     const files = Array.from(e.target.files || []);
     if (files.length === 0) return;
 
-    if (formData.deal_images.length + files.length > 5) {
-      toast.error("Maximum 5 additional images allowed");
+    if (formData.deal_images.length + files.length > 4) {
+      toast.error("Maximum 4 additional images allowed");
       return;
     }
 
@@ -686,6 +686,98 @@ export default function EditDeal() {
                 onCheckedChange={(v) => updateField('requires_booking', v)}
               />
             </div>
+
+            {formData.requires_booking && (
+              <div className="space-y-4 p-4 border rounded-lg bg-muted/30">
+                <h4 className="font-medium">Booking Schedule</h4>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="booking_start_date">Booking Start Date</Label>
+                    <Input
+                      id="booking_start_date"
+                      type="date"
+                      value={formData.deal_start_date}
+                      onChange={(e) => updateField('deal_start_date', e.target.value)}
+                      min={new Date().toISOString().split('T')[0]}
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">
+                      When bookings can start
+                    </p>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="booking_end_date">Booking End Date</Label>
+                    <Input
+                      id="booking_end_date"
+                      type="date"
+                      value={formData.deal_end_date}
+                      onChange={(e) => updateField('deal_end_date', e.target.value)}
+                      min={formData.deal_start_date || new Date().toISOString().split('T')[0]}
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">
+                      When bookings close
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="opening_time">Service Hours - Opening</Label>
+                    <Input
+                      id="opening_time"
+                      type="time"
+                      value={formData.available_time_slots[0]?.start || '09:00'}
+                      onChange={(e) => {
+                        const slots = [...formData.available_time_slots];
+                        if (slots.length === 0) {
+                          slots.push({ start: e.target.value, end: '17:00' });
+                        } else {
+                          slots[0].start = e.target.value;
+                        }
+                        updateField('available_time_slots', slots);
+                      }}
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="closing_time">Service Hours - Closing</Label>
+                    <Input
+                      id="closing_time"
+                      type="time"
+                      value={formData.available_time_slots[0]?.end || '17:00'}
+                      onChange={(e) => {
+                        const slots = [...formData.available_time_slots];
+                        if (slots.length === 0) {
+                          slots.push({ start: '09:00', end: e.target.value });
+                        } else {
+                          slots[0].end = e.target.value;
+                        }
+                        updateField('available_time_slots', slots);
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <Label>Available Days</Label>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
+                    {['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'].map((day) => (
+                      <div key={day} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={`edit-${day}`}
+                          checked={formData.available_days.includes(day)}
+                          onCheckedChange={() => handleDayToggle(day)}
+                        />
+                        <Label htmlFor={`edit-${day}`} className="font-normal cursor-pointer capitalize">
+                          {day.slice(0, 3)}
+                        </Label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
 
             {formData.requires_booking && (
               <div className="flex items-center justify-between">

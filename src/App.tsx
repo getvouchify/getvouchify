@@ -27,6 +27,7 @@ import MerchantDashboard from "./pages/merchant/MerchantDashboard";
 import MerchantDeals from "./pages/merchant/MerchantDeals";
 import CreateDeal from "./pages/merchant/CreateDeal";
 import EditDeal from "./pages/merchant/EditDeal";
+import MerchantDealAnalytics from "./pages/merchant/MerchantDealAnalytics";
 import ApplicationSubmitted from "./pages/merchant/ApplicationSubmitted";
 import MerchantOrders from "./pages/merchant/MerchantOrders";
 import MerchantRedemptions from "./pages/merchant/MerchantRedemptions";
@@ -100,6 +101,16 @@ function App() {
               <MerchantAuthGuard>
                 <MerchantLayout>
                   <EditDeal />
+                </MerchantLayout>
+              </MerchantAuthGuard>
+            } 
+          />
+          <Route 
+            path="/merchant/deals/:dealId/analytics" 
+            element={
+              <MerchantAuthGuard>
+                <MerchantLayout>
+                  <MerchantDealAnalytics />
                 </MerchantLayout>
               </MerchantAuthGuard>
             } 
