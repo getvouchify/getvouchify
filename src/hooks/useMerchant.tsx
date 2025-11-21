@@ -14,7 +14,6 @@ interface MerchantData {
 export const useMerchant = () => {
   const [isMerchant, setIsMerchant] = useState(false);
   const [merchantData, setMerchantData] = useState<MerchantData | null>(null);
-  const [merchantStatus, setMerchantStatus] = useState<'pending' | 'approved' | 'rejected' | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -34,7 +33,6 @@ export const useMerchant = () => {
       if (!user) {
         setIsMerchant(false);
         setMerchantData(null);
-        setMerchantStatus(null);
         setIsLoading(false);
         return;
       }
@@ -60,17 +58,15 @@ export const useMerchant = () => {
         if (merchantError) throw merchantError;
         
         setMerchantData(merchant as MerchantData);
-        setMerchantStatus((merchant?.status as 'pending' | 'approved' | 'rejected') || 'pending');
       }
     } catch (error) {
       console.error("Error checking merchant status:", error);
       setIsMerchant(false);
       setMerchantData(null);
-      setMerchantStatus(null);
     } finally {
       setIsLoading(false);
     }
   };
 
-  return { isMerchant, merchantData, merchantStatus, isLoading };
+  return { isMerchant, merchantData, isLoading };
 };

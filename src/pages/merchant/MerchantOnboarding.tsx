@@ -542,7 +542,7 @@ export default function MerchantOnboarding() {
           owner_id_url: formData.owner_id_url,
           other_documents: formData.other_documents,
           
-          status: 'pending',
+          status: 'approved',
         })
         .eq('user_id', user.id);
       
