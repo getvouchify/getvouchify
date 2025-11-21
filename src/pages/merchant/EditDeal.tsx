@@ -835,18 +835,20 @@ export default function EditDeal() {
               </div>
             )}
 
-            <div className="flex items-center justify-between">
-              <div className="space-y-0.5">
-                <Label>Requires QR Code</Label>
-                <p className="text-sm text-muted-foreground">
-                  Generate QR code for redemption
-                </p>
+            {formData.category !== 'Retail' && (
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label>Requires QR Code</Label>
+                  <p className="text-sm text-muted-foreground">
+                    Generate QR code for redemption
+                  </p>
+                </div>
+                <Switch
+                  checked={formData.requires_qr_code}
+                  onCheckedChange={(v) => updateField('requires_qr_code', v)}
+                />
               </div>
-              <Switch
-                checked={formData.requires_qr_code}
-                onCheckedChange={(v) => updateField('requires_qr_code', v)}
-              />
-            </div>
+            )}
 
             <div>
               <Label htmlFor="usage_limit">Usage Limit per Customer (Optional)</Label>

@@ -48,6 +48,37 @@ export const DealCard = ({ deal, onUpdate }: DealCardProps) => {
     }
   };
 
+  const duplicateDeal = async () => {
+    try {
+      const { data: originalDeal, error: fetchError } = await supabase
+        .from("deals")
+        .select("*")
+        .eq("id", deal.id)
+        .single();
+      
+      if (fetchError) throw fetchError;
+      
+      const { id, created_at, updated_at, sold_count, ...dealData } = originalDeal;
+      
+      const { error: insertError } = await supabase
+        .from("deals")
+        .insert({
+          ...dealData,
+          title: `(Copy) ${dealData.title}`,
+          sold_count: 0,
+          is_active: false,
+        });
+      
+      if (insertError) throw insertError;
+      
+      toast.success("Deal duplicated successfully");
+      onUpdate();
+    } catch (error) {
+      console.error("Duplicate error:", error);
+      toast.error("Failed to duplicate deal");
+    }
+  };
+
   const deleteDeal = async () => {
     if (!confirm("Are you sure you want to delete this deal?")) return;
     
@@ -200,7 +231,7 @@ export const DealCard = ({ deal, onUpdate }: DealCardProps) => {
               <BarChart3 className="h-4 w-4 mr-2" />
               View Analytics
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={duplicateDeal}>
               <Copy className="h-4 w-4 mr-2" />
               Duplicate
             </DropdownMenuItem>

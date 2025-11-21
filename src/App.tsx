@@ -29,6 +29,7 @@ import CreateDeal from "./pages/merchant/CreateDeal";
 import EditDeal from "./pages/merchant/EditDeal";
 import MerchantDealAnalytics from "./pages/merchant/MerchantDealAnalytics";
 import ApplicationSubmitted from "./pages/merchant/ApplicationSubmitted";
+import MerchantOnboarding from "./pages/merchant/MerchantOnboarding";
 import MerchantOrders from "./pages/merchant/MerchantOrders";
 import MerchantRedemptions from "./pages/merchant/MerchantRedemptions";
 import MerchantMessages from "./pages/merchant/MerchantMessages";
@@ -57,6 +58,7 @@ function App() {
           
           {/* Merchant Routes */}
           <Route path="/merchant/login" element={<MerchantLogin />} />
+          <Route path="/merchant/onboarding" element={<MerchantOnboarding />} />
           <Route 
             path="/merchant/dashboard" 
             element={
