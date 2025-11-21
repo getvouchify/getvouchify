@@ -632,21 +632,23 @@ export default function CreateDeal() {
               </div>
             )}
 
-            <div className="flex items-center justify-between p-4 border rounded-lg">
-              <div className="space-y-1">
-                <Label htmlFor="requires_qr_code" className="font-medium">
-                  Requires QR Code Verification
-                </Label>
-                <p className="text-sm text-muted-foreground">
-                  Merchant must scan QR to redeem
-                </p>
+            {formData.category !== 'Retail' && (
+              <div className="flex items-center justify-between p-4 border rounded-lg">
+                <div className="space-y-1">
+                  <Label htmlFor="requires_qr_code" className="font-medium">
+                    Requires QR Code Verification
+                  </Label>
+                  <p className="text-sm text-muted-foreground">
+                    Merchant must scan QR to redeem
+                  </p>
+                </div>
+                <Switch
+                  id="requires_qr_code"
+                  checked={formData.requires_qr_code}
+                  onCheckedChange={(checked) => updateField('requires_qr_code', checked)}
+                />
               </div>
-              <Switch
-                id="requires_qr_code"
-                checked={formData.requires_qr_code}
-                onCheckedChange={(checked) => updateField('requires_qr_code', checked)}
-              />
-            </div>
+            )}
           </div>
         );
 

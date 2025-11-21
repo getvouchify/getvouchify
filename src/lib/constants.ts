@@ -4,9 +4,7 @@ export const DEAL_CATEGORIES = [
   'Beauty & Spa',
   'Health & Fitness',
   'Things to Do',
-  'Retail',
-  'Electronics',
-  'Home & Lifestyle'
+  'Retail'
 ] as const;
 
 export type DealCategory = typeof DEAL_CATEGORIES[number];
@@ -17,9 +15,7 @@ export const BUSINESS_CATEGORIES = [
   'Beauty & Spa',
   'Health & Fitness',
   'Things to Do',
-  'Retail',
-  'Electronics',
-  'Home & Lifestyle'
+  'Retail'
 ] as const;
 
 export type BusinessCategory = typeof BUSINESS_CATEGORIES[number];
