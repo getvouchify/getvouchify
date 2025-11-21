@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -31,6 +32,7 @@ interface DealCardProps {
 
 export const DealCard = ({ deal, onUpdate }: DealCardProps) => {
   const navigate = useNavigate();
+  const [isDuplicating, setIsDuplicating] = useState(false);
   const isExpired = deal.expiry_date && new Date(deal.expiry_date) < new Date();
 
   const toggleActive = async () => {
@@ -49,33 +51,65 @@ export const DealCard = ({ deal, onUpdate }: DealCardProps) => {
   };
 
   const duplicateDeal = async () => {
+    if (isDuplicating) return;
+    
+    setIsDuplicating(true);
+    
     try {
+      console.log('Starting duplication for deal:', deal.id);
+      
       const { data: originalDeal, error: fetchError } = await supabase
         .from("deals")
         .select("*")
         .eq("id", deal.id)
         .single();
       
-      if (fetchError) throw fetchError;
+      if (fetchError) {
+        console.error('Fetch error:', fetchError);
+        throw fetchError;
+      }
+      
+      console.log('Original deal fetched:', originalDeal);
       
       const { id, created_at, updated_at, sold_count, ...dealData } = originalDeal;
       
-      const { error: insertError } = await supabase
+      const duplicateData = {
+        ...dealData,
+        title: `(Copy) ${dealData.title}`,
+        sold_count: 0,
+        is_active: false,
+        merchant: dealData.merchant,
+        merchant_id: dealData.merchant_id,
+        deal_images: dealData.deal_images || [],
+      };
+      
+      console.log('Inserting duplicate with data:', duplicateData);
+      
+      const { data: newDeal, error: insertError } = await supabase
         .from("deals")
-        .insert({
-          ...dealData,
-          title: `(Copy) ${dealData.title}`,
-          sold_count: 0,
-          is_active: false,
-        });
+        .insert(duplicateData)
+        .select()
+        .single();
       
-      if (insertError) throw insertError;
+      if (insertError) {
+        console.error('Insert error:', insertError);
+        throw insertError;
+      }
       
-      toast.success("Deal duplicated successfully");
+      console.log('Duplicate created successfully:', newDeal);
+      toast.success(`Deal "${dealData.title}" duplicated successfully`);
       onUpdate();
-    } catch (error) {
-      console.error("Duplicate error:", error);
-      toast.error("Failed to duplicate deal");
+    } catch (error: any) {
+      console.error("Duplicate error details:", {
+        error,
+        message: error?.message,
+        details: error?.details,
+        hint: error?.hint,
+        code: error?.code
+      });
+      toast.error(error?.message || "Failed to duplicate deal");
+    } finally {
+      setIsDuplicating(false);
     }
   };
 
@@ -231,9 +265,9 @@ export const DealCard = ({ deal, onUpdate }: DealCardProps) => {
               <BarChart3 className="h-4 w-4 mr-2" />
               View Analytics
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={duplicateDeal}>
+            <DropdownMenuItem onClick={duplicateDeal} disabled={isDuplicating}>
               <Copy className="h-4 w-4 mr-2" />
-              Duplicate
+              {isDuplicating ? 'Duplicating...' : 'Duplicate'}
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem 
