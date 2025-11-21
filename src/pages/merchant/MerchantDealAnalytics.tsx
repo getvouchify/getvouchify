@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Eye, ShoppingCart, TrendingUp, Calendar } from "lucide-react";
+import { ArrowLeft, ShoppingCart, DollarSign, CheckCircle, Clock } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
@@ -14,10 +14,12 @@ export default function MerchantDealAnalytics() {
   const [deal, setDeal] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [analytics, setAnalytics] = useState({
-    views: 0,
-    sales: 0,
-    conversionRate: 0,
+    totalSales: 0,
+    totalRevenue: 0,
+    completedBookings: 0,
+    pendingBookings: 0,
   });
+  const [performanceData, setPerformanceData] = useState<any[]>([]);
 
   useEffect(() => {
     loadDealAndAnalytics();
@@ -47,12 +49,63 @@ export default function MerchantDealAnalytics() {
 
       setDeal(dealData);
 
-      // Simulated analytics (can be replaced with real tracking data)
-      const views = Math.floor(Math.random() * 500) + 100;
-      const sales = dealData.sold_count || 0;
-      const conversionRate = views > 0 ? (sales / views) * 100 : 0;
+      // Query real analytics data
+      // 1. Get total revenue from orders
+      const { data: ordersData } = await supabase
+        .from("orders")
+        .select("total_amount")
+        .eq("deal_id", dealId)
+        .eq("payment_status", "completed");
 
-      setAnalytics({ views, sales, conversionRate });
+      const totalRevenue = ordersData?.reduce((sum, order) => sum + Number(order.total_amount), 0) || 0;
+
+      // 2. Get booking statistics
+      const { data: bookingsData } = await supabase
+        .from("bookings")
+        .select("status")
+        .eq("deal_id", dealId);
+
+      const completedBookings = bookingsData?.filter(b => b.status === "completed").length || 0;
+      const pendingBookings = bookingsData?.filter(b => b.status === "pending").length || 0;
+
+      // 3. Get last 7 days performance data
+      const sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+      const { data: recentBookings } = await supabase
+        .from("bookings")
+        .select("created_at")
+        .eq("deal_id", dealId)
+        .gte("created_at", sevenDaysAgo.toISOString());
+
+      // Group bookings by day
+      const dailySales: { [key: string]: number } = {};
+      recentBookings?.forEach(booking => {
+        const date = new Date(booking.created_at).toLocaleDateString('en-US', { weekday: 'short' });
+        dailySales[date] = (dailySales[date] || 0) + 1;
+      });
+
+      // Generate last 7 days with actual data
+      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const today = new Date().getDay();
+      const chartData = [];
+      
+      for (let i = 6; i >= 0; i--) {
+        const dayIndex = (today - i + 7) % 7;
+        const dayName = days[dayIndex];
+        chartData.push({
+          name: dayName,
+          sales: dailySales[dayName] || 0,
+        });
+      }
+
+      setPerformanceData(chartData);
+      setAnalytics({ 
+        totalSales: dealData.sold_count || 0,
+        totalRevenue,
+        completedBookings,
+        pendingBookings,
+      });
     } catch (error) {
       console.error("Error loading analytics:", error);
       toast.error("Failed to load analytics");
@@ -61,16 +114,6 @@ export default function MerchantDealAnalytics() {
     }
   };
 
-  // Generate mock performance data
-  const performanceData = [
-    { name: "Mon", views: 45, sales: 3 },
-    { name: "Tue", views: 52, sales: 4 },
-    { name: "Wed", views: 61, sales: 5 },
-    { name: "Thu", views: 58, sales: 4 },
-    { name: "Fri", views: 73, sales: 6 },
-    { name: "Sat", views: 89, sales: 8 },
-    { name: "Sun", views: 67, sales: 5 },
-  ];
 
   if (isLoading) {
     return (
@@ -135,27 +178,40 @@ export default function MerchantDealAnalytics() {
       </Card>
 
       {/* Analytics Cards */}
-      <div className="grid gap-6 md:grid-cols-3">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Views</CardTitle>
-            <Eye className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{analytics.views}</div>
-            <p className="text-xs text-muted-foreground">
-              Impressions this week
-            </p>
-          </CardContent>
-        </Card>
-
+      <div className="grid gap-6 md:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Sales</CardTitle>
             <ShoppingCart className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{analytics.sales}</div>
+            <div className="text-2xl font-bold">{analytics.totalSales}</div>
+            <p className="text-xs text-muted-foreground">
+              Total bookings sold
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
+            <DollarSign className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">₦{analytics.totalRevenue.toLocaleString()}</div>
+            <p className="text-xs text-muted-foreground">
+              From completed orders
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Completed</CardTitle>
+            <CheckCircle className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{analytics.completedBookings}</div>
             <p className="text-xs text-muted-foreground">
               Bookings completed
             </p>
@@ -164,13 +220,13 @@ export default function MerchantDealAnalytics() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Conversion Rate</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Pending</CardTitle>
+            <Clock className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{analytics.conversionRate.toFixed(1)}%</div>
+            <div className="text-2xl font-bold">{analytics.pendingBookings}</div>
             <p className="text-xs text-muted-foreground">
-              Views to sales ratio
+              Awaiting completion
             </p>
           </CardContent>
         </Card>
@@ -180,19 +236,30 @@ export default function MerchantDealAnalytics() {
       <Card>
         <CardHeader>
           <CardTitle>Performance Over Time</CardTitle>
-          <CardDescription>Views and sales for the last 7 days</CardDescription>
+          <CardDescription>Bookings for the last 7 days</CardDescription>
         </CardHeader>
         <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={performanceData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Line type="monotone" dataKey="views" stroke="hsl(var(--primary))" strokeWidth={2} />
-              <Line type="monotone" dataKey="sales" stroke="hsl(var(--secondary))" strokeWidth={2} />
-            </LineChart>
-          </ResponsiveContainer>
+          {performanceData.length > 0 && performanceData.some(d => d.sales > 0) ? (
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={performanceData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis allowDecimals={false} />
+                <Tooltip />
+                <Line 
+                  type="monotone" 
+                  dataKey="sales" 
+                  stroke="hsl(var(--primary))" 
+                  strokeWidth={2}
+                  name="Bookings"
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          ) : (
+            <div className="flex items-center justify-center h-[300px] text-muted-foreground">
+              No booking data available for the last 7 days
+            </div>
+          )}
         </CardContent>
       </Card>
 
