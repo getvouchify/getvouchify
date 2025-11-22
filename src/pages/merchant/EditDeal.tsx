@@ -60,6 +60,9 @@ export default function EditDeal() {
     terms_and_conditions: '',
     image_url: '',
     deal_images: [] as string[],
+    fulfillment_type: '',
+    delivery_fee: '',
+    delivery_address: '',
   });
 
   useEffect(() => {
@@ -140,6 +143,9 @@ export default function EditDeal() {
         terms_and_conditions: dealData.terms_and_conditions || '',
         image_url: dealData.image_url || '',
         deal_images: Array.isArray(dealData.deal_images) ? dealData.deal_images.filter((img): img is string => typeof img === 'string') : [],
+        fulfillment_type: dealData.fulfillment_type || '',
+        delivery_fee: dealData.delivery_fee?.toString() || '',
+        delivery_address: dealData.delivery_address || '',
       });
 
       setImagePreview(dealData.image_url || '');
@@ -387,6 +393,9 @@ export default function EditDeal() {
           available_time_slots: formData.available_time_slots,
           age_restriction: formData.age_restriction || null,
           terms_and_conditions: formData.terms_and_conditions || null,
+          fulfillment_type: formData.fulfillment_type || null,
+          delivery_fee: formData.delivery_fee ? Number(formData.delivery_fee) : null,
+          delivery_address: formData.delivery_address || null,
           updated_at: new Date().toISOString(),
         })
         .eq("id", id);
@@ -849,6 +858,85 @@ export default function EditDeal() {
                 />
               </div>
             )}
+
+            <div className="space-y-4 pt-4 border-t">
+              <Label className="text-base font-semibold">Fulfillment Options</Label>
+              
+              <div className="flex items-center justify-between p-4 border rounded-lg">
+                <div className="space-y-1">
+                  <Label htmlFor="edit_pickup_only" className="font-medium">
+                    Pick-Up Only
+                  </Label>
+                  <p className="text-sm text-muted-foreground">
+                    Customer comes to pick up. No delivery needed.
+                  </p>
+                </div>
+                <Switch
+                  id="edit_pickup_only"
+                  checked={formData.fulfillment_type === 'pickup'}
+                  onCheckedChange={(checked) => {
+                    updateField('fulfillment_type', checked ? 'pickup' : '');
+                    if (checked) {
+                      updateField('delivery_address', '');
+                      updateField('delivery_fee', '');
+                    }
+                  }}
+                />
+              </div>
+
+              <div className="flex items-center justify-between p-4 border rounded-lg">
+                <div className="space-y-1">
+                  <Label htmlFor="edit_delivery" className="font-medium">
+                    Delivery Available
+                  </Label>
+                  <p className="text-sm text-muted-foreground">
+                    Customer must provide delivery address.
+                  </p>
+                </div>
+                <Switch
+                  id="edit_delivery"
+                  checked={formData.fulfillment_type === 'delivery'}
+                  onCheckedChange={(checked) => {
+                    updateField('fulfillment_type', checked ? 'delivery' : '');
+                    if (!checked) {
+                      updateField('delivery_address', '');
+                      updateField('delivery_fee', '');
+                    }
+                  }}
+                />
+              </div>
+
+              {formData.fulfillment_type === 'delivery' && (
+                <div className="space-y-4 p-4 border rounded-lg bg-muted/50">
+                  <div>
+                    <Label htmlFor="edit_delivery_address">Delivery Address / Coverage Area</Label>
+                    <Textarea
+                      id="edit_delivery_address"
+                      placeholder="Enter delivery address or area coverage (e.g., Lagos Mainland, Lekki, Victoria Island)..."
+                      value={formData.delivery_address}
+                      onChange={(e) => updateField('delivery_address', e.target.value)}
+                      rows={3}
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="edit_delivery_fee">Delivery Fee (₦)</Label>
+                    <Input
+                      id="edit_delivery_fee"
+                      type="number"
+                      placeholder="e.g., 500"
+                      value={formData.delivery_fee}
+                      onChange={(e) => updateField('delivery_fee', e.target.value)}
+                      min="0"
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Note: Delivery fee is paid by buyer directly to rider upon delivery,
+                      or buyer may arrange their own delivery.
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
 
             <div>
               <Label htmlFor="usage_limit">Usage Limit per Customer (Optional)</Label>
