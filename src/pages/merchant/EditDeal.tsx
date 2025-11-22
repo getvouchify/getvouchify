@@ -912,10 +912,10 @@ export default function EditDeal() {
               {formData.fulfillment_type === 'delivery' && (
                 <div className="space-y-4 p-4 border rounded-lg bg-muted/50">
                   <div>
-                    <Label htmlFor="edit_delivery_address">Delivery Address / Coverage Area</Label>
+                    <Label htmlFor="edit_delivery_address">Coverage Area</Label>
                     <Textarea
                       id="edit_delivery_address"
-                      placeholder="Enter delivery address or area coverage (e.g., Lagos Mainland, Lekki, Victoria Island)..."
+                      placeholder="Enter area coverage (e.g., Lagos Mainland, Lekki, Victoria Island)..."
                       value={formData.delivery_address}
                       onChange={(e) => updateField('delivery_address', e.target.value)}
                       rows={3}
