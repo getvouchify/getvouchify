@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -8,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import WaitlistModal from "./WaitlistModal";
 
 const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
+  const navigate = useNavigate();
   const [sortBy, setSortBy] = useState("popular");
   const [filterCategory, setFilterCategory] = useState("all");
   const [offers, setOffers] = useState<any[]>([]);
@@ -148,6 +150,7 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
             filteredOffers.map((offer, index) => (
             <div
               key={offer.id}
+              onClick={() => navigate(`/deals/${offer.id}`)}
               className="bg-white rounded-xl shadow-card hover-lift overflow-hidden group cursor-pointer animate-fade-in border border-border"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
@@ -167,11 +170,6 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
                 <div className="absolute bottom-4 left-4">
                   <Badge variant="secondary" className="bg-white/95 text-foreground font-semibold">
                     {offer.category}
-                  </Badge>
-                </div>
-                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                  <Badge className="bg-white text-primary font-bold text-lg px-4 py-2">
-                    Coming Soon
                   </Badge>
                 </div>
               </div>
@@ -209,10 +207,13 @@ const FeaturedDeals = ({ searchQuery }: { searchQuery?: string }) => {
                 </p>
 
                 <Button 
-                  onClick={() => setWaitlistOpen(true)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/deals/${offer.id}`);
+                  }}
                   className="w-full bg-primary hover:bg-primary/90 text-white font-bold text-base h-12 min-h-[44px]"
                 >
-                  Get Notified
+                  View Deal
                 </Button>
               </div>
             </div>
