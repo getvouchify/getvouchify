@@ -112,6 +112,7 @@ export type Database = {
           deal_start_date: string | null
           delivery_address: string | null
           delivery_fee: number | null
+          delivery_payment_method: string | null
           discount: string | null
           discount_type: string | null
           expiry_date: string | null
@@ -147,6 +148,7 @@ export type Database = {
           deal_start_date?: string | null
           delivery_address?: string | null
           delivery_fee?: number | null
+          delivery_payment_method?: string | null
           discount?: string | null
           discount_type?: string | null
           expiry_date?: string | null
@@ -182,6 +184,7 @@ export type Database = {
           deal_start_date?: string | null
           delivery_address?: string | null
           delivery_fee?: number | null
+          delivery_payment_method?: string | null
           discount?: string | null
           discount_type?: string | null
           expiry_date?: string | null

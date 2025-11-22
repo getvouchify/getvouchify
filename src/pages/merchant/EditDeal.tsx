@@ -63,6 +63,7 @@ export default function EditDeal() {
     fulfillment_type: '',
     delivery_fee: '',
     delivery_address: '',
+    delivery_payment_method: 'buyer_to_rider' as 'buyer_to_rider' | 'included_in_price' | 'buyer_choice',
   });
 
   useEffect(() => {
@@ -146,6 +147,7 @@ export default function EditDeal() {
         fulfillment_type: dealData.fulfillment_type || '',
         delivery_fee: dealData.delivery_fee?.toString() || '',
         delivery_address: dealData.delivery_address || '',
+        delivery_payment_method: (dealData.delivery_payment_method as 'buyer_to_rider' | 'included_in_price' | 'buyer_choice') || 'buyer_to_rider',
       });
 
       setImagePreview(dealData.image_url || '');
@@ -396,6 +398,7 @@ export default function EditDeal() {
           fulfillment_type: formData.fulfillment_type || null,
           delivery_fee: formData.delivery_fee ? Number(formData.delivery_fee) : null,
           delivery_address: formData.delivery_address || null,
+          delivery_payment_method: formData.fulfillment_type === 'delivery' ? formData.delivery_payment_method : null,
           updated_at: new Date().toISOString(),
         })
         .eq("id", id);
@@ -929,9 +932,40 @@ export default function EditDeal() {
                       onChange={(e) => updateField('delivery_fee', e.target.value)}
                       min="0"
                     />
-                    <p className="text-xs text-muted-foreground mt-1">
-                      Note: Delivery fee is paid by buyer directly to rider upon delivery,
-                      or buyer may arrange their own delivery.
+                  </div>
+
+                  <div className="space-y-3">
+                    <Label>Delivery Fee Payment Method</Label>
+                    <RadioGroup
+                      value={formData.delivery_payment_method}
+                      onValueChange={(value) => updateField('delivery_payment_method', value)}
+                    >
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="buyer_to_rider" id="edit_buyer_to_rider" />
+                        <Label htmlFor="edit_buyer_to_rider" className="font-normal cursor-pointer">
+                          Buyer pays delivery fee directly to rider
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="included_in_price" id="edit_included_in_price" />
+                        <Label htmlFor="edit_included_in_price" className="font-normal cursor-pointer">
+                          Delivery fee included in deal price
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="buyer_choice" id="edit_buyer_choice" />
+                        <Label htmlFor="edit_buyer_choice" className="font-normal cursor-pointer">
+                          Allow buyer to choose either option
+                        </Label>
+                      </div>
+                    </RadioGroup>
+                    <p className="text-xs text-muted-foreground">
+                      {formData.delivery_payment_method === 'buyer_to_rider' && 
+                        'Delivery fee will be paid by buyer directly to rider upon delivery.'}
+                      {formData.delivery_payment_method === 'included_in_price' && 
+                        'Delivery fee is already included in the deal price.'}
+                      {formData.delivery_payment_method === 'buyer_choice' && 
+                        'Buyer can choose to pay rider directly or have it included in the total cost.'}
                     </p>
                   </div>
                 </div>
