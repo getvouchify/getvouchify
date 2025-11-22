@@ -18,52 +18,67 @@ export type Database = {
         Row: {
           booking_date: string
           created_at: string | null
+          customer_address: string | null
           customer_email: string
           customer_id: string | null
           customer_name: string
           customer_phone: string | null
           deal_id: string
+          delivered_at: string | null
+          delivery_status: string | null
           id: string
           merchant_id: string
           qr_code: string
           redeemed_at: string | null
+          shipped_at: string | null
           special_instructions: string | null
           status: string | null
           time_slot: string | null
+          tracking_notes: string | null
           updated_at: string | null
         }
         Insert: {
           booking_date: string
           created_at?: string | null
+          customer_address?: string | null
           customer_email: string
           customer_id?: string | null
           customer_name: string
           customer_phone?: string | null
           deal_id: string
+          delivered_at?: string | null
+          delivery_status?: string | null
           id?: string
           merchant_id: string
           qr_code: string
           redeemed_at?: string | null
+          shipped_at?: string | null
           special_instructions?: string | null
           status?: string | null
           time_slot?: string | null
+          tracking_notes?: string | null
           updated_at?: string | null
         }
         Update: {
           booking_date?: string
           created_at?: string | null
+          customer_address?: string | null
           customer_email?: string
           customer_id?: string | null
           customer_name?: string
           customer_phone?: string | null
           deal_id?: string
+          delivered_at?: string | null
+          delivery_status?: string | null
           id?: string
           merchant_id?: string
           qr_code?: string
           redeemed_at?: string | null
+          shipped_at?: string | null
           special_instructions?: string | null
           status?: string | null
           time_slot?: string | null
+          tracking_notes?: string | null
           updated_at?: string | null
         }
         Relationships: [
@@ -598,43 +613,58 @@ export type Database = {
       orders: {
         Row: {
           created_at: string | null
+          customer_address: string | null
           customer_email: string
           customer_name: string
           customer_phone: string | null
           deal_id: string | null
+          delivered_at: string | null
+          delivery_status: string | null
           id: string
           order_status: string
           payment_status: string
           quantity: number
+          shipped_at: string | null
           total_amount: number
+          tracking_notes: string | null
           user_id: string | null
           voucher_code: string
         }
         Insert: {
           created_at?: string | null
+          customer_address?: string | null
           customer_email: string
           customer_name: string
           customer_phone?: string | null
           deal_id?: string | null
+          delivered_at?: string | null
+          delivery_status?: string | null
           id?: string
           order_status?: string
           payment_status?: string
           quantity?: number
+          shipped_at?: string | null
           total_amount: number
+          tracking_notes?: string | null
           user_id?: string | null
           voucher_code: string
         }
         Update: {
           created_at?: string | null
+          customer_address?: string | null
           customer_email?: string
           customer_name?: string
           customer_phone?: string | null
           deal_id?: string | null
+          delivered_at?: string | null
+          delivery_status?: string | null
           id?: string
           order_status?: string
           payment_status?: string
           quantity?: number
+          shipped_at?: string | null
           total_amount?: number
+          tracking_notes?: string | null
           user_id?: string | null
           voucher_code?: string
         }
