@@ -95,9 +95,12 @@ export type Database = {
           deal_end_date: string | null
           deal_images: Json | null
           deal_start_date: string | null
+          delivery_address: string | null
+          delivery_fee: number | null
           discount: string | null
           discount_type: string | null
           expiry_date: string | null
+          fulfillment_type: string | null
           id: string
           image_url: string
           is_active: boolean | null
@@ -127,9 +130,12 @@ export type Database = {
           deal_end_date?: string | null
           deal_images?: Json | null
           deal_start_date?: string | null
+          delivery_address?: string | null
+          delivery_fee?: number | null
           discount?: string | null
           discount_type?: string | null
           expiry_date?: string | null
+          fulfillment_type?: string | null
           id?: string
           image_url: string
           is_active?: boolean | null
@@ -159,9 +165,12 @@ export type Database = {
           deal_end_date?: string | null
           deal_images?: Json | null
           deal_start_date?: string | null
+          delivery_address?: string | null
+          delivery_fee?: number | null
           discount?: string | null
           discount_type?: string | null
           expiry_date?: string | null
+          fulfillment_type?: string | null
           id?: string
           image_url?: string
           is_active?: boolean | null

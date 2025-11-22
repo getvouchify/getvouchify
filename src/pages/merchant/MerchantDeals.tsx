@@ -19,7 +19,7 @@ export default function MerchantDeals() {
 
   useEffect(() => {
     loadDeals();
-  }, [statusFilter]);
+  }, []);
 
   const loadDeals = async () => {
     try {
@@ -34,21 +34,11 @@ export default function MerchantDeals() {
 
       if (!merchant) return;
 
-      let query = supabase
+      const { data, error } = await supabase
         .from("deals")
         .select("*")
         .eq("merchant_id", merchant.id)
         .order("created_at", { ascending: false });
-
-      if (statusFilter === "active") {
-        query = query.eq("is_active", true);
-      } else if (statusFilter === "inactive") {
-        query = query.eq("is_active", false);
-      } else if (statusFilter === "expired") {
-        query = query.lt("expiry_date", new Date().toISOString());
-      }
-
-      const { data, error } = await query;
       
       if (error) throw error;
       setDeals(data || []);
@@ -66,7 +56,17 @@ export default function MerchantDeals() {
     
     const matchesListingType = listingTypeFilter === "all" || deal.listing_type === listingTypeFilter;
     
-    return matchesSearch && matchesListingType;
+    // Apply status filter
+    let matchesStatus = true;
+    if (statusFilter === "active") {
+      matchesStatus = deal.is_active === true;
+    } else if (statusFilter === "inactive") {
+      matchesStatus = deal.is_active === false;
+    } else if (statusFilter === "expired") {
+      matchesStatus = deal.expiry_date && new Date(deal.expiry_date) < new Date();
+    }
+    
+    return matchesSearch && matchesListingType && matchesStatus;
   });
 
   return (
